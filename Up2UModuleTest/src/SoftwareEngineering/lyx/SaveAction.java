@@ -1,7 +1,7 @@
 package SoftwareEngineering.lyx;
 
 /*
- * 1、设置标记位，不删除表行列，只标记是否输出 2、设置重点标记位 3、th标记.
+ * 1、设置标记位(th标记、删除标记、重点标记) 
  */
 
 
@@ -25,6 +25,7 @@ public class SaveAction extends TableAction {
    * 网页上输入的Url.
    */
   protected String Url;
+  private static List<String[]> escapeSet = new ArrayList<String[]>();
   /**
    * 编码.
    */
@@ -54,6 +55,13 @@ public class SaveAction extends TableAction {
     Url = url;
   }
 
+  static{
+    String escape[][] = {{"quot","\""},{"amp","&"},{"lt","<"},{"gt",">"},{"nbsp"," "}};
+    for(int i = 0 ; i < escape.length ; i++ ){
+      escapeSet.add(escape[i]);
+    }
+  }
+  
   /**
    * 区分输入是http还是https
    * 
@@ -266,7 +274,9 @@ public class SaveAction extends TableAction {
         quotationNum++;
       } else if (strToDelete.charAt(i) == '>' && inTag && tag!=null && quotationNum % 2 == 0) {
         tag.end = i;
-        tag.key = strToDelete.substring(tag.start, tag.end+1);
+        if(tag.key==null){
+          tag.key = strToDelete.substring(tag.start+1, tag.end);
+        }
         inTag = false;
         quotationNum = 0;        
         //若果当前tag为<.../>型则直接删除
@@ -280,7 +290,7 @@ public class SaveAction extends TableAction {
             break;
           } else {
             //当前tag不为<.../>
-            if(tag.key.charAt(1)!='/'){
+            if(tag.key.charAt(0)!='/'){
             //当前标签为前缀,不以'/'开头,加到前缀堆栈中
               preTag.add(tag);
             } else {
@@ -303,17 +313,35 @@ public class SaveAction extends TableAction {
       }
     }
 
-    // for (int i = str.length() - 1; i >= 0; i--) {
-    // if (str.charAt(i) == '>') {
-    // endPos = i;
-    // } else if (str.charAt(i) == '<') {
-    // startPos = i;
-    // strToDelete.delete(startPos, endPos + 1);
-    // }
-    // }
     return strToDelete.toString();
   }
 
+  private String UnescapeCharacter(String str){
+    StringBuffer strToUnescape = new StringBuffer(str);
+    boolean inEscape = false;
+    int escapeStart = 0;
+    int escapeEnd = 0;
+    String escapeStr;
+    for(int i = 0 ; i < strToUnescape.length() ; i++ ){
+      if(strToUnescape.charAt(i)=='&'){
+        inEscape = true;
+        escapeStart = i;
+      } else if(inEscape&&strToUnescape.charAt(i)==';'){
+        inEscape = false;
+        escapeEnd = i;
+        escapeStr = strToUnescape.substring(escapeStart+1, escapeEnd);
+        for(int j = 0 ; j < escapeSet.size() ; j++ ){
+          if(escapeStr.equals(escapeSet.get(j)[0])){
+            strToUnescape.replace(escapeStart, escapeEnd+1, escapeSet.get(j)[1]);
+            i -= escapeEnd - escapeStart;
+            break;
+          }
+        }
+      }
+    }
+    return strToUnescape.toString();
+  }
+  
   /**
    * 将得到的网页内容变为字符串二维数组。
    * 
@@ -335,7 +363,7 @@ public class SaveAction extends TableAction {
         tdStr = cutOut(trStr.get(j), "td", "/td");
         tables[i][j] = new String[tdStr.size()];
         for (int k = 0; k < tdStr.size(); k++) {
-          tables[i][j][k] = deleteTag(tdStr.get(k));
+          tables[i][j][k] = UnescapeCharacter(deleteTag(tdStr.get(k)));
         }
       }
     }
@@ -399,14 +427,16 @@ public class SaveAction extends TableAction {
     SaveAction sa = new SaveAction();
     // https://www.sogou.com/sie?hdq=AQxRG-4472&query=contain%E6%96%B9%E6%B3%95&ie=utf8
     // http://www.w3school.com.cn/html/html_tables.asp
-    // sa.setUsername("lyx");
-    // sa.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
-    // sa.execute();
-    String s = "<table><t>a<d/ ><sample>b</t></table>k<table><y/>ddd<s></table>";
-    System.out.println(s + "\n-----");
-    List<String> l = sa.cutOut(s, "table", "/table");
-    for (int i = 0; i < l.size(); i++)
-      System.out.println(sa.deleteTag(l.get(i)));
+     sa.setUsername("lyx");
+     sa.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
+     sa.execute();
+//     String s = "<a href=\"/tags/tag_caption.asp\">&lt;caption&gt;</a>";
+//     System.out.println(sa.UnescapeCharacter(sa.deleteTag(s)));
+//    String s = "<table><t>a<d/ ><sample>b</t></table>k<table><y/>ddd<s></table>";
+//    System.out.println(s + "\n-----");
+//    List<String> l = sa.cutOut(s, "table", "/table");
+//    for (int i = 0; i < l.size(); i++)
+//      System.out.println(sa.deleteTag(l.get(i)));
 
   }
 }
