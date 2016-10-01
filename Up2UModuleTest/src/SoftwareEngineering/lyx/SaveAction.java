@@ -1,5 +1,10 @@
 package SoftwareEngineering.lyx;
 
+/*
+ * 1、设置标记位，不删除表行列，只标记是否输出 2、设置重点标记位 3、th标记.
+ */
+
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -165,7 +170,12 @@ public class SaveAction extends TableAction {
     String tag = new String();
     int tableBegin = 0;
     int tableFinish = 0;
+    int quotationEnd = 0;
+    int quotationNum = 0;
+    String target = null;
+    List<String> tagSegment = new ArrayList<String>();
     boolean cut = false;
+    boolean tagContain = false;
     // 找到某一个标签内容
     for (int i = 0; i < origin.length(); i++) {
       // 找到第一个<>匹配
@@ -179,18 +189,48 @@ public class SaveAction extends TableAction {
         }
       }
 
-      if (cut && tag != null && tag.contains(finish)) {
-        tableFinish = i;
-        segment.add(origin.substring(tableBegin, tableFinish));
-        i += tag.length();
-        cut = false;
-        tag = null;
-      } else if (tag != null && tag.contains(begin)) {
-        tableBegin = i + tag.length();
-        i += tag.length();
-        cut = true;
-        tag = null;
+      if (cut && tag != null) {
+        target = finish;
+        for (int j = 0; j < tag.length(); j++) {
+          if (tag.charAt(j) == '\"' || j == tag.length() - 1) {
+            quotationNum++;
+            if (quotationNum % 2 == 0) {
+              quotationEnd = j + 1;
+            } else if (quotationNum % 2 == 1 && tag.substring(quotationEnd, j).contains(target)) {
+              tagContain = true;
+              break;
+            }
+          }
+        }
+        if (tagContain) {
+          tableFinish = i;
+          segment.add(origin.substring(tableBegin, tableFinish));
+          i += tag.length();
+          cut = false;
+        }
+      } else if (tag != null) {
+        target = begin;
+        for (int j = 0; j < tag.length(); j++) {
+          if (tag.charAt(j) == '\"' || j == tag.length() - 1) {
+            quotationNum++;
+            if (quotationNum % 2 == 0) {
+              quotationEnd = j + 1;
+            } else if (quotationNum % 2 == 1 && tag.substring(quotationEnd, j).contains(target)) {
+              tagContain = true;
+              break;
+            }
+          }
+        }
+        if (tagContain) {
+          tableBegin = i + tag.length();
+          i += tag.length();
+          cut = true;
+        }
       }
+      quotationEnd = 0;
+      quotationNum = 0;
+      tagContain = false;
+      tag = null;
     }
 
     return segment;
@@ -203,19 +243,74 @@ public class SaveAction extends TableAction {
    * @return
    */
   private String deleteTag(String str) {
+    class tagUnit {
+      public int start;
+      public int end;
+      public String key;
+    }
     StringBuffer strToDelete = new StringBuffer();
     strToDelete.append(str);
-    int startPos = 0;
-    int endPos = str.length();
+    List<tagUnit> preTag = new ArrayList<tagUnit>();
+    boolean inTag = false;
+    int quotationNum = 0;
 
-    for (int i = str.length() - 1; i >= 0; i--) {
-      if (str.charAt(i) == '>') {
-        endPos = i;
-      } else if (str.charAt(i) == '<') {
-        startPos = i;
-        strToDelete.delete(startPos, endPos + 1);
+    tagUnit tag = null;
+    for (int i = 0; i < strToDelete.length(); i++) {
+      if (strToDelete.charAt(i) == '<') {
+        tag = new tagUnit();
+        tag.start = i;
+        inTag = true;
+      } else if (strToDelete.charAt(i) == ' ' && inTag && tag != null) {
+        tag.key = strToDelete.substring(tag.start + 1, i);
+      } else if (strToDelete.charAt(i) == '\"' && inTag && tag != null) {
+        quotationNum++;
+      } else if (strToDelete.charAt(i) == '>' && inTag && tag!=null && quotationNum % 2 == 0) {
+        tag.end = i;
+        tag.key = strToDelete.substring(tag.start, tag.end+1);
+        inTag = false;
+        quotationNum = 0;        
+        //若果当前tag为<.../>型则直接删除
+        for (int j = i-1 ; j >= 0; j--) {
+          if (str.charAt(j) == ' ') {
+            continue;
+          } else if (str.charAt(j) == '/') {
+            //当前tag为<.../>型
+            i -= tag.end+1 - tag.start;
+            strToDelete.delete(tag.start, tag.end + 1);
+            break;
+          } else {
+            //当前tag不为<.../>
+            if(tag.key.charAt(1)!='/'){
+            //当前标签为前缀,不以'/'开头,加到前缀堆栈中
+              preTag.add(tag);
+            } else {
+            //当前标签为后缀以'/'开头，在前缀堆栈中找到对应项并两者都删除
+              for(int k = preTag.size()-1 ; k >= 0 ; k-- ){
+                tagUnit temp = preTag.remove(k);
+                if(tag.key.substring(2).equals(temp.key.substring(1))){
+                  i -= tag.end+1 - tag.start;
+                  i -= temp.end+1 - temp.start;
+                  strToDelete.delete(tag.start, tag.end+1);
+                  strToDelete.delete(temp.start, temp.end+1);
+                  break;
+                }
+              }
+            }
+            break;
+          }
+        }
+        
       }
     }
+
+    // for (int i = str.length() - 1; i >= 0; i--) {
+    // if (str.charAt(i) == '>') {
+    // endPos = i;
+    // } else if (str.charAt(i) == '<') {
+    // startPos = i;
+    // strToDelete.delete(startPos, endPos + 1);
+    // }
+    // }
     return strToDelete.toString();
   }
 
@@ -270,16 +365,19 @@ public class SaveAction extends TableAction {
         }
       }
       // 将表规格化赋值
-      String[][] temp = new String[tables[i].length+1][rowMax];
-      for(int k = 0 ; k < rowMax ; k++ ){
-        temp[0][k] = new Integer(k+1).toString();
+      String[][] temp = new String[tables[i].length + 2][rowMax + 1];
+      for (int k = 0; k <= rowMax; k++) {
+        temp[0][k] = new Integer(k).toString();
+        temp[1][k] = "00";
       }
-      for (int j = 1; j <= tables[i].length; j++) {
-        for (int k = 0; k < rowMax; k++) {
-          if (k < tables[i][j-1].length) {
-            temp[j][k] = tables[i][j-1][k];
+      for (int j = 2; j <= tables[i].length + 1; j++) {
+        for (int k = 0; k <= rowMax; k++) {
+          if (k == 0) {
+            temp[j][k] = "00";
+          } else if (k <= tables[i][j - 2].length) {
+            temp[j][k] = tables[i][j - 2][k - 1];
           } else if (j == 0) {
-            temp[j][k] = new Integer(k+1).toString();
+            temp[j][k] = new Integer(k + 1).toString();
           } else {
             temp[j][k] = "  ";
           }
@@ -301,9 +399,14 @@ public class SaveAction extends TableAction {
     SaveAction sa = new SaveAction();
     // https://www.sogou.com/sie?hdq=AQxRG-4472&query=contain%E6%96%B9%E6%B3%95&ie=utf8
     // http://www.w3school.com.cn/html/html_tables.asp
-    sa.setUsername("lyx");
-    sa.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
-    sa.execute();
+    // sa.setUsername("lyx");
+    // sa.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
+    // sa.execute();
+    String s = "<table><t>a<d/ ><sample>b</t></table>k<table><y/>ddd<s></table>";
+    System.out.println(s + "\n-----");
+    List<String> l = sa.cutOut(s, "table", "/table");
+    for (int i = 0; i < l.size(); i++)
+      System.out.println(sa.deleteTag(l.get(i)));
 
   }
 }

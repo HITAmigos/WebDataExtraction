@@ -17,7 +17,7 @@ public class RegisterAction extends TableAction {
     } else if (dbHelper.UserIsExist(Username)) {
       System.out.println("Existed User");
       result = "Existed User";
-    } else if (dbHelper.Register(Username, Password)) {
+    } else if (dbHelper.Register(Username, Password,Email)) {
       System.out.println("Success");
       result = "success";
     } else {
@@ -32,6 +32,7 @@ public class RegisterAction extends TableAction {
     ra.setUsername("lyx");
     ra.setPassword("882776");
     ra.setRePassword("8827");
+    ra.setEmail("1486587187@qq.com");
     ra.execute();
     System.out.println("------------------");
     ra.setRePassword("882776");

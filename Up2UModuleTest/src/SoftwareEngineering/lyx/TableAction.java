@@ -13,6 +13,10 @@ public class TableAction {
   /**
    * 确认密码.
    */
+  
+  protected String Email;
+  
+
   protected String RePassword;
   /**
    * 抓取道德表格.
@@ -35,6 +39,14 @@ public class TableAction {
     RePassword = rePassword;
   }
 
+  public String getEmail() {
+    return Email;
+  }
+
+  public void setEmail(String email) {
+    Email = email;
+  }
+  
     public String getUsername() {
     return Username;
   }

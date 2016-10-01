@@ -5,7 +5,7 @@ package SoftwareEngineering.lyx;
  * @author liuyx.
  * .
  */
-public class CancellationAction extends GrabAction {
+public class CancellationAction extends TableAction {
 
   public String execute(){
     String result = "failure";
