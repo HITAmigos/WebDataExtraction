@@ -1,5 +1,7 @@
 package SoftwareEngineering.lyx;
 
+import java.util.List;
+
 /**
  * 从前端传递一个用户名，找到其表格并返回.
  * @author liuyx.
@@ -16,7 +18,7 @@ public class DisplayAction extends TableAction {
     String result = "failure";
     DBConnection dbHelper = new DBConnection();
     
-    String[][] table = dbHelper.Search(Username);
+    List<String[][]> table = dbHelper.getUserTables(Username);
     
     return result;
   }

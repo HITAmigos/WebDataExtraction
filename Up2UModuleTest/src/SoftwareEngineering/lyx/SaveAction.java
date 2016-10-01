@@ -23,7 +23,7 @@ public class SaveAction extends TableAction {
   /**
    * 编码.
    */
-  private static String Encoding = "utf-8";
+  private static String Encoding = "GB2312";
   /**
    * 超时时间限定.
    */
@@ -254,11 +254,50 @@ public class SaveAction extends TableAction {
 
     webContent = getContent();
     String[][][] tables = grabWebTable(webContent);
-    String[][] table = null;
+    List<String> titleName = cutOut(webContent, "title", "/title");
+    if (titleName.isEmpty()) {
+      titleName.add(Url);
+    }
+
+    List<String[][]> formalTable = new ArrayList<String[][]>();
+    // 将表格规格化
+    for (int i = 0; i < tables.length; i++) {
+      int rowMax = 0;
+      // 得到最大字段长
+      for (int j = 0; j < tables[i].length; j++) {
+        if (rowMax < tables[i][j].length) {
+          rowMax = tables[i][j].length;
+        }
+      }
+      // 将表规格化赋值
+      String[][] temp = new String[tables[i].length][rowMax];
+      for (int j = 0; j < tables[i].length; j++) {
+        for (int k = 0; k < rowMax; k++) {
+          if (k < tables[i][j].length) {
+            temp[j][k] = tables[i][j][k];
+          } else if (j == 0) {
+            temp[j][k] = (new Integer(k).toString());
+          } else {
+            temp[j][k] = " ";
+          }
+        }
+      }
+      formalTable.add(temp);
+    }
 
     DBConnection dbHelper = new DBConnection();
-    if (dbHelper.Create(Username, table)) {
-      result = "success";
+    for (int i = 0; i < formalTable.size(); i++) {
+//      // 去掉表明中多余空格与逗号
+//      StringBuffer temp = new StringBuffer();
+//      temp.append(titleName.get(0));
+//      for (int j = titleName.get(0).length() - 1; j >= 0; j--) {
+//        if (titleName.get(0).charAt(j) == ' ' || titleName.get(0).charAt(j) == ',') {
+//          temp.deleteCharAt(j);
+//        }
+//      }
+      if (dbHelper.Create(Username + "-" + titleName.get(0) + "-" + (i + 1), formalTable.get(i))) {
+        result = "success";
+      }
     }
     return result;
   }
@@ -266,25 +305,10 @@ public class SaveAction extends TableAction {
   public static void main(String args[]) {
     SaveAction sa = new SaveAction();
     // https://www.sogou.com/sie?hdq=AQxRG-4472&query=contain%E6%96%B9%E6%B3%95&ie=utf8
+    // http://www.w3school.com.cn/html/html_tables.asp
+    sa.setUsername("lyx");
     sa.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
-    String s = sa.getContent();
-    String[][][] tables = sa.grabWebTable(s);
-
-    if (tables.length > 0 && tables[0].length > 0 && tables[0][0].length > 0) {
-      for (int i = 0; i < tables.length; i++) {
-        System.out.println("table No." + i);
-        for (int j = 0; j < tables[i].length; j++) {
-          for (int k = 0; k < tables[i][j].length; k++) {
-            System.out.print(tables[i][j][k] + "\t");
-          }
-          System.out.println();
-        }
-        System.out.println();
-        System.out.println();
-      }
-    } else {
-      System.out.println("没有表格");
-    }
+    sa.execute();
 
   }
 }
