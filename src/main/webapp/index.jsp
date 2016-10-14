@@ -23,18 +23,18 @@
             <a href="" class="active">新建账户</a>
         </header>
         <section class="hide">
-            <input type="text" placeholder="请输入用户名……">
-            <input type="password" placeholder="请输入密码……">
+            <input type="text" placeholder="用户名">
+            <input type="password" placeholder="密码">
             <footer>
                 <button data-iziModal-close>取消</button>
                 <button class="submit">登录</button>            
             </footer>
         </section>
         <section>
-            <input type="text" placeholder="请填写用户名……">
-            <input type="text" placeholder="请输入邮箱……">
-            <input type="password" placeholder="请输入密码……">
-            <input type="password" placeholder="请输入密码……">
+            <input type="text" placeholder="请填写用户名">
+            <input type="text" placeholder="请输入邮箱">
+            <input type="password" placeholder="请输入密码">
+            <input type="password" placeholder="请输入密码">
             <label for="check"><input type="checkbox" name="checkbox" id="check" value="1"> 我同意 <u>注册协议</u>！</label>
             <footer>
                 <button data-iziModal-close>取消</button>
@@ -75,7 +75,7 @@
 	    });
 	    $("#modal-custom").on('click', '.submit', function(event) {
 	        event.preventDefault();
-	        var fx = "wobble",  //wobble shake
+	        var fx = "wobble",
 	            $modal = $(this).closest('.iziModal');
 	        if( !$modal.hasClass(fx) ){
 	            $modal.addClass(fx);
