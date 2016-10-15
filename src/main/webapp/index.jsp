@@ -10,9 +10,11 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/hide.css">
 	 <link rel="stylesheet" media="screen" href="css/particle.css">
+	 <link rel="stylesheet" type="text/css" href="css/login.css">
 	 <link rel="stylesheet" type="text/css" href="css/alert.css" />
     <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
     <script src="js/alert.js"></script>
+    <script src="js/modernizr.custom.js"></script>
 	<!--[if IE]>
 		<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
 	<![endif]-->
@@ -27,9 +29,9 @@
             <a href="" id="signin">立即登录</a>
             <a href="" class="active">新建账户</a>
         </header>
-        <section class="hide">
+        <section class="hide" class="login">
             <input type="text" placeholder="用户名">
-            <input type="password" placeholder="密码">
+            <input class="login-field login-field-password" id="password" type="password" placeholder="密码">
             <footer>
                 <button data-iziModal-close>取消</button>
                 <button class="submit">登录</button>            
@@ -49,7 +51,21 @@
     </div>
 	<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
 	<script src="js/login.js" type="text/javascript"></script>
+	<script>
+		document.write('<script src=js/' +
+			('__proto__' in {} ? 'zepto.custom' : 'jquery') +
+			'.js><\/script>')
+	</script>
+	<script src="js/hideShowPassword.js"></script>
 	<script type="text/javascript">
+		$('#password').hideShowPassword({
+		  // Creates a wrapper and toggle element with minimal styles.
+		  innerToggle: true,
+		  // Makes the toggle functional in touch browsers without
+		  // the element losing focus.
+		  touchSupport: Modernizr.touch
+		});
+
 	function _alert() {
         zeroModal.show({
             title: '注册协议',
@@ -100,6 +116,7 @@
 </div>
 <script src="js/particles.min.js"></script>
 <script src="js/app.js"></script>
+<script src="http://www.jq22.com/js/jq.js"></script>
 <script>
   var count_particles, stats, update;
   stats = new Stats;
