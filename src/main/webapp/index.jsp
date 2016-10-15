@@ -10,11 +10,15 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/hide.css">
 	 <link rel="stylesheet" media="screen" href="css/particle.css">
+	 <link rel="stylesheet" type="text/css" href="css/alert.css" />
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <script src="js/alert.js"></script>
 	<!--[if IE]>
 		<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
 	<![endif]-->
 </head>
 <body>
+<div id="particles-js">
 	<div class="container">
 		<a href="#" class="trigger-custom">登录/注册</a>
 	</div>
@@ -36,7 +40,7 @@
             <input type="text" placeholder="请输入邮箱">
             <input type="password" placeholder="请输入密码">
             <input type="password" placeholder="请输入密码">
-            <label for="check"><input type="checkbox" name="checkbox" id="check" value="1"> 我同意 <u>注册协议</u>！</label>
+            <label for="check"><input type="checkbox" name="checkbox" id="check" value="1"> 我同意 <a href="javascript:_alert()">注册协议</a>！</label>
             <footer>
                 <button data-iziModal-close>取消</button>
                 <button class="submit">注册</button>            
@@ -46,6 +50,13 @@
 	<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
 	<script src="js/login.js" type="text/javascript"></script>
 	<script type="text/javascript">
+	function _alert() {
+        zeroModal.show({
+            title: '注册协议',
+            content: "<h1 style='text-align:center;font-size:30px;'>本网站/应用由哈工大软件工程小组——'你们定吧'开发!</h1>",
+            width: '60%'
+        });
+    }
 	    $("#modal-custom").iziModal({
 	        overlayClose: false,
 	        width: 600,
@@ -86,8 +97,7 @@
 	        }
 	    });
 	</script>
-<!-- 粒子背景 -->
-<div id="particles-js"></div>
+</div>
 <script src="js/particles.min.js"></script>
 <script src="js/app.js"></script>
 <script>
