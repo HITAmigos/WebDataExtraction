@@ -1,5 +1,7 @@
 package SoftwareEngineering.lyx;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -10,29 +12,67 @@ import java.util.List;
  * @return 操作成功与否
  */
 public class DBConnection {
-  private MySQLOperation MySQLHelper;
-  
+  static String sql = null;
+  static MySQLOperation dbHelper = null;
+  static ResultSet resultSet = null;
+  static boolean retb = false;
+
   /**
    * 注册时判断用户是否存在.
+   * 
+   * @param Username
+   * @return 存在true,不存在false 由于表名根据用户名创建，表名等于用户名，于是只要用户名存在表就存在.
    */
   public boolean UserIsExist(String Username) {
-    boolean result = true;
+    boolean result = false;
+    sql = "select * from `userRegedit`";// SQL语句
+    dbHelper = new MySQLOperation(sql);
+
+    try {
+      resultSet = dbHelper.pst.executeQuery();// 执行语句，得到结果集
+      while (resultSet.next()) {
+        String getUsername = resultSet.getString(Username);
+
+        System.out.println(getUsername);
+        if (getUsername.equals(Username)) {
+          result = true;
+          break;
+        }
+        resultSet.close();// 关闭结果集
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      dbHelper.close();// 关闭连接
+    }
     return result;
   }
 
-  /**
-   * 判断一个表是否存在.
-   */
-  public boolean TableIsExist(final String Username) {
-    boolean result = true;
-    return result;
-  }
+  // /**
+  // * 当用户名只有一个表时无需判断，因为用户名与表名相同
+  // * 判断一个表是否存在.
+  // */
+  // public boolean TableIsExist(final String Username) {
+  // boolean result = true;
+  // return result;
+  // }
 
   /**
    * 注册新用户.
    */
   public boolean Register(String Username, String Password) {
-    boolean result = true;
+    boolean result = false;
+    sql = "insert into UserRegedit set " + "Username=" + "'" + Username + "'," + "Password=" + "'"
+        + Password + "';";// SQL语句
+    dbHelper = new MySQLOperation(sql);
+
+    try {
+      result = dbHelper.pst.execute();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      dbHelper.close();// 关闭连接
+    }
     return result;
   }
 
@@ -41,6 +81,28 @@ public class DBConnection {
    */
   public boolean Login(String Username, String Password) {
     boolean result = false;
+    sql = "select * from `UserRegedit`";
+    dbHelper = new MySQLOperation(sql);
+    try {
+      resultSet = dbHelper.pst.executeQuery();
+      while (resultSet.next()) {
+        String getUsername = resultSet.getString(Username);
+        String getPassword = resultSet.getString(Password);
+
+        System.out.println("<" + getUsername + "," + getPassword + ">");
+        if (getUsername.equals("Username")) {
+          if (getPassword.equals(Password)) {
+            result = true;
+            break;
+          }
+        }
+        resultSet.close();
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    } finally {
+      dbHelper.close();
+    }
     return result;
   }
 
@@ -90,8 +152,8 @@ public class DBConnection {
    */
   public String[][] Search(final String Username) {
     boolean result = true;
-    String[][] Table = MySQLHelper.getTable();
-    return Table;
+    String[][] Table;
+    return null;
   }
 
 }
