@@ -34,4 +34,16 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/main/webapp/js/jquery.js</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/Desktop/%E5%AF%86%E7%A0%81%E6%98%BE%E7%A4%BA/vendor/jquery.js</locationURI>
+		</link>
+		<link>
+			<name>src/main/webapp/js/zepto.custom.js</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/Desktop/%E5%AF%86%E7%A0%81%E6%98%BE%E7%A4%BA/vendor/zepto.custom.js</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
