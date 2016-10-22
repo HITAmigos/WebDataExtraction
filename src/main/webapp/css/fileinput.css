@@ -1,14 +1,4 @@
-/*!
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
- * @package bootstrap-fileinput
- * @version 4.1.9
- *
- * File input styling for Bootstrap 3.0
- * Built for Yii Framework 2.0
- * Author: Kartik Visweswaran
- * Year: 2015
- * For more Yii related demos visit http://demos.krajee.com
- */
+
 .file-input {
     overflow-x: auto;
 }
@@ -21,7 +11,7 @@
     font-size: 999px;
     text-align: right;
     color: #fff;
-    background: transparent url('../img/loading.gif') top left no-repeat;
+    background: transparent url('images/loading.gif') top left no-repeat;
     border: none;
 }
 
@@ -164,7 +154,7 @@
 }
 
 .loading {
-    background: transparent url('../img/loading.gif') no-repeat scroll center center content-box !important;
+    background: transparent url('images/loading.gif') no-repeat scroll center center content-box !important;
 }
 
 .wrap-indicator {
@@ -220,7 +210,7 @@
 }
 
 .file-uploading {
-    background-image: url('../img/loading-sm.gif');
+    background-image: url('images/loading-sm.gif');
     background-position: center bottom 10px;
     background-repeat: no-repeat;
     opacity: 0.6;

@@ -60,7 +60,7 @@
 	</script>
 	<script type="text/javascript" src="js/canvas-particle.js"></script>
 	<nav>
-	<div class="box bg" >
+	<div class="box bg" style="top:0;position:absolute;right:0;">
 		<a href="#" class="trigger-custom"><button class="button button--wapasha button--text-thick button--text-upper button--size-s">登录/注册</button></a>
     </div>
     </nav>
@@ -70,6 +70,9 @@
             <a href="" id="signin">立即登录</a>
             <a href="" class="active">马上注册</a>
         </header>
+        <div class="header">
+       			 <a class="link title-ani"  data-letters="Up2U">Up2U</a>
+    	</div>
         <section class="hide" class="login">
             <input type="text" placeholder="用户名">
             <input id="password" type="password" placeholder="密码">
@@ -79,9 +82,6 @@
             </footer>
         </section>
         <section>
-        <div class="header">
-       			 <a class="link title-ani"  data-letters="Up2U">Up2U</a>
-    	</div>
          <form id="reg-form" action="" method="post">
             <input type="text" placeholder="请输入邮箱" id="email" data-easyform="email;real-time;easytip:false;" data-message="Email格式要正确" data-easytip="class:easy-blue;">
             <input type="text" placeholder="用户名" id="uid" data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);" data-message="用户名必须为4—16位的英文字母或数字" data-easytip="position:top;class:easy-blue;" data-message-ajax="用户名已存在!">
@@ -171,7 +171,9 @@
 	        }
 	    });
 </script>
-
+ <div class="header tubiao" >
+       			 <a class="link title-ani"  data-letters="Up2U">Up2U</a>
+  </div>
 <div class="zySearch" id="zySearch"></div>
 <script type="text/javascript" src="js/zySearch.js"></script>
 <script type="text/javascript">
