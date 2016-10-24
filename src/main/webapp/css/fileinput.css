@@ -12,7 +12,7 @@
     text-align: right;
     color: #fff;
     background: transparent url('images/loading.gif') top left no-repeat;
-    border: none;
+    border: none; 
 }
 
 .btn-file {

@@ -74,18 +74,20 @@
        			 <a class="link title-ani"  data-letters="Up2U">Up2U</a>
     	</div>
         <section class="hide" class="login">
-            <input type="text" placeholder="用户名">
-            <input id="password" type="password" placeholder="密码">
+        <form action="" method="post">
+            <input type="text" placeholder="用户名" name="username">
+            <input id="password" type="password" placeholder="密码" name="password">
             <footer>
                 <button data-iziModal-close>取消</button>
                 <button class="submit">登录</button>            
             </footer>
+           </form>
         </section>
         <section>
          <form id="reg-form" action="" method="post">
-            <input type="text" placeholder="请输入邮箱" id="email" data-easyform="email;real-time;easytip:false;" data-message="Email格式要正确" data-easytip="class:easy-blue;">
-            <input type="text" placeholder="用户名" id="uid" data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);" data-message="用户名必须为4—16位的英文字母或数字" data-easytip="position:top;class:easy-blue;" data-message-ajax="用户名已存在!">
-            <input type="password" placeholder="设置密码" id="psw" data-easyform="length:6 16;" data-message="密码必须为6—16位" data-easytip="class:easy-blue;">
+            <input type="text" placeholder="请输入邮箱" id="email" type="email" name="email" data-easyform="email;real-time;easytip:false;" data-message="Email格式要正确" data-easytip="class:easy-blue;">
+            <input type="text" placeholder="用户名" id="uid" name="username" data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);" data-message="用户名必须为4—16位的英文字母或数字" data-easytip="position:top;class:easy-blue;" data-message-ajax="用户名已存在!">
+            <input type="password" placeholder="设置密码" id="psw" name="password" data-easyform="length:6 16;" data-message="密码必须为6—16位" data-easytip="class:easy-blue;">
             <input type="password" placeholder="重复密码" id="psw2" data-easyform="length:6 16;equal:#psw1;" data-message="两次密码输入要一致" data-easytip="class:easy-blue;">
             <label for="check"><input type="checkbox" name="checkbox" id="check" value="1">我同意<a href="javascript:_alert()">注册协议</a>！</label>
             <footer>
@@ -172,7 +174,7 @@
 	    });
 </script>
  <div class="header tubiao" >
-       			 <a class="link title-ani"  data-letters="Up2U">Up2U</a>
+      <a class="link title-ani"  data-letters="Up2U">Up2U</a>
   </div>
 <div class="zySearch" id="zySearch"></div>
 <script type="text/javascript" src="js/zySearch.js"></script>
@@ -188,7 +190,7 @@ $("#zySearch").zySearch({
         <div class="page-header">
             <form enctype="multipart/form-data">
                 <div class="form-group">
-                    <input id="file-5" class="file" type="file" multiple data-preview-file-type="any" data-upload-url="#" data-preview-file-icon="">
+                    <input id="file" class="file" type="file" multiple data-preview-file-type="any" data-upload-url="#" data-preview-file-icon="">
                 </div>
             </form>
         </div>
@@ -201,7 +203,6 @@ $("#zySearch").zySearch({
 	            'allowedFileExtensions' : ['html', 'htm','xml'],
 	            'elErrorContainer': '#errorBlock'
 	        });
-	 
 	    });
 		</script>
 </body>
