@@ -10,15 +10,16 @@ import java.util.List;
  */
 public class UpdateAction extends TableAction {
 
-  private int ColNum;
+  private String ColName;
   private int RowNum;
 
-  public int getColNum() {
-    return ColNum;
+
+  public String getColName() {
+    return ColName;
   }
 
-  public void setColNum(int colNum) {
-    ColNum = colNum;
+  public void setColName(String colName) {
+    ColName = colName;
   }
 
   public int getRowNum() {
@@ -34,7 +35,7 @@ public class UpdateAction extends TableAction {
     DBConnection dbHelper = new DBConnection();
     List<ChangeUnit> change = new ArrayList<ChangeUnit>();
 
-    if (dbHelper.Update(change)) {
+    if (dbHelper.Update(Username,change)) {
       result = "success";
     }
     return result;
@@ -43,7 +44,7 @@ public class UpdateAction extends TableAction {
   public String DeleteCol() {
     String result = "failure";
     DBConnection dbHelper = new DBConnection();
-    if(dbHelper.DeleteCol(ColNum)){
+    if(dbHelper.DeleteCol(Username,ColName)){
       result = "success";
     }
     return result;
@@ -52,7 +53,7 @@ public class UpdateAction extends TableAction {
   public String DeleteRow() {
     String result = "failure";
     DBConnection dbHelper = new DBConnection();
-    if(dbHelper.DeleteRow(RowNum)){
+    if(dbHelper.DeleteRow(Username,RowNum)){
       result = "success";
     }
     return result;

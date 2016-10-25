@@ -10,10 +10,10 @@ import java.sql.PreparedStatement;
  */
 public class MySQLOperation {
 
-  public static final String ulr = "jdbc:mysql://localhost:3306/grabgraphtest";
-  public static final String name = "com.mysql.jdbc.Driver";
-  public static final String user = "root";
-  public static final String password = "123456789";
+  private static final String ulr = "jdbc:mysql://localhost:3306/grabgraphtest";
+  private static final String name = "com.mysql.jdbc.Driver";
+  private static final String user = "root";
+  private static final String password = "123456789";
   
   public Connection conn = null;
   public PreparedStatement pst = null;
@@ -42,83 +42,3 @@ public class MySQLOperation {
   }
 
 }
-//  /**
-//   * 新建表
-//   * 
-//   * @param sql
-//   * @return
-//   */
-//  public boolean createTable(String sql) {
-//    return false;
-//  }
-//
-//  /**
-//   * 查看表数据
-//   * 
-//   * @param sql
-//   * @return
-//   */
-//  public String[][] getTable(String sql) {
-//    return null;
-//  }
-//
-//  /**
-//   * 查看表结构
-//   * 
-//   * @param sql
-//   * @return
-//   */
-//  public String[][] getStruction(String sql) {
-//    return null;
-//  }
-//
-//  /**
-//   * 修改表结构
-//   * 
-//   * @param sql
-//   * @return
-//   */
-//  public boolean changeStruction(String sql) {
-//    return false;
-//  }
-//
-//  /**
-//   * 删除表
-//   * 
-//   * @param sql
-//   * @return
-//   */
-//  public boolean deleteTable(String sql) {
-//    return false;
-//  }
-//
-//  /**
-//   * 添加表数据
-//   * 
-//   * @param sql
-//   * @return
-//   */
-//  public boolean insertData(String sql) {
-//    return false;
-//  }
-//
-//  /**
-//   * 更新表数据
-//   * 
-//   * @param sql
-//   * @return
-//   */
-//  public boolean updateData(String sql) {
-//    return false;
-//  }
-//
-//  /**
-//   * 查询表数据
-//   * 
-//   * @param sql
-//   * @return
-//   */
-//  public String getData(String sql) {
-//    return null;
-//  }
-//}
