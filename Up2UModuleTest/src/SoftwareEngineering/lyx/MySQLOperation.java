@@ -6,11 +6,11 @@ import java.sql.PreparedStatement;
 
 /**
  * 对数据库的直接操作.
- * @author liuyx 参数均为sql语句
+ * @author liuyx 参数均为sql语句.
  */
 public class MySQLOperation {
 
-  private static final String ulr = "jdbc:mysql://localhost:3306/grabgraphtest";
+  private static final String url = "jdbc:mysql://localhost:3306/graphgrabtest";
   private static final String name = "com.mysql.jdbc.Driver";
   private static final String user = "root";
   private static final String password = "123456789";
@@ -23,7 +23,7 @@ public class MySQLOperation {
           //加载JDBC驱动程序,指定连接类型
           Class.forName(name);
           //创建数据库的连接 
-          conn=DriverManager.getConnection(ulr,user,password);
+          conn=DriverManager.getConnection(url,user,password);
           //创建一个Statement,相当于输入命令行
           pst=conn.prepareStatement(sql);
       } catch(Exception e){

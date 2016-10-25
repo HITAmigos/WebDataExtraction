@@ -2,14 +2,14 @@ package SoftwareEngineering.lyx;
 
 /**
  * 从前端传递一个用户名，找到其表格并返回.
- * @author liuyx
+ * @author liuyx.
  */
 public class DisplayAction extends TableAction {
 
   /**
-   * @param  用户名
-   * @return request 表格内容
-   * @return 操作是否成功
+   * @param  用户名.
+   * @return request 表格内容.
+   * @return 操作是否成功.
    */
   @Override
   public String execute() {
@@ -21,4 +21,10 @@ public class DisplayAction extends TableAction {
     return result;
   }
 
+  public void main(String args[]){
+    TableAction ta = new TableAction();
+    ta.setUsername("lyx");
+    ta.execute();
+  }
+  
 }

@@ -58,4 +58,9 @@ public class UpdateAction extends TableAction {
     }
     return result;
   }
+  
+  public void main(String args[]){
+    UpdateAction ua = new UpdateAction();
+    ua.DeleteRow();
+  }
 }

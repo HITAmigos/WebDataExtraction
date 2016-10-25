@@ -2,10 +2,21 @@ package SoftwareEngineering.lyx;
 
 public class TableAction {
 
+  /**
+   * 用户名.
+   */
   protected String Username;
+  /**
+   * 密码.
+   */
   protected String Password;
+  /**
+   * 确认密码.
+   */
   protected String RePassword;
-  protected String Url;
+  /**
+   * 抓取道德表格.
+   */
   protected String[][] Table;
 
   public String[][] getTable() {
@@ -24,15 +35,7 @@ public class TableAction {
     RePassword = rePassword;
   }
 
-  public String getUrl() {
-    return Url;
-  }
-
-  public void setUrl(String url) {
-    Url = url;
-  }
-
-  public String getUsername() {
+    public String getUsername() {
     return Username;
   }
 
