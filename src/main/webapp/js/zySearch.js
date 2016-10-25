@@ -1,7 +1,3 @@
-/*
- * zySearch.js 搜索插件  http://www.doit666.com
- * by zhangyan 2015-03-05   QQ : 623585268
-*/
 
 (function($,undefined){
 	$.fn.zySearch = function(options,param){
@@ -11,7 +7,7 @@
 			if($.isFunction(fn)){
 				return fn.apply(this, otherArgs);
 			}else{
-				throw ("zySearch - No such method: " + options);
+				throw ("Search - No such method: " + options);
 			}
 		}
 
@@ -23,7 +19,7 @@
 					"width":"355",
 					"height":"33",
 					"callback":function(keyword){
-						console.info("搜索的关键字");
+						console.info("searchContain");
 						console.info(keyword);
 					}
 			};
@@ -42,10 +38,10 @@
 			this.createHtml = function(){
 				
 				var html = '';
-				html += '<b class="search-img"></b>'; 
-				html += '<input id="searchInput" class="search-input" type="text" placeholder="请输入URL">';
-				html += '<button class="search-btn btn">搜索</button>';
-				
+				html +="<form action='SearchAction'>"
+				html += '<input id="searchInput" name="searchContain" class="search-input" type="text" placeholder="请输入URL">';
+				html += '<a href="javascript:_loading(2)"><button class="search-btn btn">搜索</button></a>';
+				html += '</form>'
 				$(self).append(html);
 				
 	            // 初始化html之后绑定按钮的点击事件

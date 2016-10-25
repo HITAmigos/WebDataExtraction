@@ -355,6 +355,36 @@ main h3{
 	width:20%;
 	left:40%;
 }
+#main{
+	padding: 30px 30px;
+	background-color: #ffffff;
+}
+#main > .row{
+	margin-bottom: 30px;
+}
+h1,h2,h3,h4,h5,h6{
+	text-transform: uppercase;
+}
+.prev-con{
+	text-align: center;
+}
+.prev{
+	display: inline-block;
+	margin-bottom: 20px;
+	text-align: center;
+}
+h5{
+	font-weight: bold;
+}
+.fec{
+	font-size: 34px;
+	color: #FFB40C;
+	padding-right: 10px;
+}
+.zlight-hhh{
+	padding-bottom: 10px;
+	border-bottom: 1px solid #FFB40C;
+}
 @media screen and (max-width: 50em) {
 	.tubiao{
 	top:100px;

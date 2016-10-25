@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"8","bdPos":"left","bdTop":"47"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"喜欢就分享：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 	<link rel="shortcut icon" href="images/favicon.ico" />
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
@@ -39,8 +41,29 @@
 	<link rel="stylesheet" type="text/css" href="css/default.css">
     <link href="css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="css/search.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="js/zeroModal.css" />
+    <script src="js/zeroModal.js"></script>
+    <script src="js/menu.js"></script>
+
+	<!-- STYLES -->
+	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link rel="stylesheet" href="css/font-awesome.min.css" media="screen">
+	<link rel="stylesheet" href="css/zlight.menu.css" media="screen">
+	<script>
+		$(document).ready(function(){
+			$('#zlight-nav').zlightMenu();
+		});
+	</script>
 </head>
 <body>
+<!-- 顶部加载进度条！ -->
+<script src="js/preload.min.js"></script>
+<script type="text/javascript">
+//调用
+$.QianLoad.PageLoading({
+    sleep: 50
+});
+</script>
 <script type="text/javascript">
 		window.onload = function(){
 			var config = {
@@ -61,7 +84,32 @@
 	<script type="text/javascript" src="js/canvas-particle.js"></script>
 	<nav>
 	<div class="box bg" style="top:0;position:absolute;right:0;">
+	<%
+	   String username = request.getParameter("username");
+	   if(username.trim().equals("")){
+	%>
 		<a href="#" class="trigger-custom"><button class="button button--wapasha button--text-thick button--text-upper button--size-s">登录/注册</button></a>
+    <%
+	   }else{
+     %>
+        <div class="zlight-dropdown">
+							<a href="#"><%=username%><i class="icon-angle-down"></i></a>
+							<ul class="zlight-submenu">
+								<li><a href="#">等级：</a></li>
+								<li class="zlight-dropdown">
+									<a href="#">搜索：<i class="icon-angle-right"></i></a>
+									<ul class="zlight-submenu">
+										<li><a href="#">查询：</a></li>
+										<li><a href="#">上传：</a></li>
+									</ul>
+								</li>
+								<li><a href="#">##</a></li>
+								<li><a href="#">退出登录</a></li>
+							</ul>
+						</div>
+     <%
+	   }
+    %>
     </div>
     </nav>
 <div class="page">
@@ -74,25 +122,25 @@
        			 <a class="link title-ani"  data-letters="Up2U">Up2U</a>
     	</div>
         <section class="hide" class="login">
-        <form action="" method="post">
+        <form action="LogininAction" method="post">
             <input type="text" placeholder="用户名" name="username">
             <input id="password" type="password" placeholder="密码" name="password">
             <footer>
                 <button data-iziModal-close>取消</button>
-                <button class="submit">登录</button>            
+                <button class="submit">登录</button>       
             </footer>
            </form>
         </section>
         <section>
-         <form id="reg-form" action="" method="post">
+         <form id="reg-form" action="RegisterAction" method="post">
             <input type="text" placeholder="请输入邮箱" id="email" type="email" name="email" data-easyform="email;real-time;easytip:false;" data-message="Email格式要正确" data-easytip="class:easy-blue;">
             <input type="text" placeholder="用户名" id="uid" name="username" data-easyform="length:4 16;char-normal;real-time;ajax:ajax_demo(1);" data-message="用户名必须为4—16位的英文字母或数字" data-easytip="position:top;class:easy-blue;" data-message-ajax="用户名已存在!">
             <input type="password" placeholder="设置密码" id="psw" name="password" data-easyform="length:6 16;" data-message="密码必须为6—16位" data-easytip="class:easy-blue;">
             <input type="password" placeholder="重复密码" id="psw2" data-easyform="length:6 16;equal:#psw1;" data-message="两次密码输入要一致" data-easytip="class:easy-blue;">
-            <label for="check"><input type="checkbox" name="checkbox" id="check" value="1">我同意<a href="javascript:_alert()">注册协议</a>！</label>
+            <input type="checkbox" name="checkbox" id="check" value="1" style="margin-bottom:30px;">我同意<a href="javascript:_alert();">注册协议</a>！
             <footer>
                 <button data-iziModal-close>取消</button>
-                <button class="submit">提交</button>            
+                <button class="submit">提交</button>          
             </footer>
             </form>
         </section>
@@ -182,10 +230,13 @@
 $("#zySearch").zySearch({
 	"parentClass":"pageTitle",
 	"callback":function(keyword){
-		console.info("搜索的关键字");
+		console.info("searchContain");
 		console.info(keyword);
 	}
 });
+function _loading(type) {
+    zeroModal.loading(type);
+}
 </script>
         <div class="page-header">
             <form enctype="multipart/form-data">
@@ -205,5 +256,6 @@ $("#zySearch").zySearch({
 	        });
 	    });
 		</script>
+<script src="js/respond.min.js"></script>
 </body>
 </html>
