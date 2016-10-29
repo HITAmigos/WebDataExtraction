@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 /**
- * 对数据库的直接操作.
- * @author liuyx 参数均为sql语句.
+ * 对数据库的直接操作。
+ * @author liuyx 参数均为sql语句。
  */
 public class MySQLOperation {
 
