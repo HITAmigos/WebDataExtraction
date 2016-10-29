@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.net.ssl.HttpsURLConnection;
 
 /**
@@ -153,7 +156,54 @@ public class SaveAction extends TableAction {
    * @param WebContent. @return.
    */
   private String[][] grabWebTable(final String webContent) {
-    
+    List<String> Part = new ArrayList<String>();
+    String tag = new String();
+    int tableBegin;
+    int tableFinish=0;
+    //找到某一个标签内容
+    for(int i = 0 ; i < webContent.length() ; i++){
+      //找到第一个<>匹配
+      if(webContent.charAt(i)=='<'){
+        
+        for(int j = i ; j < webContent.length() ; j++){
+          if(webContent.charAt(j)=='>'){
+            tag = webContent.substring(i, j+1);
+            i = j;
+            break;
+          }
+        }
+      
+      }
+      
+      if(tag!=null&&tag.contains("table")){
+        tableBegin = i;
+        
+        for( ; i < webContent.length() ;i++){
+          if(webContent.charAt(i)=='<'){
+            
+            for(int j = i ; j < webContent.length() ; j++){
+              if(webContent.charAt(j)=='>'){
+                tag = webContent.substring(i, j+1);
+                tableFinish = i;
+                i = j;
+                break;
+              }
+            }
+            if(tag.contains("/table")){
+              Part.add(webContent.substring(tableBegin+1, tableFinish));
+              tag = null;
+              break;
+            }
+            
+          }  
+        }
+        
+      }
+      
+    }
+    for(int i = 0 ; i < Part.size() ; i++ ){
+      System.out.println(Part.get(i));
+    }
     return null;
   }
 
@@ -170,5 +220,11 @@ public class SaveAction extends TableAction {
       result = "success";
     }
     return result;
+  }
+  
+  public static void main(String args[]){
+    SaveAction sa = new SaveAction();
+    String s = "<table>李胜泉</table>ddd<table>大傻子</table>";
+    sa.grabWebTable(s);
   }
 }
