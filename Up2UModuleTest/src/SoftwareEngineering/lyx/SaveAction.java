@@ -210,21 +210,51 @@ public class SaveAction extends TableAction {
     return segment;
   }
 
-  private String[][] grabWebTable(final String webContent) {
-    String[][] tables = null;
+  /**
+   * 删除字符串中的多余标签.
+   * 
+   * @param str
+   * @return
+   */
+  private String deleteTag(String str) {
+    StringBuffer strToDelete = new StringBuffer();
+    strToDelete.append(str);
+    int startPos = 0;
+    int endPos = str.length();
+
+    for (int i = str.length() - 1; i >= 0; i--) {
+      if (str.charAt(i) == '>') {
+        endPos = i;
+      } else if (str.charAt(i) == '<') {
+        startPos = i;
+        strToDelete.delete(startPos, endPos + 1);
+      }
+    }
+    return strToDelete.toString();
+  }
+
+  /**
+   * 将得到的网页内容变为字符串二维数组。
+   * 
+   * @param webContent
+   * @return
+   */
+  private String[][][] grabWebTable(final String webContent) {
+    String[][][] tables = null;
     List<String> tableStr = null;
     List<String> trStr = null;
     List<String> tdStr = null;
 
     tableStr = cutOut(webContent, "table", "/table");
+    tables = new String[tableStr.size()][][];
     for (int i = 0; i < tableStr.size(); i++) {
       trStr = cutOut(tableStr.get(i), "tr", "/tr");
-      tables = new String[trStr.size()][];
+      tables[i] = new String[trStr.size()][];
       for (int j = 0; j < trStr.size(); j++) {
         tdStr = cutOut(trStr.get(j), "td", "/td");
-        tables[j] = new String[tdStr.size()];
+        tables[i][j] = new String[tdStr.size()];
         for (int k = 0; k < tdStr.size(); k++) {
-          tables[j][k] = tdStr.get(k);
+          tables[i][j][k] = deleteTag(tdStr.get(k));
         }
       }
     }
@@ -237,7 +267,8 @@ public class SaveAction extends TableAction {
     String webContent;
 
     webContent = getContent();
-    String[][] table = grabWebTable(webContent);
+    String[][][] tables = grabWebTable(webContent);
+    String[][] table = null;
 
     DBConnection dbHelper = new DBConnection();
     if (dbHelper.Create(Username, table)) {
@@ -248,15 +279,20 @@ public class SaveAction extends TableAction {
 
   public static void main(String args[]) {
     SaveAction sa = new SaveAction();
-    String s = "<table border=\"1\">" + "<tr>" + "<td>row 1, cell 1</td>" + "<td>row 1, cell 2</td>"
-        + "</tr>" + "<tr>" + "<td>row 2, cell 1</td>" + "<td>row 2, cell 2</td>" + "</tr>"
-        + "</table>";
-    String[][] table = sa.grabWebTable(s);
-    if (table != null && table[0] != null) {
-      for (int i = 0; i < table.length; i++) {
-        for (int j = 0; j < table[0].length; j++) {
-          System.out.print(table[i][j] + "|||");
+    String s = "<table border=\"1\">" + "<tr>" + "<td>row <ddd>1, <kkk>cell 1</td>"
+        + "<td>row 1, cell 2</td>" + "</tr>" + "<tr>" + "<td>row 2, cell 1</td>"
+        + "<td>row 2, cell 2</td>" + "</tr>" + "</table>";
+    String[][][] tables = sa.grabWebTable(s);
+    if (tables != null && tables[0] != null && tables[0][0] != null) {
+      for (int i = 0; i < tables.length; i++) {
+        System.out.println("table No." + i);
+        for (int j = 0; j < tables[0].length; j++) {
+          for (int k = 0; k < tables[0][0].length; k++) {
+            System.out.print(tables[i][j][k] + "\t");
+          }
+          System.out.println();
         }
+        System.out.println();
         System.out.println();
       }
     }
