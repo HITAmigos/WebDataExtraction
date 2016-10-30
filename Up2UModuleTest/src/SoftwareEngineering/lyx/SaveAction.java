@@ -49,6 +49,11 @@ public class SaveAction extends TableAction {
     Url = url;
   }
 
+  /**
+   * 区分输入是http还是https
+   * 
+   * @return
+   */
   private String varifyInput() {
     String variety = new String();
     String url = Url.toLowerCase();
@@ -135,83 +140,102 @@ public class SaveAction extends TableAction {
     return webContent.toString();
   }
 
-  private String getContent(){
+  private String getContent() {
     String webContent = new String();
     String variety = varifyInput();
-    
-    if(variety.equals(HTTP)){
+
+    if (variety.equals(HTTP)) {
       webContent = getHttp();
-    }else if(variety.equals(HTTPS)){
+    } else if (variety.equals(HTTPS)) {
       webContent = getHttps();
-    }else if(variety.equals(ERRORINPUT)){
+    } else if (variety.equals(ERRORINPUT)) {
       webContent = ERRORINPUT;
     }
-    
+
     return webContent;
   }
-  
+
   /**
-   * 将字符串中的表格信息抓取出来.
+   * 抓取两个标签<str1><str2>之间的内容. .
    * 
    * @param WebContent. @return.
    */
-  private String[][] grabWebTable(final String webContent) {
-    List<String> Part = new ArrayList<String>();
+  private List<String> cutOut(final String origin, final String begin, final String finish) {
+    List<String> segment = new ArrayList<String>();
     String tag = new String();
     int tableBegin;
-    int tableFinish=0;
-    //找到某一个标签内容
-    for(int i = 0 ; i < webContent.length() ; i++){
-      //找到第一个<>匹配
-      if(webContent.charAt(i)=='<'){
-        
-        for(int j = i ; j < webContent.length() ; j++){
-          if(webContent.charAt(j)=='>'){
-            tag = webContent.substring(i, j+1);
+    int tableFinish = 0;
+    // 找到某一个标签内容
+    for (int i = 0; i < origin.length(); i++) {
+      // 找到第一个<>匹配
+      if (origin.charAt(i) == '<') {
+
+        for (int j = i; j < origin.length(); j++) {
+          if (origin.charAt(j) == '>') {
+            tag = origin.substring(i, j + 1);
             i = j;
             break;
           }
         }
-      
+
       }
-      
-      if(tag!=null&&tag.contains("table")){
+
+      if (tag != null && tag.contains(begin)) {
         tableBegin = i;
-        
-        for( ; i < webContent.length() ;i++){
-          if(webContent.charAt(i)=='<'){
-            
-            for(int j = i ; j < webContent.length() ; j++){
-              if(webContent.charAt(j)=='>'){
-                tag = webContent.substring(i, j+1);
+
+        for (; i < origin.length(); i++) {
+          if (origin.charAt(i) == '<') {
+
+            for (int j = i; j < origin.length(); j++) {
+              if (origin.charAt(j) == '>') {
+                tag = origin.substring(i, j + 1);
                 tableFinish = i;
                 i = j;
                 break;
               }
             }
-            if(tag.contains("/table")){
-              Part.add(webContent.substring(tableBegin+1, tableFinish));
+            if (tag.contains(finish)) {
+              segment.add(origin.substring(tableBegin + 1, tableFinish));
               tag = null;
               break;
             }
-            
-          }  
+
+          }
         }
-        
+
       }
-      
+
     }
-    for(int i = 0 ; i < Part.size() ; i++ ){
-      System.out.println(Part.get(i));
+
+    return segment;
+  }
+
+  private String[][] grabWebTable(final String webContent) {
+    String[][] tables = null;
+    List<String> tableStr = null;
+    List<String> trStr = null;
+    List<String> tdStr = null;
+
+    tableStr = cutOut(webContent, "table", "/table");
+    for (int i = 0; i < tableStr.size(); i++) {
+      trStr = cutOut(tableStr.get(i), "tr", "/tr");
+      tables = new String[trStr.size()][];
+      for (int j = 0; j < trStr.size(); j++) {
+        tdStr = cutOut(trStr.get(j), "td", "/td");
+        tables[j] = new String[tdStr.size()];
+        for (int k = 0; k < tdStr.size(); k++) {
+          tables[j][k] = tdStr.get(k);
+        }
+      }
     }
-    return null;
+    return tables;
   }
 
   @Override
   public String execute() {
     String result = "failure";
-    String webContent ;
-    
+    String webContent;
+
     webContent = getContent();
     String[][] table = grabWebTable(webContent);
 
@@ -221,10 +245,21 @@ public class SaveAction extends TableAction {
     }
     return result;
   }
-  
-  public static void main(String args[]){
+
+  public static void main(String args[]) {
     SaveAction sa = new SaveAction();
-    String s = "<table>李胜泉</table>ddd<table>大傻子</table>";
-    sa.grabWebTable(s);
+    String s = "<table border=\"1\">" + "<tr>" + "<td>row 1, cell 1</td>" + "<td>row 1, cell 2</td>"
+        + "</tr>" + "<tr>" + "<td>row 2, cell 1</td>" + "<td>row 2, cell 2</td>" + "</tr>"
+        + "</table>";
+    String[][] table = sa.grabWebTable(s);
+    if (table != null && table[0] != null) {
+      for (int i = 0; i < table.length; i++) {
+        for (int j = 0; j < table[0].length; j++) {
+          System.out.print(table[i][j] + "|||");
+        }
+        System.out.println();
+      }
+    }
+
   }
 }
