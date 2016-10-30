@@ -3,7 +3,7 @@
 <html lang="zh">
 <head>
     <meta charset="utf-8"> 
-    <title>欢迎登陆/注册！</title>
+    <title>欢迎登陆！</title>
     <link rel="shortcut icon" href="images/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="css/default.css">
 	<link rel="stylesheet" type="text/css" href="css/styles.css">

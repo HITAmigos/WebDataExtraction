@@ -82,19 +82,19 @@ $("#zySearch").zySearch({
 <div class="box bg" style="top:0;position:absolute;right:0;">
 	<%
 	   String username = request.getParameter("username");
-	   if(true){
+	   if(false){
 	%>
 		<a href="/Up2U/login.jsp" ><button class="button button--wapasha button--text-thick button--text-upper button--size-s">登录/注册</button></a>
     <%
 	   }else{
      %>
-        <div class="zlight-dropdown">
-							<a href="#"><%=username%><i class="icon-angle-down"></i></a>
-							<ul class="zlight-submenu">
+        <div class="zlight-dropdown" style="right:50px;top:30px;position:absolute;">
+							<a href="#"><%=username%></a>
+							<ul class="zlight-submenu" style="width:100px;background-color:white;">
 								<li><a href="#">等级：</a></li>
 								<li class="zlight-dropdown">
-									<a href="#">搜索：<i class="icon-angle-right"></i></a>
-									<ul class="zlight-submenu">
+									<a href="#">搜索：</a>
+									<ul class="zlight-submenu" style="width:100px;background-color:white;">
 										<li><a href="#">查询：</a></li>
 										<li><a href="#">上传：</a></li>
 									</ul>

@@ -88,11 +88,10 @@
 	padding: 0;
 	list-style: none;
 	display: none;
-
 	box-shadow: 0 1px 7px rgba(0,0,0,0.3);
 	position: absolute;
 	top: 100%;
-	left: 0;
+	right: 0;
 }
 .zlight-submenu > li{
 	float: none;
@@ -127,13 +126,13 @@
 }
 .zlight-submenu .zlight-submenu{
 	top: 0;
-	left: 100%;
+	right: 100%;
 }
 /*************
 * ICON
 *************/
 #zlight-main-nav i{
-	padding: 0 5px;
+	padding: 0 0px;
 }
 /****************************
 * MOBILE NAV
@@ -143,12 +142,12 @@
 }
 #zlight-mobile-nav > span{
 	text-transform: uppercase;
-	padding: 0 10px 0 20px;
+	padding: 0 1px 0 2px;
 	float: left;
 }
 #zlight-mobile-nav > .zlight-icon{
 	float: right;
-	padding: 0 20px 0 10px;
+	padding: 0 2px 0 1px;
 }
 #zlight-mobile-nav > select{
 	background: none;
