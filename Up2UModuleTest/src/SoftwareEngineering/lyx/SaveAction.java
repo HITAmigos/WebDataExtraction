@@ -23,7 +23,7 @@ public class SaveAction extends TableAction {
   /**
    * 编码.
    */
-  private static String Encoding = "GB2312";
+  private static String Encoding = "utf-8";
   /**
    * 超时时间限定.
    */
@@ -59,9 +59,9 @@ public class SaveAction extends TableAction {
     String url = Url.toLowerCase();
 
     if (url.length() >= 7) {
-      if (url.substring(0, 4).equals(HTTPS)) {
+      if (url.substring(0, 5).equals(HTTPS)) {
         variety = HTTPS;
-      } else if (url.substring(0, 3).equals(HTTP)) {
+      } else if (url.substring(0, 4).equals(HTTP)) {
         variety = HTTP;
       }
     } else {
@@ -163,8 +163,9 @@ public class SaveAction extends TableAction {
   private List<String> cutOut(final String origin, final String begin, final String finish) {
     List<String> segment = new ArrayList<String>();
     String tag = new String();
-    int tableBegin;
+    int tableBegin = 0;
     int tableFinish = 0;
+    boolean cut = false;
     // 找到某一个标签内容
     for (int i = 0; i < origin.length(); i++) {
       // 找到第一个<>匹配
@@ -173,38 +174,23 @@ public class SaveAction extends TableAction {
         for (int j = i; j < origin.length(); j++) {
           if (origin.charAt(j) == '>') {
             tag = origin.substring(i, j + 1);
-            i = j;
             break;
           }
         }
-
       }
 
-      if (tag != null && tag.contains(begin)) {
-        tableBegin = i;
-
-        for (; i < origin.length(); i++) {
-          if (origin.charAt(i) == '<') {
-
-            for (int j = i; j < origin.length(); j++) {
-              if (origin.charAt(j) == '>') {
-                tag = origin.substring(i, j + 1);
-                tableFinish = i;
-                i = j;
-                break;
-              }
-            }
-            if (tag.contains(finish)) {
-              segment.add(origin.substring(tableBegin + 1, tableFinish));
-              tag = null;
-              break;
-            }
-
-          }
-        }
-
+      if (cut && tag != null && tag.contains(finish)) {
+        tableFinish = i;
+        segment.add(origin.substring(tableBegin, tableFinish));
+        i += tag.length();
+        cut = false;
+        tag = null;
+      } else if (tag != null && tag.contains(begin)) {
+        tableBegin = i + tag.length();
+        i += tag.length();
+        cut = true;
+        tag = null;
       }
-
     }
 
     return segment;
@@ -279,15 +265,16 @@ public class SaveAction extends TableAction {
 
   public static void main(String args[]) {
     SaveAction sa = new SaveAction();
-    String s = "<table border=\"1\">" + "<tr>" + "<td>row <ddd>1, <kkk>cell 1</td>"
-        + "<td>row 1, cell 2</td>" + "</tr>" + "<tr>" + "<td>row 2, cell 1</td>"
-        + "<td>row 2, cell 2</td>" + "</tr>" + "</table>";
+    // https://www.sogou.com/sie?hdq=AQxRG-4472&query=contain%E6%96%B9%E6%B3%95&ie=utf8
+    sa.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
+    String s = sa.getContent();
     String[][][] tables = sa.grabWebTable(s);
-    if (tables != null && tables[0] != null && tables[0][0] != null) {
+
+    if (tables.length > 0 && tables[0].length > 0 && tables[0][0].length > 0) {
       for (int i = 0; i < tables.length; i++) {
         System.out.println("table No." + i);
-        for (int j = 0; j < tables[0].length; j++) {
-          for (int k = 0; k < tables[0][0].length; k++) {
+        for (int j = 0; j < tables[i].length; j++) {
+          for (int k = 0; k < tables[i][j].length; k++) {
             System.out.print(tables[i][j][k] + "\t");
           }
           System.out.println();
@@ -295,6 +282,8 @@ public class SaveAction extends TableAction {
         System.out.println();
         System.out.println();
       }
+    } else {
+      System.out.println("没有表格");
     }
 
   }
