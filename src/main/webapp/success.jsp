@@ -2,15 +2,13 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-
 <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"8","bdPos":"left","bdTop":"47"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"喜欢就分享：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 	<link rel="shortcut icon" href="images/favicon.ico" />
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>欢迎来到Up2U</title>
-		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-	
+	<title>以下是Up2U的结果！</title>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<!--[if IE]>
 		<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
@@ -27,8 +25,7 @@
   		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 	<link rel="stylesheet" type="text/css" href="css/default.css">
-    <link href="css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="css/search.css" type="text/css" />
+    <link rel="stylesheet" href="css/research.css" type="text/css" />
     <script src="js/menu.js"></script>
 	<!-- STYLES -->
 	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -67,8 +64,22 @@ $.QianLoad.PageLoading({
 		}
 	</script>
 	<script type="text/javascript" src="js/canvas-particle.js"></script>
-	<nav>
-	<div class="box bg" style="top:0;position:absolute;right:0;">
+	<nav>   
+<div class="header tubiao" style="top:0px;left:0px;position:absolute;padding:0 0;">
+      <a class="link title-ani"  data-letters="Up2U">Up2U</a>
+</div>
+<div class="zySearch" id="zySearch"></div>
+<script type="text/javascript" src="js/zySearch.js"></script>
+<script type="text/javascript">
+$("#zySearch").zySearch({
+	"parentClass":"pageTitle",
+	"callback":function(keyword){
+		console.info("searchContain");
+		console.info(keyword);
+	}
+});
+</script>
+<div class="box bg" style="top:0;position:absolute;right:0;">
 	<%
 	   String username = request.getParameter("username");
 	   if(true){
@@ -96,33 +107,6 @@ $.QianLoad.PageLoading({
 	   }
     %>
     </div>
-    </nav>	    
- <div class="header tubiao" >
-      <a class="link title-ani"  data-letters="Up2U">Up2U</a>
-  </div>
-<div class="zySearch" id="zySearch"></div>
-<script type="text/javascript" src="js/zySearch.js"></script>
-<script type="text/javascript">
-$("#zySearch").zySearch({
-	"parentClass":"pageTitle",
-	"callback":function(keyword){
-		console.info("searchContain");
-		console.info(keyword);
-	}
-});
-function _loading(type) {
-    zeroModal.loading(type);
-}
-</script>
-        <div class="page-header">
-            <form enctype="multipart/form-data" action="uploadAction" method="post">
-                <div class="form-group">
-                    <input id="file" class="file" type="file" multiple data-preview-file-type="any" data-upload-url="#" data-preview-file-icon="">
-                </div>
-            </form>
-        </div>
-    <script src="js/fileinput.js" type="text/javascript"></script>
-    <script src="js/fileinput_locale_zh.js" type="text/javascript"></script>
-  
+    </nav>	 
 </body>
 </html>

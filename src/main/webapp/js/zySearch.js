@@ -40,7 +40,7 @@
 				var html = '';
 				html +="<form action='SearchAction'>"
 				html += '<input id="searchInput" name="searchContain" class="search-input" type="text" placeholder="请输入URL">';
-				html += '<a href="javascript:_loading(2)"><button class="search-btn btn">搜索</button></a>';
+				html += '<button class="search-btn btn">搜索</button>';
 				html += '</form>'
 				$(self).append(html);
 				
