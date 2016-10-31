@@ -23,8 +23,8 @@ public class DisplayAction extends TableAction {
     return result;
   }
 
-  public void main(String args[]){
-    TableAction ta = new TableAction();
+  public static void main(String args[]){
+    TableAction ta = new DisplayAction();
     ta.setUsername("lyx");
     ta.execute();
   }

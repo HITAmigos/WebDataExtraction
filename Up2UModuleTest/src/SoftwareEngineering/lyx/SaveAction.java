@@ -270,15 +270,18 @@ public class SaveAction extends TableAction {
         }
       }
       // 将表规格化赋值
-      String[][] temp = new String[tables[i].length][rowMax];
-      for (int j = 0; j < tables[i].length; j++) {
+      String[][] temp = new String[tables[i].length+1][rowMax];
+      for(int k = 0 ; k < rowMax ; k++ ){
+        temp[0][k] = new Integer(k+1).toString();
+      }
+      for (int j = 1; j <= tables[i].length; j++) {
         for (int k = 0; k < rowMax; k++) {
-          if (k < tables[i][j].length) {
-            temp[j][k] = tables[i][j][k];
+          if (k < tables[i][j-1].length) {
+            temp[j][k] = tables[i][j-1][k];
           } else if (j == 0) {
-            temp[j][k] = (new Integer(k).toString());
+            temp[j][k] = new Integer(k+1).toString();
           } else {
-            temp[j][k] = " ";
+            temp[j][k] = "  ";
           }
         }
       }
@@ -287,14 +290,6 @@ public class SaveAction extends TableAction {
 
     DBConnection dbHelper = new DBConnection();
     for (int i = 0; i < formalTable.size(); i++) {
-//      // 去掉表明中多余空格与逗号
-//      StringBuffer temp = new StringBuffer();
-//      temp.append(titleName.get(0));
-//      for (int j = titleName.get(0).length() - 1; j >= 0; j--) {
-//        if (titleName.get(0).charAt(j) == ' ' || titleName.get(0).charAt(j) == ',') {
-//          temp.deleteCharAt(j);
-//        }
-//      }
       if (dbHelper.Create(Username + "-" + titleName.get(0) + "-" + (i + 1), formalTable.get(i))) {
         result = "success";
       }
