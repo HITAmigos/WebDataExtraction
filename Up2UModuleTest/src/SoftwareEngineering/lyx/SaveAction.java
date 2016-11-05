@@ -1,7 +1,7 @@
 package SoftwareEngineering.lyx;
 
 /*
- * 1、设置标记位(th标记、删除标记、重点标记) 
+ * 1、设置标记位(th标记、删除标记、重点标记)
  */
 
 
@@ -12,7 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.net.ssl.HttpsURLConnection;
 
 /**
@@ -30,14 +29,14 @@ public class SaveAction extends TableAction {
    * 编码.
    */
   private static String Encoding = "GB2312";
-  /**
-   * 超时时间限定.
-   */
-  private static final long TIMEOUT = 100000;
-
   private static final String HTTP = "http";
   private static final String HTTPS = "https";
   private static final String ERRORINPUT = "error";
+  private static String[][] sourceInfo = new String[2][2];
+  static {
+    sourceInfo[0][0] = "tag";
+    sourceInfo[1][0] = "Link";
+  }
 
   /**
    * Url get方法. @return.
@@ -55,13 +54,13 @@ public class SaveAction extends TableAction {
     Url = url;
   }
 
-  static{
-    String escape[][] = {{"quot","\""},{"amp","&"},{"lt","<"},{"gt",">"},{"nbsp"," "}};
-    for(int i = 0 ; i < escape.length ; i++ ){
+  static {
+    String escape[][] = {{"quot", "\""}, {"amp", "&"}, {"lt", "<"}, {"gt", ">"}, {"nbsp", " "}};
+    for (int i = 0; i < escape.length; i++) {
       escapeSet.add(escape[i]);
     }
   }
-  
+
   /**
    * 区分输入是http还是https
    * 
@@ -99,16 +98,11 @@ public class SaveAction extends TableAction {
       BufferedReader br =
           new BufferedReader(new InputStreamReader(connection.getInputStream(), Encoding));
 
-      // long nowTime ;
       String line = null;
       line = br.readLine();
       while (line != null) {
-        // nowTime = new java.util.Date().getTime();
         webContent.append(line + "\r\n");
         line = br.readLine();
-        // if (new java.util.Date().getTime() - nowTime > TIMEOUT){
-        // ;//超时
-        // }
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -133,16 +127,11 @@ public class SaveAction extends TableAction {
       BufferedReader br =
           new BufferedReader(new InputStreamReader(connection.getInputStream(), Encoding));
 
-      // long nowTime ;
       String line = null;
       line = br.readLine();
       while (line != null) {
-        // nowTime = new java.util.Date().getTime();
         webContent.append(line + "\r\n");
         line = br.readLine();
-        // if (new java.util.Date().getTime() - nowTime > TIMEOUT){
-        // ;//超时
-        // }
       }
     } catch (Exception e) {
       System.out.println(e.getMessage());
@@ -158,10 +147,13 @@ public class SaveAction extends TableAction {
     String variety = varifyInput();
 
     if (variety.equals(HTTP)) {
+      sourceInfo[0][1] = "0";
       webContent = getHttp();
     } else if (variety.equals(HTTPS)) {
+      sourceInfo[0][1] = "0";
       webContent = getHttps();
     } else if (variety.equals(ERRORINPUT)) {
+      sourceInfo[0][1] = null;
       webContent = ERRORINPUT;
     }
 
@@ -181,7 +173,6 @@ public class SaveAction extends TableAction {
     int quotationEnd = 0;
     int quotationNum = 0;
     String target = null;
-    List<String> tagSegment = new ArrayList<String>();
     boolean cut = false;
     boolean tagContain = false;
     // 找到某一个标签内容
@@ -272,36 +263,36 @@ public class SaveAction extends TableAction {
         tag.key = strToDelete.substring(tag.start + 1, i);
       } else if (strToDelete.charAt(i) == '\"' && inTag && tag != null) {
         quotationNum++;
-      } else if (strToDelete.charAt(i) == '>' && inTag && tag!=null && quotationNum % 2 == 0) {
+      } else if (strToDelete.charAt(i) == '>' && inTag && tag != null && quotationNum % 2 == 0) {
         tag.end = i;
-        if(tag.key==null){
-          tag.key = strToDelete.substring(tag.start+1, tag.end);
+        if (tag.key == null) {
+          tag.key = strToDelete.substring(tag.start + 1, tag.end);
         }
         inTag = false;
-        quotationNum = 0;        
-        //若果当前tag为<.../>型则直接删除
-        for (int j = i-1 ; j >= 0; j--) {
+        quotationNum = 0;
+        // 若果当前tag为<.../>型则直接删除
+        for (int j = i - 1; j >= 0; j--) {
           if (str.charAt(j) == ' ') {
             continue;
           } else if (str.charAt(j) == '/') {
-            //当前tag为<.../>型
-            i -= tag.end+1 - tag.start;
+            // 当前tag为<.../>型
+            i -= tag.end + 1 - tag.start;
             strToDelete.delete(tag.start, tag.end + 1);
             break;
           } else {
-            //当前tag不为<.../>
-            if(tag.key.charAt(0)!='/'){
-            //当前标签为前缀,不以'/'开头,加到前缀堆栈中
+            // 当前tag不为<.../>
+            if (tag.key.charAt(0) != '/') {
+              // 当前标签为前缀,不以'/'开头,加到前缀堆栈中
               preTag.add(tag);
             } else {
-            //当前标签为后缀以'/'开头，在前缀堆栈中找到对应项并两者都删除
-              for(int k = preTag.size()-1 ; k >= 0 ; k-- ){
+              // 当前标签为后缀以'/'开头，在前缀堆栈中找到对应项并两者都删除
+              for (int k = preTag.size() - 1; k >= 0; k--) {
                 tagUnit temp = preTag.remove(k);
-                if(tag.key.substring(2).equals(temp.key.substring(1))){
-                  i -= tag.end+1 - tag.start;
-                  i -= temp.end+1 - temp.start;
-                  strToDelete.delete(tag.start, tag.end+1);
-                  strToDelete.delete(temp.start, temp.end+1);
+                if (tag.key.substring(2).equals(temp.key.substring(1))) {
+                  i -= tag.end + 1 - tag.start;
+                  i -= temp.end + 1 - temp.start;
+                  strToDelete.delete(tag.start, tag.end + 1);
+                  strToDelete.delete(temp.start, temp.end + 1);
                   break;
                 }
               }
@@ -309,30 +300,33 @@ public class SaveAction extends TableAction {
             break;
           }
         }
-        
+
       }
     }
 
     return strToDelete.toString();
   }
 
-  private String UnescapeCharacter(String str){
+  /**
+   * 反转义.
+   */
+  private String UnescapeCharacter(String str) {
     StringBuffer strToUnescape = new StringBuffer(str);
     boolean inEscape = false;
     int escapeStart = 0;
     int escapeEnd = 0;
     String escapeStr;
-    for(int i = 0 ; i < strToUnescape.length() ; i++ ){
-      if(strToUnescape.charAt(i)=='&'){
+    for (int i = 0; i < strToUnescape.length(); i++) {
+      if (strToUnescape.charAt(i) == '&') {
         inEscape = true;
         escapeStart = i;
-      } else if(inEscape&&strToUnescape.charAt(i)==';'){
+      } else if (inEscape && strToUnescape.charAt(i) == ';') {
         inEscape = false;
         escapeEnd = i;
-        escapeStr = strToUnescape.substring(escapeStart+1, escapeEnd);
-        for(int j = 0 ; j < escapeSet.size() ; j++ ){
-          if(escapeStr.equals(escapeSet.get(j)[0])){
-            strToUnescape.replace(escapeStart, escapeEnd+1, escapeSet.get(j)[1]);
+        escapeStr = strToUnescape.substring(escapeStart + 1, escapeEnd);
+        for (int j = 0; j < escapeSet.size(); j++) {
+          if (escapeStr.equals(escapeSet.get(j)[0])) {
+            strToUnescape.replace(escapeStart, escapeEnd + 1, escapeSet.get(j)[1]);
             i -= escapeEnd - escapeStart;
             break;
           }
@@ -341,7 +335,7 @@ public class SaveAction extends TableAction {
     }
     return strToUnescape.toString();
   }
-  
+
   /**
    * 将得到的网页内容变为字符串二维数组。
    * 
@@ -357,14 +351,27 @@ public class SaveAction extends TableAction {
     tableStr = cutOut(webContent, "table", "/table");
     tables = new String[tableStr.size()][][];
     for (int i = 0; i < tableStr.size(); i++) {
+      boolean haveTh = false;
       trStr = cutOut(tableStr.get(i), "tr", "/tr");
       tables[i] = new String[trStr.size()][];
       for (int j = 0; j < trStr.size(); j++) {
-        tdStr = cutOut(trStr.get(j), "td", "/td");
+        int jTemp = j;
+        if(j==0&&!haveTh){
+          tdStr = cutOut(trStr.get(j), "th", "/th");
+          if(tdStr.size()==0){
+            tdStr = cutOut(trStr.get(j),"td","/td");
+            jTemp = j-1;
+          }
+          haveTh = true;
+        }else{
+          tdStr = cutOut(trStr.get(j),"td","/td");
+        }
+        
         tables[i][j] = new String[tdStr.size()];
         for (int k = 0; k < tdStr.size(); k++) {
           tables[i][j][k] = UnescapeCharacter(deleteTag(tdStr.get(k)));
         }
+        j = jTemp;
       }
     }
     return tables;
@@ -374,6 +381,7 @@ public class SaveAction extends TableAction {
   public String execute() {
     String result = "failure";
     String webContent;
+    sourceInfo[1][1] = Url;
 
     webContent = getContent();
     String[][][] tables = grabWebTable(webContent);
@@ -395,6 +403,7 @@ public class SaveAction extends TableAction {
       // 将表规格化赋值
       String[][] temp = new String[tables[i].length + 2][rowMax + 1];
       for (int k = 0; k <= rowMax; k++) {
+        //标记格式:是否删除，是否星标
         temp[0][k] = new Integer(k).toString();
         temp[1][k] = "00";
       }
@@ -414,9 +423,26 @@ public class SaveAction extends TableAction {
       formalTable.add(temp);
     }
 
-    DBConnection dbHelper = new DBConnection();
+    //显示所有规格化后表格
     for (int i = 0; i < formalTable.size(); i++) {
-      if (dbHelper.Create(Username + "-" + titleName.get(0) + "-" + (i + 1), formalTable.get(i))) {
+      for (int j = 0; j < formalTable.get(i).length; j++) {
+        for (int k = 0; k < formalTable.get(i)[j].length; k++) {
+          if (formalTable.get(i)[j][k] == null) {
+            System.out.print("null\t|");
+          } else {
+            System.out.print(formalTable.get(i)[j][k] + "\t|");
+          }
+        }
+        System.out.println();
+      }
+      System.out.println("-----------------");
+    }
+
+    DBConnection dbHelper = new DBConnection();
+    dbHelper.Insert(Username + "-Search/Upload", sourceInfo);
+    int tableNum = dbHelper.getId(Username + "-Source/Upload", Url);
+    for (int i = 0; i < formalTable.size(); i++) {
+      if (dbHelper.Create(Username + "-" + tableNum + "-" + (i + 1), formalTable.get(i))) {
         result = "success";
       }
     }
@@ -425,18 +451,9 @@ public class SaveAction extends TableAction {
 
   public static void main(String args[]) {
     SaveAction sa = new SaveAction();
-    // https://www.sogou.com/sie?hdq=AQxRG-4472&query=contain%E6%96%B9%E6%B3%95&ie=utf8
-    // http://www.w3school.com.cn/html/html_tables.asp
-     sa.setUsername("lyx");
-     sa.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
-     sa.execute();
-//     String s = "<a href=\"/tags/tag_caption.asp\">&lt;caption&gt;</a>";
-//     System.out.println(sa.UnescapeCharacter(sa.deleteTag(s)));
-//    String s = "<table><t>a<d/ ><sample>b</t></table>k<table><y/>ddd<s></table>";
-//    System.out.println(s + "\n-----");
-//    List<String> l = sa.cutOut(s, "table", "/table");
-//    for (int i = 0; i < l.size(); i++)
-//      System.out.println(sa.deleteTag(l.get(i)));
+    sa.setUsername("lyx");
+    sa.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
+    sa.execute();
 
   }
 }

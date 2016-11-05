@@ -10,7 +10,9 @@ public class LoginAction extends TableAction {
   public String execute() {
     String result = "failure";
     DBConnection dbHelper = new DBConnection();
-    if (dbHelper.Login(Username, Password)) {
+    EncodePassword ep = new EncodePassword();
+    String tempPassword = ep.Encode(Password);
+    if (dbHelper.Login(Username, tempPassword)) {
       System.out.println("Success");
       result = "success";
     } else {

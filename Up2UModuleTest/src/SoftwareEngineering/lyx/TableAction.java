@@ -13,7 +13,7 @@ public class TableAction {
   /**
    * »∑»œ√‹¬Î.
    */
-  
+  protected String Tel;
   protected String Email;
   
 
@@ -37,6 +37,14 @@ public class TableAction {
 
   public void setRePassword(String rePassword) {
     RePassword = rePassword;
+  }
+
+  public String getTel() {
+    return Tel;
+  }
+
+  public void setTel(String tel) {
+    Tel = tel;
   }
 
   public String getEmail() {
