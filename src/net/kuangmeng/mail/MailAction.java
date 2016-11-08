@@ -30,7 +30,8 @@ public class MailAction {
      mailInfo.setContent("该邮箱绑定的账号的密码为:"+pw);
         //这个类主要来发送邮件  
      SimpleMailSender sms = new SimpleMailSender();  
-         boolean state1=sms.sendTextMail(mailInfo);//发送文体格式   
+   
+        boolean state1=sms.sendTextMail(mailInfo);//发送文体格式   
         boolean state2=sms.sendHtmlMail(mailInfo);//发送html格式 
         if(state1 || state2){
         	return "success";

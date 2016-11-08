@@ -40,11 +40,19 @@
             <result name="error">/error.jsp</result>
         </action>
         <action name="deletecolAction" class="net.kuangmeng.table.DeletecolAction" method="execute">
-            <result name="success">/result.jsp</result>
+            <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
         <action name="deleterowAction" class="net.kuangmeng.table.DeleterowAction" method="execute">
-            <result name="success">/result.jsp</result>
+            <result name="success">/operations.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="backrecordAction" class="net.kuangmeng.BackrecordAction" method="execute">
+            <result name="success">/message.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+         <action name="deleterecordAction" class="net.kuangmeng.DeleterecodeAction" method="execute">
+            <result name="success">/message.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
     </package> 

@@ -13,6 +13,15 @@ $.QianLoad.PageLoading({
 });
 </script>
 <link rel="shortcut icon" href="images/favicon.ico" />
+ <!--external css-->
+     <link href="admin/css/bootstrap.min.css" rel="stylesheet">
+     <link href="admin/css/bootstrap-reset.css" rel="stylesheet">
+    <link href="admin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="admin/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link rel="stylesheet" href="admin/css/owl.carousel.css" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="admin/css/style.css" rel="stylesheet">
+    <link href="admin/css/style-responsive.css" rel="stylesheet" />
 <!-- 按钮 -->
 <link rel="stylesheet" type="text/css" href="button/css/normalize.css">
 <link rel="stylesheet" type="text/css" href="button/css/vicons-font.css">
@@ -84,7 +93,7 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
 	String User=String.valueOf(session.getAttribute("username")).trim();
 }
 %>
-<div class="container demo-1">
+<div class="container demo-1" style="width:100%;">
 <div class="content">
 <div id="large-header" class="large-header">
 				<!--Next button -->
@@ -99,14 +108,61 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
      <%
        }else{
     	   %>
-    	   <a href="main.jsp"><span class="spot"></span><%=String.valueOf(session.getAttribute("username")).trim() %></a>
-    	   <% 
+    	   <div class="top-nav " style="padding:0">
+    	   <li class="dropdown">
+    	   <a data-toggle="dropdown" href="#" style="font-size:2.2em;margin-top:-10px;"><span class="spot"></span><%=String.valueOf(session.getAttribute("username")).trim() %></a>
+    	    <ul class="dropdown-menu extended logout" style="float: left;background:#c0c0c0;">
+                            <div class="log-arrow-up"></div>
+                            <li><a href="javascript:_iframe('<%=String.valueOf(session.getAttribute("username"))%>')"><i class=" icon-suitcase"></i>我的信息</a></li>
+                            <li><a href="comment.jsp"><i class="icon-bell-alt"></i>评论</a></li>
+                            <li>
+                            <a href="index.jsp"><i class="icon-key"></i>登出</a></li>
+                     </ul>
+             </li>
+            
+           </div>
+    	 <% 
        }
      %>
         </div>
       </svg>
 </div>
 <canvas id="demo-canvas"></canvas>
+  <!-- js placed at the end of the document so the pages load faster -->
+    <script src="admin/js/jquery.js"></script>
+    <script src="admin/js/jquery-1.8.3.min.js"></script>
+    <script src="admin/js/bootstrap.min.js"></script>
+    <script src="admin/js/jquery.scrollTo.min.js"></script>
+    <script src="admin/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="admin/js/jquery.sparkline.js" type="text/javascript"></script>
+    <script src="admin/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js"></script>
+    <script src="admin/js/owl.carousel.js" ></script>
+    <script src="admin/js/jquery.customSelect.min.js" ></script>
+    <!--common script for all pages-->
+    <script src="admin/js/common-scripts.js"></script>
+    <!--script for this page-->
+    <script src="admin/js/sparkline-chart.js"></script>
+    <script src="admin/js/easy-pie-chart.js"></script>
+  <script>
+      //owl carousel
+
+      $(document).ready(function() {
+          $("#owl-demo").owlCarousel({
+              navigation : true,
+              slideSpeed : 300,
+              paginationSpeed : 400,
+              singleItem : true
+
+          });
+      });
+
+      //custom select box
+
+      $(function(){
+          $('select.styled').customSelect();
+      });
+
+  </script>
 <div class="box2">
   <ul>
     <li class="weixin">
@@ -157,6 +213,16 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
                 '<button style="margin-left:40%;width:20%;height:3%;margin-top:8%;" class="button button--wapasha button--text-thick button--text-upper button--size-s">上传</botton></form>',
             width: '40%',
             height: '40%',
+            cancel: true
+        });
+    }
+    function _iframe(username) {
+        zeroModal.show({
+            title: '我的信息',
+            iframe: true,
+            url: 'message.jsp?username='+username,
+            width: '60%',
+            height: '60%',
             cancel: true
         });
     }

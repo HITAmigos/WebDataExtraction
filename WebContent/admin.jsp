@@ -11,6 +11,7 @@
     <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
     <title>后台管理</title>
     <!-- Bootstrap core CSS -->
+    
     <link href="admin/css/bootstrap.min.css" rel="stylesheet">
     <link href="admin/css/bootstrap-reset.css" rel="stylesheet">
     <!--external css-->
@@ -43,7 +44,7 @@ $.QianLoad.PageLoading({
 	session.setAttribute("username",name);
 
 %>
-  <section id="container" class="">
+ <section id="container" class="">
       <!--header start-->
       <header class="header white-bg">
             <div class="sidebar-toggle-box">

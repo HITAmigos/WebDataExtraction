@@ -528,11 +528,6 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     display: block !important;
     font-size: 11px;
 }
-
-.top-nav  {
-    margin-top: 7px;
-}
-
 .top-nav ul.top-menu > li .dropdown-menu.logout {
     width: 268px !important;
 
@@ -547,7 +542,7 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 .dropdown-menu.extended.logout > li {
     float: left;
     text-align: center;
-    width: 33.3%;
+    width: 50%;
 }
 
 .dropdown-menu.extended.logout > li:last-child {
@@ -595,22 +590,8 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     color: #555555;
 }
 
-.top-nav ul.top-menu > li > a {
-    border: 1px solid #eeeeee;
-    border-radius: 4px;
-    -webkit-border-radius: 4px;
-    padding: 6px;
-    background: none;
-    margin-right: 0;
-}
 .top-nav ul.top-menu > li {
     margin-left: 10px;
-}
-
-.top-nav ul.top-menu > li > a:hover, .top-nav ul.top-menu > li > a:focus {
-    border:1px solid #F1F2F7;
-    background: #F1F2F7;
-
 }
 
 .top-nav .dropdown-menu.extended.logout {
@@ -621,11 +602,6 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     border-bottom-color: #A4AABA;
     border-top-color: #A4AABA;
 }
-.top-nav ul.top-menu > li > a:hover .caret {
-    border-bottom-color: #000;
-    border-top-color: #000;
-}
-
 .log-arrow-up {
     background: url("../img/arrow-up.png") no-repeat;
     width: 20px;

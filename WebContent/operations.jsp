@@ -40,27 +40,29 @@
 				ResultSet rss = stmt.executeQuery(sql);
 				int num = rss.getMetaData().getColumnCount();
 				System.out.println(num);
-				for(int i=3;i<=num;i++){
-					%>
-					<td>
+				
+				int[] coltag = new int[100];
+				while (rss.next()) {
+					if (rss.getInt(1) == 1) {
+						for (int j = 3; j <= num; j++){
+							coltag[j] = Integer.parseInt(rss.getString(j));
+							if(coltag[j]==0){
+								%>
+						<td>
 					<form action="deleterowAction" >
 			        <input type="hidden" value=<%=tablename %> name="tablename">
-			        <input type="hidden" value=<%=i %> name="rownum">
+			        <input type="hidden" value=<%=j-2 %> name="rownum">
 			        <input type="submit" value="删除">
 			        </form>
 					</td>
 					<%
-				}
-				%>
-				</tr>
-				<%
-				int[] coltag = new int[100];
-				while (rss.next()) {
-					if (rss.getInt(1) == 1) {
-						for (int j = 2; j <= num; j++) {
-							coltag[j] = Integer.parseInt(rss.getString(j));
-							System.out.println(coltag[j]);
+					}
+					 System.out.println(coltag[j]);
 						}
+						%>
+						</tr>
+						<%
+						
 					} else {
 			%>
 			<tr>
@@ -68,7 +70,7 @@
 				    int colnum=rss.getInt(1);
 					if (0 == Integer.parseInt(rss.getString(2))){
 								for (int j = 3; j <= num; j++) {
-									if (coltag[j] < 10)
+									if (coltag[j] == 0){
 				%>
 				<td>
 					<%
@@ -76,16 +78,19 @@
 					%>
 				</td>
 				<%
+									}
 					}
-							}
-				%>
-			<td>
+								%>
+								<td>
 			<form action="deletecolAction" >
 			<input type="hidden" value=<%=tablename %> name="tablename">
 			<input type="hidden" value=<%=colnum %> name="colnum">
 			<input type="submit" value="删除">
 			</form>
 			</td>
+								<% 
+				}
+				%>
 			</tr>
 			<%
 				}

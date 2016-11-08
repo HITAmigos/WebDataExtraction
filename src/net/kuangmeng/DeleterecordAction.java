@@ -1,49 +1,46 @@
-package net.kuangmeng.table;
+package net.kuangmeng;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import com.opensymphony.xwork2.ActionSupport;
 
-import net.kuangmeng.Const;
-
 @SuppressWarnings("serial")
-public class DeleterowAction extends ActionSupport{
+public class DeleterecordAction extends ActionSupport{
 	Const c=new Const();
     final String DB_URL = c.getDB_URL();
     final String USER = c.getUSER();
     final String PASS = c.getPASS();
-    private String tablename;
-	private String rownum;
+    static final String tableName = "source"; 
+    private String username;
     public String execute() throws Exception {
-    	    System.out.println(tablename);
-    	    System.out.println(rownum);
     		 Connection conn = null;
     		 Statement stmt = null;
     		 try{
     			 Class.forName("com.mysql.jdbc.Driver").newInstance();
     		     conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		     stmt = conn.createStatement();
-    		     String sql ="update `"+tablename+"` set "+"`"+rownum+"`='01'  where  id = 1 ";
+    		     String sqlsearch="select * from "+tableName+" WHERE username = \'"+username+"\'";
+    		     ResultSet rss=stmt.executeQuery(sqlsearch);
+    		     while(rss.next()){
+    		    	 String del="DROP TABLE "+"`"+rss.getString("tablename")+"`";
+    		    	 stmt.executeUpdate(del);
+    		     }
+    		     String sql = "DELETE FROM "+tableName+" WHERE username = \'"+username+"\'";  
     		     stmt.executeUpdate(sql); 
-    		      return SUCCESS;
+    		     return SUCCESS;
     		 }catch(SQLException s){
     			   return ERROR;
     		 }catch(Exception e){
     			   return ERROR;
     		 }
     	   }
-	public String getTablename() {
-		return tablename;
+	public String getUsername() {
+		return username;
 	}
-	public void setTablename(String tablename) {
-		this.tablename = tablename;
-	}
-	public String getRownum() {
-		return rownum;
-	}
-	public void setRownum(String rownum) {
-		this.rownum = rownum;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

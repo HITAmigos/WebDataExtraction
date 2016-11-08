@@ -113,11 +113,11 @@ h1 {
 				session.setAttribute("search", sc);
 				String SearchContain = new String();
 				if (String.valueOf(session.getAttribute("search")).trim().equals("null")
-						&& String.valueOf(session.getAttribute("searchContain")).trim().equals("null")) {
+						&& String.valueOf(session.getAttribute("searchContain")).trim().equals("null")){
 					sc = request.getParameter("Url");
 					session.setAttribute("searchContain", sc);
 					SearchContain = String.valueOf(session.getAttribute("searchContain")).trim();
-				} else if (!String.valueOf(session.getAttribute("search")).trim().equals("null")) {
+				} else if (!String.valueOf(session.getAttribute("search")).trim().equals("null")){
 					SearchContain = String.valueOf(session.getAttribute("search")).trim();
 				} else {
 					SearchContain = String.valueOf(session.getAttribute("searchContain")).trim();

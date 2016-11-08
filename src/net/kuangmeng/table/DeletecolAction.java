@@ -25,8 +25,8 @@ public class DeletecolAction extends ActionSupport{
     			 Class.forName("com.mysql.jdbc.Driver").newInstance();
     		     conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		     stmt = conn.createStatement();
-    		     String sql ="delete from `" + tablename + "` WHERE id = "+Integer.parseInt(colnum.trim());  
-    		     int rs = stmt.executeUpdate(sql); 
+    		     String sql ="update `" + tablename + "` set `0`='01' WHERE id = "+Integer.parseInt(colnum.trim());  
+    		      int rs = stmt.executeUpdate(sql); 
     		     if(rs>=1) return SUCCESS;
     		     else return ERROR;
     		 }catch(SQLException s){

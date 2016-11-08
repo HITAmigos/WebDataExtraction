@@ -86,7 +86,7 @@ $.QianLoad.PageLoading({
             document.getElementById("loginload").addEventListener("click",function(e){
                 e.preventDefault();
                 //接下来使用js代码进行页面跳转
-                _loading(5);
+                _loading(3);
                 void(document.loginform.submit());
             });
         </script>
@@ -138,7 +138,7 @@ $.QianLoad.PageLoading({
             document.getElementById("registerload").addEventListener("click",function(e){
                 e.preventDefault();
                 //接下来使用js代码进行页面跳转
-                _loading(4);
+                _loading(3);
                 void(document.registerform.submit());
             });
         </script>
