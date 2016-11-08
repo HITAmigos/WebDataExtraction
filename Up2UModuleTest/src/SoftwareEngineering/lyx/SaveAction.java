@@ -1,36 +1,19 @@
 package SoftwareEngineering.lyx;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javax.net.ssl.HttpsURLConnection;
 
-/**
- * »ñÈ¡url²¢×¥È¡±í¸ñ±£´æÖÁÊı¾İ¿â.
- * 
- * @author liuyx.
- */
 public class SaveAction extends TableAction {
 
-  protected String Url;
-  // ×ªÒå×Ö·ûÓ³Éä
+  protected static String Url;
+  protected static File file;
+  //è½¬ä¹‰å­—ç¬¦é›†
   private static List<String[]> escapeSet = new ArrayList<String[]>();
-  private static String Encoding = "GB2312";
   private static final String HTTP = "http";
   private static final String HTTPS = "https";
   private static final String UPLOAD = "upload";
-  private static final String ERRORINPUT = "error";
-  private static String[][] sourceInfo = new String[4][2];
-  static {
-    sourceInfo[0][0] = "Username";
-    sourceInfo[1][0] = "Link";
-    sourceInfo[2][0] = "Tag";
-    sourceInfo[3][0] = "Tablename";
-  }
+  private static String[][] sourceInfo = new String[5][2];
 
   public String getUrl() {
     return Url;
@@ -39,9 +22,28 @@ public class SaveAction extends TableAction {
   public void setUrl(String url) {
     Url = url;
   }
+  
+  public File getFile() {
+    return file;
+  }
+
+  public void setFile(File file) {
+    this.file = file;
+  }
+  
+/**
+ * è®¾ç½®æ˜ å°„å­—æ®µå
+ */
+  static {
+    sourceInfo[0][0] = "id";
+    sourceInfo[1][0] = "Username";
+    sourceInfo[2][0] = "Link";
+    sourceInfo[3][0] = "Tag";
+    sourceInfo[4][0] = "Tablename";
+  }
 
   /**
-   * ÉèÖÃ×ªÒå×Ö·ûÓ³Éä.
+   * è®¾ç½®è½¬ä¹‰å­—ç¬¦é›†
    */
   static {
     String escape[][] = {{"quot", "\""}, {"amp", "&"}, {"lt", "<"}, {"gt", ">"}, {"nbsp", " "}};
@@ -51,8 +53,7 @@ public class SaveAction extends TableAction {
   }
 
   /**
-   * Çø·ÖÊäÈëÊÇhttp»¹ÊÇhttps»¹ÊÇupload.
-   * 
+   * åˆ¤æ–­è¾“å…¥Urlç±»å‹ï¼šhttpã€httpsã€file
    * @return
    */
   private String varifyInput() {
@@ -64,104 +65,47 @@ public class SaveAction extends TableAction {
         variety = HTTPS;
       } else if (url.substring(0, 4).equals(HTTP)) {
         variety = HTTP;
-      } else if (url.substring(0, 6).equals(UPLOAD)) {
+      } else {
+        setFile(new File(Url));
         variety = UPLOAD;
       }
     } else {
-      variety = ERRORINPUT;
+      setFile(new File(Url));
+      variety = UPLOAD;
     }
-
+    
     return variety;
   }
 
-
   /**
-   * ½«httpÍøÖ·ÄÚÈİ×ªÎª×Ö·û´®.
-   * 
-   * @return webContent.
-   */
-  private String getHttp() {
-    StringBuffer webContent = new StringBuffer();
-    try {
-      URL url = new URL(Url);
-      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-      connection.setRequestProperty("User-Agent", "MSIE 9.0");
-      BufferedReader br =
-          new BufferedReader(new InputStreamReader(connection.getInputStream(), Encoding));
-
-      String line = null;
-      line = br.readLine();
-      while (line != null) {
-        webContent.append(line + "\r\n");
-        line = br.readLine();
-      }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      e.printStackTrace();
-    } finally {
-      ;
-    }
-    return webContent.toString();
-  }
-
-  /**
-   * ½«httpsÍøÖ·ÄÚÈİ×ªÎª×Ö·û´®.
-   * 
-   * @return webContent.
-   */
-  private String getHttps() {
-    StringBuffer webContent = new StringBuffer();
-    try {
-      URL url = new URL(Url);
-      HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-      connection.setRequestProperty("User-Agent", "MSIE 9.0");
-      BufferedReader br =
-          new BufferedReader(new InputStreamReader(connection.getInputStream(), Encoding));
-
-      String line = null;
-      line = br.readLine();
-      while (line != null) {
-        webContent.append(line + "\r\n");
-        line = br.readLine();
-      }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      e.printStackTrace();
-    } finally {
-      ;
-    }
-    return webContent.toString();
-  }
-
-  /**
-   * ¸ù¾İÊäÈë²»Í¬»ñÈ¡²»Í¬Í¾¾¶µÄÄÚÈİ²¢±£´æÎª×Ö·û´®.
+   * è·å–UrlæŒ‡å‘ç½‘é¡µæˆ–æ–‡ä»¶å†…å®¹.
+   * @return
    */
   private String getContent() {
-    String webContent = new String();
+    GetContent gcHelper = new GetContent();
+    String webContent = null;
     String variety = varifyInput();
 
     if (variety.equals(HTTP)) {
-      sourceInfo[2][1] = "0";
-      webContent = getHttp();
+      webContent = gcHelper.getString(variety, Url);
+      sourceInfo[3][1] = "0";
     } else if (variety.equals(HTTPS)) {
-      sourceInfo[2][1] = "0";
-      webContent = getHttps();
-      // } else if (variety.equals(UPLOAD)) {
-      // sourceInfo[0][1] = "1";
-      // webContent = getUploadContent();
-    } else if (variety.equals(ERRORINPUT)) {
-      sourceInfo[2][1] = null;
-      webContent = ERRORINPUT;
+      webContent = gcHelper.getString(variety, Url);
+      sourceInfo[3][1] = "0";
+    } else if (variety.equals(UPLOAD)) {
+      webContent = gcHelper.getString(file);
+      sourceInfo[3][1] = "1";
     }
 
     return webContent;
   }
 
   /**
-   * ×¥È¡Á½¸ö±êÇ©<str1><str2>Ö®¼äµÄÄÚÈİ.
-   * 
-   * @param WebContent.
-   * @return ¸ù¾İ±êÇ©ÇĞ³öÀ´µÄ×Ö·û´®¼¯ºÏ.
+   * æå–å‡º<begin><finish>æ ‡ç­¾é—´å­—ç¬¦ä¸².
+   * @param origin
+   * @param begin
+   * @param finish
+   * @return
    */
   private List<String> cutOut(final String origin, final String begin, final String finish) {
     List<String> segment = new ArrayList<String>();
@@ -173,9 +117,7 @@ public class SaveAction extends TableAction {
     String target = null;
     boolean cut = false;
     boolean tagContain = false;
-    // ÕÒµ½Ä³Ò»¸ö±êÇ©ÄÚÈİ
     for (int i = 0; i < origin.length(); i++) {
-      // ÕÒµ½µÚÒ»¸ö<>Æ¥Åä
       if (origin.charAt(i) == '<') {
 
         for (int j = i; j < origin.length(); j++) {
@@ -220,7 +162,7 @@ public class SaveAction extends TableAction {
         }
         if (tagContain) {
           tableBegin = i + tag.length();
-          i += tag.length()-1;
+          i += tag.length() - 1;
           cut = true;
         }
       }
@@ -233,9 +175,9 @@ public class SaveAction extends TableAction {
   }
 
   /**
-   * É¾³ı×Ö·û´®ÖĞµÄ¶àÓà±êÇ©.
-   * 
+   * åˆ é™¤å­—ç¬¦ä¸²ä¸­åŒ¹é…æ ‡ç­¾.
    * @param str
+   * @return
    */
   private String deleteTag(String str) {
     class tagUnit {
@@ -266,22 +208,17 @@ public class SaveAction extends TableAction {
         }
         inTag = false;
         quotationNum = 0;
-        // Èô¹ûµ±Ç°tagÎª<.../>ĞÍÔòÖ±½ÓÉ¾³ı
         for (int j = i - 1; j >= 0; j--) {
           if (str.charAt(j) == ' ') {
             continue;
           } else if (str.charAt(j) == '/') {
-            // µ±Ç°tagÎª<.../>ĞÍ
             i -= tag.end + 1 - tag.start;
             strToDelete.delete(tag.start, tag.end + 1);
             break;
           } else {
-            // µ±Ç°tag²»Îª<.../>
             if (tag.key.charAt(0) != '/') {
-              // µ±Ç°±êÇ©ÎªÇ°×º,²»ÒÔ'/'¿ªÍ·,¼Óµ½Ç°×º¶ÑÕ»ÖĞ
               preTag.add(tag);
             } else {
-              // µ±Ç°±êÇ©Îªºó×ºÒÔ'/'¿ªÍ·£¬ÔÚÇ°×º¶ÑÕ»ÖĞÕÒµ½¶ÔÓ¦Ïî²¢Á½Õß¶¼É¾³ı
               for (int k = preTag.size() - 1; k >= 0; k--) {
                 tagUnit temp = preTag.remove(k);
                 if (tag.key.substring(2).equals(temp.key.substring(1))) {
@@ -304,7 +241,9 @@ public class SaveAction extends TableAction {
   }
 
   /**
-   * ·´×ªÒå.
+   * åè½¬ä¹‰.
+   * @param str
+   * @return
    */
   private String UnescapeCharacter(String str) {
     StringBuffer strToUnescape = new StringBuffer(str);
@@ -333,9 +272,9 @@ public class SaveAction extends TableAction {
   }
 
   /**
-   * ½«µÃµ½µÄÍøÒ³ÄÚÈİ±äÎª×Ö·û´®¶şÎ¬Êı×é.
-   * 
-   * @param webContent.
+   * æŠ“å–å­—ç¬¦ä¸²ä¸­çš„è¡¨æ ¼(htmlæ ¼å¼).
+   * @param Content
+   * @return
    */
   private List<List<String[]>> grabWebTable(final String Content) {
     List<List<String[]>> resultSet = new ArrayList<List<String[]>>();
@@ -354,11 +293,11 @@ public class SaveAction extends TableAction {
     for (int tableNo = 0; tableNo < tableStr.size(); tableNo++) {
       List<String> thTagTemp = new ArrayList<String>();
       List<String[]> table = new ArrayList<String[]>();
-      // ÎŞ±êÇ©²»Îª¿Õµ«sizeÎª0
+      //
       theadStr = cutOut(tableStr.get(tableNo), "thead", "/thead");
       tbodyStr = cutOut(tableStr.get(tableNo), "tbody", "/tbody");
       tfootStr = cutOut(tableStr.get(tableNo), "tfoot", "/tfoot");
-      // ×¥È¡th±êÇ©²¢±ê¼Ç
+      //
       if (theadStr.size() > 0) {
         for (int theadNum = 0; theadNum < theadStr.size(); theadNum++) {
           trStr = cutOut(theadStr.get(theadNum), "tr", "/tr");
@@ -401,7 +340,7 @@ public class SaveAction extends TableAction {
         }
       }
 
-      // ×¥È¡td±êÇ©²¢±ê¼Ç
+      //
       if (tbodyStr.size() > 0) {
         for (int tbodyNum = 0; tbodyNum < tbodyStr.size(); tbodyNum++) {
           trStr = cutOut(tbodyStr.get(tbodyNum), "tr", "/tr");
@@ -473,37 +412,38 @@ public class SaveAction extends TableAction {
   public String execute() {
     String result = "failure";
     String webContent;
-    sourceInfo[0][1] = Username;
-    sourceInfo[1][1] = Url;
+    sourceInfo[1][1] = Username;
+    sourceInfo[2][1] = Url;
 
     webContent = getContent();
+    System.out.println(webContent);
     List<List<String[]>> resultSet = grabWebTable(webContent);
     List<String[]> table = null;
     List<String[]> thTags = resultSet.get(resultSet.size() - 1);
 
     List<String[][]> formalTable = new ArrayList<String[][]>();
-    // ½«±í¸ñ¹æ¸ñ»¯
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     for (int tableNo = 0; tableNo < resultSet.size() - 1; tableNo++) {
       table = resultSet.get(tableNo);
       int rowMax = 0;
-      // µÃµ½×î´ó×Ö¶Î³¤
+      // ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½Ö¶Î³ï¿½
       for (int rowNum = 0; rowNum < table.size(); rowNum++) {
         if (rowMax < table.get(rowNum).length) {
           rowMax = table.get(rowNum).length;
         }
       }
-      // ½«±í¹æ¸ñ»¯¸³Öµ
+      //
       String[][] temp = new String[table.size() + 2][rowMax + 1];
       String[] thTag = thTags.get(tableNo);
       for (int colNum = 0; colNum <= rowMax; colNum++) {
-        // ±ê¼Ç¸ñÊ½:ÊÇ·ñÉ¾³ı£¬ÊÇ·ñĞÇ±ê
+        // 
         temp[0][colNum] = new Integer(colNum).toString();
         temp[1][colNum] = "00";
       }
       for (int newRowNum = 2; newRowNum <= table.size() + 1; newRowNum++) {
         for (int colNum = 0; colNum <= rowMax; colNum++) {
           if (colNum == 0) {
-            // ±ê¼Ç¸ñÊ½:ÊÇ·ñÉ¾³ı£¬ÊÇ·ñĞÇ±ê,ÊÇ·ñÎªth
+            //
             temp[newRowNum][colNum] = "00" + thTag[newRowNum - 2];
           } else if (colNum <= table.get(newRowNum - 2).length) {
             temp[newRowNum][colNum] = table.get(newRowNum - 2)[colNum - 1];
@@ -532,10 +472,12 @@ public class SaveAction extends TableAction {
     DBConnection dbHelper = new DBConnection();
 
     int tableNum = dbHelper.getLastId("Source");
+
     for (int i = 0; i < formalTable.size(); i++) {
-      sourceInfo[3][1] = Username + "-" + (tableNum + i + 1);
+      sourceInfo[0][1] = new Integer(tableNum+i+1).toString();
+      sourceInfo[4][1] = Username + "-" + (tableNum + i + 1);
       dbHelper.Insert("Source", sourceInfo);
-      if (dbHelper.Create(sourceInfo[3][1], formalTable.get(i))) {
+      if (dbHelper.Create(sourceInfo[4][1], formalTable.get(i))) {
         result = "success";
       }
     }
@@ -549,8 +491,16 @@ public class SaveAction extends TableAction {
     // https://buyertrade.taobao.com/trade/itemlist/list_bought_items.htm?spm=a1z02.1.a2109.d1000368.eijg3M
     // http://www.jq22.com/demo/sortableTable20160801/
     // http://www.w3school.com.cn/html/html_tables.asp
-    sa.setUrl("http://www.jq22.com/demo/sortableTable20160801/");
+    //D:\\xampp\\htdocs\\index.php
+    sa.setUrl("D:\\xampp\\htdocs\\test.html");
+    // File(String pathname)
+    // File f1 =new File("c:\\abc\\1.txt");
+    // File(String parent,String child)
+    // File f2 =new File("c:\\abc","2.txt");
+    // File(File parent,String child)
+    // File f3 =new File("c:"+File.separator+"abc");//separator ï¿½ï¿½Æ½Ì¨ï¿½Ö¸ï¿½ï¿½ï¿½
+    // File f4 =new File(f3,"3.txt");
+    // System.out.println(f1);//c:\abc\1.txt
     sa.execute();
-
   }
 }
