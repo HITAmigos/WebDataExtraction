@@ -1,10 +1,5 @@
 package SoftwareEngineering.lyx;
 
-/*
- * 1、设置标记位(th标记、删除标记、重点标记)
- */
-
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,43 +12,37 @@ import javax.net.ssl.HttpsURLConnection;
 /**
  * 获取url并抓取表格保存至数据库.
  * 
- * @author liuyx. .
+ * @author liuyx.
  */
 public class SaveAction extends TableAction {
-  /**
-   * 网页上输入的Url.
-   */
+
   protected String Url;
+  // 转义字符映射
   private static List<String[]> escapeSet = new ArrayList<String[]>();
-  /**
-   * 编码.
-   */
   private static String Encoding = "GB2312";
   private static final String HTTP = "http";
   private static final String HTTPS = "https";
+  private static final String UPLOAD = "upload";
   private static final String ERRORINPUT = "error";
-  private static String[][] sourceInfo = new String[2][2];
+  private static String[][] sourceInfo = new String[4][2];
   static {
-    sourceInfo[0][0] = "tag";
+    sourceInfo[0][0] = "Username";
     sourceInfo[1][0] = "Link";
+    sourceInfo[2][0] = "Tag";
+    sourceInfo[3][0] = "Tablename";
   }
 
-  /**
-   * Url get方法. @return.
-   */
   public String getUrl() {
     return Url;
   }
 
-  /**
-   * Url set方法.
-   * 
-   * @param url.
-   */
   public void setUrl(String url) {
     Url = url;
   }
 
+  /**
+   * 设置转义字符映射.
+   */
   static {
     String escape[][] = {{"quot", "\""}, {"amp", "&"}, {"lt", "<"}, {"gt", ">"}, {"nbsp", " "}};
     for (int i = 0; i < escape.length; i++) {
@@ -62,7 +51,7 @@ public class SaveAction extends TableAction {
   }
 
   /**
-   * 区分输入是http还是https
+   * 区分输入是http还是https还是upload.
    * 
    * @return
    */
@@ -75,6 +64,8 @@ public class SaveAction extends TableAction {
         variety = HTTPS;
       } else if (url.substring(0, 4).equals(HTTP)) {
         variety = HTTP;
+      } else if (url.substring(0, 6).equals(UPLOAD)) {
+        variety = UPLOAD;
       }
     } else {
       variety = ERRORINPUT;
@@ -142,18 +133,24 @@ public class SaveAction extends TableAction {
     return webContent.toString();
   }
 
+  /**
+   * 根据输入不同获取不同途径的内容并保存为字符串.
+   */
   private String getContent() {
     String webContent = new String();
     String variety = varifyInput();
 
     if (variety.equals(HTTP)) {
-      sourceInfo[0][1] = "0";
+      sourceInfo[2][1] = "0";
       webContent = getHttp();
     } else if (variety.equals(HTTPS)) {
-      sourceInfo[0][1] = "0";
+      sourceInfo[2][1] = "0";
       webContent = getHttps();
+      // } else if (variety.equals(UPLOAD)) {
+      // sourceInfo[0][1] = "1";
+      // webContent = getUploadContent();
     } else if (variety.equals(ERRORINPUT)) {
-      sourceInfo[0][1] = null;
+      sourceInfo[2][1] = null;
       webContent = ERRORINPUT;
     }
 
@@ -161,13 +158,14 @@ public class SaveAction extends TableAction {
   }
 
   /**
-   * 抓取两个标签<str1><str2>之间的内容. .
+   * 抓取两个标签<str1><str2>之间的内容.
    * 
-   * @param WebContent. @return.
+   * @param WebContent.
+   * @return 根据标签切出来的字符串集合.
    */
   private List<String> cutOut(final String origin, final String begin, final String finish) {
     List<String> segment = new ArrayList<String>();
-    String tag = new String();
+    String tag = null;
     int tableBegin = 0;
     int tableFinish = 0;
     int quotationEnd = 0;
@@ -222,7 +220,7 @@ public class SaveAction extends TableAction {
         }
         if (tagContain) {
           tableBegin = i + tag.length();
-          i += tag.length();
+          i += tag.length()-1;
           cut = true;
         }
       }
@@ -231,7 +229,6 @@ public class SaveAction extends TableAction {
       tagContain = false;
       tag = null;
     }
-
     return segment;
   }
 
@@ -239,7 +236,6 @@ public class SaveAction extends TableAction {
    * 删除字符串中的多余标签.
    * 
    * @param str
-   * @return
    */
   private String deleteTag(String str) {
     class tagUnit {
@@ -337,112 +333,209 @@ public class SaveAction extends TableAction {
   }
 
   /**
-   * 将得到的网页内容变为字符串二维数组。
+   * 将得到的网页内容变为字符串二维数组.
    * 
-   * @param webContent
-   * @return
+   * @param webContent.
    */
-  private String[][][] grabWebTable(final String webContent) {
-    String[][][] tables = null;
+  private List<List<String[]>> grabWebTable(final String Content) {
+    List<List<String[]>> resultSet = new ArrayList<List<String[]>>();
+    List<String[]> thTags = new ArrayList<String[]>();
+
+
     List<String> tableStr = null;
+    List<String> theadStr = null;
+    List<String> tbodyStr = null;
+    List<String> tfootStr = null;
     List<String> trStr = null;
+    List<String> thStr = null;
     List<String> tdStr = null;
 
-    tableStr = cutOut(webContent, "table", "/table");
-    tables = new String[tableStr.size()][][];
-    for (int i = 0; i < tableStr.size(); i++) {
-      boolean haveTh = false;
-      trStr = cutOut(tableStr.get(i), "tr", "/tr");
-      tables[i] = new String[trStr.size()][];
-      for (int j = 0; j < trStr.size(); j++) {
-        int jTemp = j;
-        if(j==0&&!haveTh){
-          tdStr = cutOut(trStr.get(j), "th", "/th");
-          if(tdStr.size()==0){
-            tdStr = cutOut(trStr.get(j),"td","/td");
-            jTemp = j-1;
+    tableStr = cutOut(Content, "table", "/table");
+    for (int tableNo = 0; tableNo < tableStr.size(); tableNo++) {
+      List<String> thTagTemp = new ArrayList<String>();
+      List<String[]> table = new ArrayList<String[]>();
+      // 无标签不为空但size为0
+      theadStr = cutOut(tableStr.get(tableNo), "thead", "/thead");
+      tbodyStr = cutOut(tableStr.get(tableNo), "tbody", "/tbody");
+      tfootStr = cutOut(tableStr.get(tableNo), "tfoot", "/tfoot");
+      // 抓取th标签并标记
+      if (theadStr.size() > 0) {
+        for (int theadNum = 0; theadNum < theadStr.size(); theadNum++) {
+          trStr = cutOut(theadStr.get(theadNum), "tr", "/tr");
+          String[] temp = null;
+          if (trStr.size() != 0) {
+            for (int trNum = 0; trNum < trStr.size(); trNum++) {
+              thStr = cutOut(trStr.get(trNum), "th", "/th");
+              temp = new String[thStr.size()];
+              for (int thNum = 0; thNum < thStr.size(); thNum++) {
+                temp[thNum] = UnescapeCharacter(deleteTag(thStr.get(thNum)));
+              }
+            }
+          } else {
+
+            thStr = cutOut(theadStr.get(theadNum), "th", "/th");
+            temp = new String[thStr.size()];
+            for (int thNum = 0; thNum < thStr.size(); thNum++) {
+              temp[thNum] = UnescapeCharacter(deleteTag(thStr.get(thNum)));
+            }
+
           }
-          haveTh = true;
-        }else{
-          tdStr = cutOut(trStr.get(j),"td","/td");
+          if (temp.length != 0) {
+            thTagTemp.add("1");
+            table.add(temp);
+          }
         }
-        
-        tables[i][j] = new String[tdStr.size()];
-        for (int k = 0; k < tdStr.size(); k++) {
-          tables[i][j][k] = UnescapeCharacter(deleteTag(tdStr.get(k)));
+
+      } else {
+        trStr = cutOut(tableStr.get(tableNo), "tr", "/tr");
+        for (int trNum = 0; trNum < trStr.size(); trNum++) {
+          thStr = cutOut(trStr.get(trNum), "th", "/th");
+          String[] temp = new String[thStr.size()];
+          for (int thNum = 0; thNum < thStr.size(); thNum++) {
+            temp[thNum] = UnescapeCharacter(deleteTag(thStr.get(thNum)));
+          }
+          if (temp.length != 0) {
+            thTagTemp.add("1");
+            table.add(temp);
+          }
         }
-        j = jTemp;
       }
+
+      // 抓取td标签并标记
+      if (tbodyStr.size() > 0) {
+        for (int tbodyNum = 0; tbodyNum < tbodyStr.size(); tbodyNum++) {
+          trStr = cutOut(tbodyStr.get(tbodyNum), "tr", "/tr");
+          for (int trNum = 0; trNum < trStr.size(); trNum++) {
+            tdStr = cutOut(trStr.get(trNum), "td", "/td");
+            String[] temp = new String[tdStr.size()];
+            for (int tdNum = 0; tdNum < tdStr.size(); tdNum++) {
+              temp[tdNum] = UnescapeCharacter(deleteTag(tdStr.get(tdNum)));
+            }
+            if (temp.length != 0) {
+              thTagTemp.add("0");
+              table.add(temp);
+            }
+          }
+        }
+
+        if (tfootStr.size() > 0) {
+          for (int tfootNum = 0; tfootNum < tfootStr.size(); tfootNum++) {
+            trStr = cutOut(tfootStr.get(tfootNum), "tr", "/tr");
+            for (int trNum = 0; trNum < trStr.size(); trNum++) {
+              tdStr = cutOut(trStr.get(trNum), "td", "/td");
+              String[] temp = new String[tdStr.size()];
+              for (int tdNum = 0; tdNum < tdStr.size(); tdNum++) {
+                temp[tdNum] = UnescapeCharacter(deleteTag(tdStr.get(tdNum)));
+              }
+              boolean flag = false;
+              for (int tdNum = 0; tdNum < tdStr.size(); tdNum++) {
+                if (tdStr.get(tdNum).length() != 0) {
+                  flag = true;
+                  break;
+                }
+              }
+              if (flag && temp.length != 0) {
+                thTagTemp.add("0");
+                table.add(temp);
+              }
+            }
+          }
+        }
+
+      } else {
+        trStr = cutOut(tableStr.get(tableNo), "tr", "/tr");
+        for (int trNum = 0; trNum < trStr.size(); trNum++) {
+          tdStr = cutOut(trStr.get(trNum), "td", "/td");
+          String[] temp = new String[tdStr.size()];
+          for (int tdNum = 0; tdNum < tdStr.size(); tdNum++) {
+            temp[tdNum] = UnescapeCharacter(deleteTag(tdStr.get(tdNum)));
+          }
+          if (temp.length != 0) {
+            thTagTemp.add("0");
+            table.add(temp);
+          }
+        }
+      }
+      String[] thTag = new String[thTagTemp.size()];
+      for (int i = 0; i < thTagTemp.size(); i++) {
+        thTag[i] = thTagTemp.get(i);
+      }
+
+      resultSet.add(table);
+      thTags.add(thTag);
     }
-    return tables;
+
+    resultSet.add(thTags);
+    return resultSet;
   }
 
   @Override
   public String execute() {
     String result = "failure";
     String webContent;
+    sourceInfo[0][1] = Username;
     sourceInfo[1][1] = Url;
 
     webContent = getContent();
-    String[][][] tables = grabWebTable(webContent);
-    List<String> titleName = cutOut(webContent, "title", "/title");
-    if (titleName.isEmpty()) {
-      titleName.add(Url);
-    }
+    List<List<String[]>> resultSet = grabWebTable(webContent);
+    List<String[]> table = null;
+    List<String[]> thTags = resultSet.get(resultSet.size() - 1);
 
     List<String[][]> formalTable = new ArrayList<String[][]>();
     // 将表格规格化
-    for (int i = 0; i < tables.length; i++) {
+    for (int tableNo = 0; tableNo < resultSet.size() - 1; tableNo++) {
+      table = resultSet.get(tableNo);
       int rowMax = 0;
       // 得到最大字段长
-      for (int j = 0; j < tables[i].length; j++) {
-        if (rowMax < tables[i][j].length) {
-          rowMax = tables[i][j].length;
+      for (int rowNum = 0; rowNum < table.size(); rowNum++) {
+        if (rowMax < table.get(rowNum).length) {
+          rowMax = table.get(rowNum).length;
         }
       }
       // 将表规格化赋值
-      String[][] temp = new String[tables[i].length + 2][rowMax + 1];
-      for (int k = 0; k <= rowMax; k++) {
-        //标记格式:是否删除，是否星标
-        temp[0][k] = new Integer(k).toString();
-        temp[1][k] = "00";
+      String[][] temp = new String[table.size() + 2][rowMax + 1];
+      String[] thTag = thTags.get(tableNo);
+      for (int colNum = 0; colNum <= rowMax; colNum++) {
+        // 标记格式:是否删除，是否星标
+        temp[0][colNum] = new Integer(colNum).toString();
+        temp[1][colNum] = "00";
       }
-      for (int j = 2; j <= tables[i].length + 1; j++) {
-        for (int k = 0; k <= rowMax; k++) {
-          if (k == 0) {
-            temp[j][k] = "00";
-          } else if (k <= tables[i][j - 2].length) {
-            temp[j][k] = tables[i][j - 2][k - 1];
-          } else if (j == 0) {
-            temp[j][k] = new Integer(k + 1).toString();
+      for (int newRowNum = 2; newRowNum <= table.size() + 1; newRowNum++) {
+        for (int colNum = 0; colNum <= rowMax; colNum++) {
+          if (colNum == 0) {
+            // 标记格式:是否删除，是否星标,是否为th
+            temp[newRowNum][colNum] = "00" + thTag[newRowNum - 2];
+          } else if (colNum <= table.get(newRowNum - 2).length) {
+            temp[newRowNum][colNum] = table.get(newRowNum - 2)[colNum - 1];
+          } else if (newRowNum == 0) {
+            temp[newRowNum][colNum] = new Integer(colNum + 1).toString();
           } else {
-            temp[j][k] = "  ";
+            temp[newRowNum][colNum] = "\t";
           }
         }
       }
       formalTable.add(temp);
     }
 
-    //显示所有规格化后表格
     for (int i = 0; i < formalTable.size(); i++) {
-      for (int j = 0; j < formalTable.get(i).length; j++) {
-        for (int k = 0; k < formalTable.get(i)[j].length; k++) {
-          if (formalTable.get(i)[j][k] == null) {
-            System.out.print("null\t|");
-          } else {
-            System.out.print(formalTable.get(i)[j][k] + "\t|");
-          }
+      System.out.println("table No." + (i + 1));
+      String[][] Table = formalTable.get(i);
+      for (int j = 0; j < Table.length; j++) {
+        for (int k = 0; k < Table[j].length; k++) {
+          System.out.print(Table[j][k] + "\t|");
         }
         System.out.println();
       }
-      System.out.println("-----------------");
+      System.out.println("-------------------");
     }
 
     DBConnection dbHelper = new DBConnection();
-    dbHelper.Insert(Username + "-Search/Upload", sourceInfo);
-    int tableNum = dbHelper.getId(Username + "-Source/Upload", Url);
+
+    int tableNum = dbHelper.getLastId("Source");
     for (int i = 0; i < formalTable.size(); i++) {
-      if (dbHelper.Create(Username + "-" + tableNum + "-" + (i + 1), formalTable.get(i))) {
+      sourceInfo[3][1] = Username + "-" + (tableNum + i + 1);
+      dbHelper.Insert("Source", sourceInfo);
+      if (dbHelper.Create(sourceInfo[3][1], formalTable.get(i))) {
         result = "success";
       }
     }
@@ -452,7 +545,11 @@ public class SaveAction extends TableAction {
   public static void main(String args[]) {
     SaveAction sa = new SaveAction();
     sa.setUsername("lyx");
-    sa.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
+    // http://www.jq22.com/demo/Fixed-Header-Table-master20161013/demo/
+    // https://buyertrade.taobao.com/trade/itemlist/list_bought_items.htm?spm=a1z02.1.a2109.d1000368.eijg3M
+    // http://www.jq22.com/demo/sortableTable20160801/
+    // http://www.w3school.com.cn/html/html_tables.asp
+    sa.setUrl("http://www.jq22.com/demo/sortableTable20160801/");
     sa.execute();
 
   }

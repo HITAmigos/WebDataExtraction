@@ -1,7 +1,5 @@
 package SoftwareEngineering.lyx;
 
-import java.security.MessageDigest;
-
 /**
  * ×¢²á²Ù×÷. .
  * 

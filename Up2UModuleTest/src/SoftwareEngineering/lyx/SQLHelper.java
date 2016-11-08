@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
  * 对数据库的直接操作。
  * @author liuyx 参数均为sql语句。
  */
-public class MySQLOperation {
+public class SQLHelper {
 
   private static final String url = "jdbc:mysql://localhost:3306/graphgrabtest";
   private static final String name = "com.mysql.jdbc.Driver";
@@ -18,7 +18,7 @@ public class MySQLOperation {
   public Connection conn = null;
   public PreparedStatement pst = null;
   
-  public MySQLOperation(String sql)   {
+  public SQLHelper(String sql)   {
       try{
           //加载JDBC驱动程序,指定连接类型
           Class.forName(name);
