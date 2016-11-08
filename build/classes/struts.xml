@@ -39,5 +39,13 @@
             <result name="success">/success.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
+        <action name="deletecolAction" class="net.kuangmeng.table.DeletecolAction" method="execute">
+            <result name="success">/result.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="deleterowAction" class="net.kuangmeng.table.DeleterowAction" method="execute">
+            <result name="success">/result.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
     </package> 
 </struts>
