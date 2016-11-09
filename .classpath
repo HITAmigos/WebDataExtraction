@@ -33,5 +33,6 @@
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/gimap-1.5.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/logging-mailhandler-1.5.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/lib/pop3-1.5.6.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

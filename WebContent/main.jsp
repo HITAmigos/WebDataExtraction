@@ -155,13 +155,10 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
 
           });
       });
-
       //custom select box
-
       $(function(){
           $('select.styled').customSelect();
       });
-
   </script>
 <div class="box2">
   <ul>
@@ -188,7 +185,7 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
                    void(document.searchform.submit());
             });
         </script>
-				<a href="javascript:_iframe()" class="button button--wapasha button--text-thick button--text-upper button--size-s">上传文件</a>
+				<a href="javascript:_iiframe('<%=String.valueOf(session.getAttribute("username")).trim() %>')" class="button button--wapasha button--text-thick button--text-upper button--size-s">上传文件</a>
 		</div>    	
 	</form>
 </section>
@@ -204,12 +201,12 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
     function _loading(type) {
         zeroModal.loading(type);
     }
-    function _iframe() {
+    function _iiframe(name) {
         zeroModal.show({
             title: '上传文件',
             iframe: true,
             content: '<form action="fileuploadAction" method="post" enctype="multipart/form-data">'+   
-                '<input type="file" name="myFile">'+ 
+                '<input type="file" name="myFile"><input type="hidden" name="username" value="'+name+'">'+ 
                 '<button style="margin-left:40%;width:20%;height:3%;margin-top:8%;" class="button button--wapasha button--text-thick button--text-upper button--size-s">上传</botton></form>',
             width: '40%',
             height: '40%',

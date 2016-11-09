@@ -47,12 +47,12 @@
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-        <action name="backrecordAction" class="net.kuangmeng.BackrecordAction" method="execute">
-            <result name="success">/message.jsp</result>
+       <action name="lovecolAction" class="net.kuangmeng.table.LovecolAction" method="execute">
+            <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-         <action name="deleterecordAction" class="net.kuangmeng.DeleterecodeAction" method="execute">
-            <result name="success">/message.jsp</result>
+        <action name="loverowAction" class="net.kuangmeng.table.LoverowAction" method="execute">
+            <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
     </package> 

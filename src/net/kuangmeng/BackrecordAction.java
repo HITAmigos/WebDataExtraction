@@ -32,7 +32,7 @@ public class BackrecordAction extends ActionSupport{
     		    	 list.add(rss.getString("tablename"));
     		     }
     		     for(int i=0;i<list.size();i++){
-    		    	 
+    		    	  
     		     }
     		     return SUCCESS;
     		 }catch(SQLException s){

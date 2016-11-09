@@ -10,6 +10,12 @@
 <link href="public/css/bootstrap.min..css" rel="stylesheet"
 	type="text/css">
 <script src="public/js/bootstrap.min.js"></script>
+<style type="text/css">
+#love{
+   color:red;
+}
+
+</style>
 </head>
 <body>
 	<!-- 顶部加载进度条！ -->
@@ -20,84 +26,163 @@
 			sleep : 50
 		});
 	</script>
-	<table>
-		<tbody>
-		<tr>
-			<%
-				String sc = request.getParameter("tablename");
-				session.setAttribute("tablename", sc);
-				String tablename = String.valueOf(session.getAttribute("tablename")).trim();
-				Const c = new Const();
-				final String DB_URL = c.getDB_URL();
-				final String USER = c.getUSER();
-				final String PASS = c.getPASS();
-				Connection conn = null;
-				Statement stmt = null;
-				Class.forName("com.mysql.jdbc.Driver").newInstance();
-				conn = DriverManager.getConnection(DB_URL, USER, PASS);
-				stmt = conn.createStatement();
-				String sql = "SELECT * FROM `" + tablename + "`";
-				ResultSet rss = stmt.executeQuery(sql);
-				int num = rss.getMetaData().getColumnCount();
-				System.out.println(num);
-				
-				int[] coltag = new int[100];
-				while (rss.next()) {
-					if (rss.getInt(1) == 1) {
-						for (int j = 3; j <= num; j++){
-							coltag[j] = Integer.parseInt(rss.getString(j));
-							if(coltag[j]==0){
-								%>
-						<td>
-					<form action="deleterowAction" >
-			        <input type="hidden" value=<%=tablename %> name="tablename">
-			        <input type="hidden" value=<%=j-2 %> name="rownum">
-			        <input type="submit" value="删除">
-			        </form>
-					</td>
-					<%
-					}
-					 System.out.println(coltag[j]);
+			<table id="example" class="display" cellspacing="0" width="100%">
+				<%
+					String sc = request.getParameter("tablename");
+					session.setAttribute("tablename", sc);
+					String tablename = String.valueOf(session.getAttribute("tablename")).trim();
+					Const c = new Const();
+					final String DB_URL = c.getDB_URL();
+					final String USER = c.getUSER();
+					final String PASS = c.getPASS();
+					Connection conn = null;
+					Statement stmt = null;
+					Class.forName("com.mysql.jdbc.Driver").newInstance();
+					conn = DriverManager.getConnection(DB_URL, USER, PASS);
+					stmt = conn.createStatement();
+					String sql = "SELECT * FROM `" + tablename + "`";
+					ResultSet rss = stmt.executeQuery(sql);
+					int num = rss.getMetaData().getColumnCount();
+					System.out.println(num);
+					int[] coltag = new int[100];
+					while (rss.next()) {
+						if (rss.getInt(1) == 1) {
+				%>
+				<tfoot>
+				<tr>
+				<%
+							for (int j = 3; j <= num; j++){
+								coltag[j] = Integer.parseInt(rss.getString(j));
+								if (coltag[j] == 0 || coltag[j]==10) {
+				%>
+				<th>
+					<form action="loverowAction">
+						<input type="hidden" value=<%=tablename%> name="tablename">
+						<input type="hidden" value=<%=j - 2%> name="rownum"> <input
+							type="submit" value="收藏">
+					</form>
+				</th>
+				<%
 						}
-						%>
-						</tr>
-						<%
-						
-					} else {
+						}
+				%>
+			</tr>
+			<tr>
+				<%
+							for (int j = 3; j <= num; j++){
+								coltag[j] = Integer.parseInt(rss.getString(j));
+								if (coltag[j] == 0 || coltag[j]==10) {
+				%>
+				<th>
+					<form action="deleterowAction">
+						<input type="hidden" value=<%=tablename%> name="tablename">
+						<input type="hidden" value=<%=j - 2%> name="rownum"> <input
+							type="submit" value="删除">
+					</form>
+				</th>
+				<%
+								}
+								}
+				%>
+			</tr>
+			<tr>
+				<%
+							for (int j = 3; j <= num; j++){
+								coltag[j] = Integer.parseInt(rss.getString(j));
+								if (coltag[j] == 0 || coltag[j]==10) {
+				%>
+				<th>
+					<form action="deleterowAction">
+						<input type="hidden" value=<%=tablename%> name="tablename">
+						<input type="hidden" value=<%=j - 2%> name="rownum"> <input
+							type="submit" value="编辑">
+					</form>
+				</th>
+				<%
+								}
+								}
+				%>
+			</tr>
+			</tfoot>
+			<thead>
+			<%
+				} else {
 			%>
 			<tr>
 				<%
-				    int colnum=rss.getInt(1);
-					if (0 == Integer.parseInt(rss.getString(2))){
+					int colnum = rss.getInt(1);
+							if (1 == Integer.parseInt(rss.getString(2)) || 101 == Integer.parseInt(rss.getString(2))) {
 								for (int j = 3; j <= num; j++) {
-									if (coltag[j] == 0){
+									if (coltag[j] == 0 || coltag[j]==10) {
 				%>
-				<td>
+				<th>
 					<%
 						out.print(rss.getString(j));
 					%>
-				</td>
+				</th>
 				<%
-									}
 					}
-								%>
-								<td>
-			<form action="deletecolAction" >
-			<input type="hidden" value=<%=tablename %> name="tablename">
-			<input type="hidden" value=<%=colnum %> name="colnum">
-			<input type="submit" value="删除">
-			</form>
-			</td>
-								<% 
-				}
+								}
 				%>
 			</tr>
 			<%
 				}
-				}
 			%>
-		</tbody>
-	</table>
+			</thead>
+			<tbody>		
+			<%					
+			if (0 == Integer.parseInt(rss.getString(2)) || 100 == Integer.parseInt(rss.getString(2))) {
+					if(100 == Integer.parseInt(rss.getString(2))){
+						%>
+						<tr id="love">
+							<%		
+					}else{
+			%>
+			<tr>
+				<%
+					}
+					for (int j = 3; j <= num; j++) {
+									if (coltag[j] == 0 || coltag[j]==10){
+										if(coltag[j]==10){
+											%>
+											<td id="love">
+												<%			
+										}else{
+				%>
+				<td>
+					<%
+										}
+						out.print(rss.getString(j));
+					%>
+				</td>
+				<%
+					}
+								}
+				%>
+				<td>
+					<form action="deletecolAction">
+						<input type="hidden" value=<%=tablename%> name="tablename">
+						<input type="hidden" value=<%=colnum%> name="colnum"> <input
+							type="submit" value="删除">
+					</form>
+				</td>
+				<td>
+					<form action="lovecolAction">
+						<input type="hidden" value=<%=tablename%> name="tablename">
+						<input type="hidden" value=<%=colnum%> name="colnum"> <input
+							type="submit" value="收藏">
+					</form>
 
+				</td>
+				<%
+					}
+				%>
+			</tr>
+			<%
+				}
+			}
+			%>
+			</tbody>
+	</table>
 </body>
 </html>

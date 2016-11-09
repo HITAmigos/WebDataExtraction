@@ -81,44 +81,24 @@ public int SearchLevel(String username){
 		   return 0;
 	 }
 }
-public int SearchSearchnum(String username){
+public boolean SearchUrl(String url,String username){
 	 Connection conn = null;
 	 Statement stmt = null;
 	 try{
-		   Class.forName("com.mysql.jdbc.Driver").newInstance();
+		 Class.forName("com.mysql.jdbc.Driver").newInstance();
 	     conn = DriverManager.getConnection(DB_URL,USER,PASS);
 	     stmt = conn.createStatement();
-	     String sql = "SELECT * FROM " + tableName + " WHERE username = "+ "\'"+username+"\'";  
+	     String sql = "SELECT * FROM `source` WHERE link = "+ "\'"+url+"\' and username = \'"+username+"\'";  
 	     ResultSet rs = stmt.executeQuery(sql); 
 	     if(rs.next()){
-	    	 return rs.getInt("searchnum");
+	    	 return true;
 	     }else{
-	    	 return 0;
+	    	 return false;
 	     }
 	 }catch(SQLException s){
-		   return 0;
+		   return false;
 	 }catch(Exception e){
-		   return 0;
-	 }
-}
-public int SearchUploadnum(String username){
-	 Connection conn = null;
-	 Statement stmt = null;
-	 try{
-		   Class.forName("com.mysql.jdbc.Driver").newInstance();
-	     conn = DriverManager.getConnection(DB_URL,USER,PASS);
-	     stmt = conn.createStatement();
-	     String sql = "SELECT * FROM " + tableName + " WHERE username = "+ "\'"+username+"\'";  
-	     ResultSet rs = stmt.executeQuery(sql); 
-	     if(rs.next()){
-	    	 return rs.getInt("uploadnum");
-	     }else{
-	    	 return 0;
-	     }
-	 }catch(SQLException s){
-		   return 0;
-	 }catch(Exception e){
-		   return 0;
+		   return false;
 	 }
 }
 }

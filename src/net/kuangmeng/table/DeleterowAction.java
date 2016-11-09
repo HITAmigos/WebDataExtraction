@@ -1,6 +1,7 @@
 package net.kuangmeng.table;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -25,9 +26,16 @@ public class DeleterowAction extends ActionSupport{
     			 Class.forName("com.mysql.jdbc.Driver").newInstance();
     		     conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		     stmt = conn.createStatement();
-    		     String sql ="update `"+tablename+"` set "+"`"+rownum+"`='01'  where  id = 1 ";
-    		     stmt.executeUpdate(sql); 
-    		      return SUCCESS;
+    		     String sqlupdate="Select * from `"+tablename+"` where id = 1";
+    		     ResultSet rs=stmt.executeQuery(sqlupdate);
+    		     while(rs.next()){
+    		    	 int mark=Integer.parseInt(rs.getString(rownum));
+    		    	 mark+=1;
+    		    	 String sql ="update `"+tablename+"` set "+"`"+rownum+"`= \'" + mark+"\'  where  id = 1 ";
+        		     stmt.executeUpdate(sql); 
+        		      return SUCCESS;
+    		     }
+    		     return ERROR;
     		 }catch(SQLException s){
     			   return ERROR;
     		 }catch(Exception e){

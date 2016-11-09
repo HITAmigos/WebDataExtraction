@@ -14,38 +14,8 @@
 <script src="public/js/jquery-3.1.1.min.js"></script>
 
 <link rel="shortcut icon" href="images/favicon.ico" />
-<script>
-	window._bd_share_config = {
-		"common" : {
-			"bdSnsKey" : {},
-			"bdText" : "",
-			"bdMini" : "1",
-			"bdMiniList" : false,
-			"bdPic" : "",
-			"bdStyle" : "0",
-			"bdSize" : "16"
-		},
-		"slide" : {
-			"type" : "slide",
-			"bdImg" : "8",
-			"bdPos" : "left",
-			"bdTop" : "47"
-		},
-		"image" : {
-			"viewList" : [ "qzone", "tsina", "tqq", "renren", "weixin" ],
-			"viewText" : "喜欢就分享：",
-			"viewSize" : "16"
-		},
-		"selectShare" : {
-			"bdContainerClass" : null,
-			"bdSelectMiniList" : [ "qzone", "tsina", "tqq", "renren", "weixin" ]
-		}
-	};
-	with (document)
-		0[(getElementsByTagName('head')[0] || body)
-				.appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='
-				+ ~(-new Date() / 36e5)];
-</script>
+
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"7","bdPos":"right","bdTop":"113"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"24"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>抓取结果！</title>
 <link rel="stylesheet" href="table/css/base.css" type="text/css" />
@@ -64,10 +34,11 @@ a img {
 	outline: none;
 }
 .content {
-	margin: 0;
+	margin: 100px auto;
 	padding: 0;
 	width:80%;
 	left:10%;
+	
 	position:absolute;
 }
 
@@ -87,13 +58,17 @@ h1 {
 .pagedemo {
 	border: 1px solid #CCC;
 	width: 80%;
-	height: 90%;
 	margin: 2px auto;
 	padding: 50px 10px;
 	text-align: center;
 	background-color: white;
 }
 </style>
+<link rel="stylesheet" type="text/css" href="table/css/default.css">
+  	<link rel="stylesheet" href="table/css/style.min.css">
+	<!--[if IE]>
+		<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
 </head>
 <body>
 	<!-- 顶部加载进度条！ -->
@@ -105,34 +80,35 @@ h1 {
 			sleep : 50
 		});
 	</script>
-<h3 class="mt30 mb10" style="margin-right:20%;">以下为搜索结果</h3>
+<div id="wrapper" class="wrapper">
 <div class="content">
 	<div id="paginationdemo" class="demo">
 			<%
+			Const c = new Const();
+			final String DB_URL = c.getDB_URL();
+			final String USER = c.getUSER();
+			final String PASS = c.getPASS();
+			final String tableName = "source";
+			Connection conn = null;
+			Statement stmt = null;
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
 				String sc = request.getParameter("Url");
 				session.setAttribute("search", sc);
 				String SearchContain = new String();
-				if (String.valueOf(session.getAttribute("search")).trim().equals("null")
-						&& String.valueOf(session.getAttribute("searchContain")).trim().equals("null")){
-					sc = request.getParameter("Url");
-					session.setAttribute("searchContain", sc);
-					SearchContain = String.valueOf(session.getAttribute("searchContain")).trim();
-				} else if (!String.valueOf(session.getAttribute("search")).trim().equals("null")){
-					SearchContain = String.valueOf(session.getAttribute("search")).trim();
-				} else {
-					SearchContain = String.valueOf(session.getAttribute("searchContain")).trim();
+				if (String.valueOf(session.getAttribute("search")).trim().equals("null")){
+					String sql = "SELECT * FROM " + tableName;
+					ResultSet rs = stmt.executeQuery(sql);
+					while(rs.next()){
+					if(rs.last()){
+					SearchContain=rs.getString("link");
+					}
+				}
+				}else {
+					SearchContain=String.valueOf(session.getAttribute("search")).trim();
 				}
 				String User = String.valueOf(session.getAttribute("username")).trim();
-				Const c = new Const();
-				final String DB_URL = c.getDB_URL();
-				final String USER = c.getUSER();
-				final String PASS = c.getPASS();
-				final String tableName = "source";
-				Connection conn = null;
-				Statement stmt = null;
-				Class.forName("com.mysql.jdbc.Driver").newInstance();
-				conn = DriverManager.getConnection(DB_URL, USER, PASS);
-				stmt = conn.createStatement();
 				String sql = "SELECT * FROM " + tableName + " WHERE link = " + "\'" + SearchContain + "\' and username = \'"
 						+ User + "\'";
 				ResultSet rs = stmt.executeQuery(sql);
@@ -148,7 +124,7 @@ h1 {
 			%>
 			<div id="p<%=i + 1%>" class="pagedemo _current" >
 				<%
-					} else {
+					}else{
 				%>
 			<div id="p<%=i + 1%>" class="pagedemo" style="display: none;">
 					<%
@@ -170,7 +146,7 @@ h1 {
 										int[] coltag = new int[100];
 										while (rss.next()) {
 											if (rss.getInt(1) == 1) {
-												for (int j = 2; j <= num; j++) {
+												for (int j = 3; j <= num; j++) {
 													coltag[j] = Integer.parseInt(rss.getString(j));
 													
 												}
@@ -178,9 +154,21 @@ h1 {
 								%>
 								<tr>
 									<%
-										if (0 == Integer.parseInt(rss.getString(2))) {
+									if (1 == Integer.parseInt(rss.getString(2)) || 101==Integer.parseInt(rss.getString(2))) {
+										for (int j = 3; j <= num; j++) {
+											if (coltag[j]==10 || coltag[j]==0){
+					%>
+					<td>
+						<%
+							out.print(rss.getString(j));
+						%>
+					</td>
+					<%
+						}
+										}
+									}else if (0 == Integer.parseInt(rss.getString(2)) || 100 == Integer.parseInt(rss.getString(2))) {
 														for (int j = 3; j <= num; j++) {
-															if (coltag[j] < 10)
+															if (coltag[j]==10 || coltag[j]==0){
 									%>
 									<td>
 										<%
@@ -189,6 +177,7 @@ h1 {
 									</td>
 									<%
 										}
+														}
 													}
 									%>
 								</tr>
@@ -204,9 +193,8 @@ h1 {
 								<input name="tablename" value=<%=name%> type="hidden">
 								<button style="float: right; width: 20%;"
 									class="button button--wapasha button--text-thick button--text-upper button--size-s"
-									id="searchloading" href="javascript:_loading(2);">导出为Excel</button>
+									id="searchloading">导出为Excel</button>
 							</form>
-							<hr>
 						</div>
 					</div>
 				</div>
@@ -246,6 +234,36 @@ h1 {
 				}
 			});
 		</script>
+</div><!-- /wrapper -->
+
+	<button id="mm-menu-toggle" class="mm-menu-toggle">Toggle Menu</button>
+	<nav id="mm-menu" class="mm-menu">
+	  <div class="mm-menu__header">
+	    <h2 class="mm-menu__title">Up2U</h2>
+	  </div>
+	  <ul class="mm-menu__items">
+	    <li class="mm-menu__item">
+	      <a class="mm-menu__link" href="main.jsp">
+	        <span class="mm-menu__link-text"><i class="md md-home"></i>主页</span>
+	      </a>
+	    </li>
+	    <li class="mm-menu__item">
+	      <a class="mm-menu__link" href="success.jsp">
+	        <span class="mm-menu__link-text"><i class="md md-person"></i>刷新</span>
+	      </a>
+	    </li>
+	    <li class="mm-menu__item">
+	      <a class="mm-menu__link" href="#">
+	        <span class="mm-menu__link-text"><i class="md md-settings"></i>用户：<%=User %></span>
+	      </a>
+	    </li>
+	  </ul>
+	</nav><!-- /nav -->
+	
+	<script src="table/js/production/materialMenu.min.js"></script>
+	<script>
+	  var menu = new Menu;
+	</script>
 </body>
 <script type="text/javascript" src="fenye/jquery-1.3.2.js"></script>
 <script src="fenye/jquery.paginate.js" type="text/javascript"></script>		

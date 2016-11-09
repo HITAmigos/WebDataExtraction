@@ -134,7 +134,7 @@ body {
 								   <a href="#">上传详情：</a>
 								    <ul>
 								      <%
-								      for(int i=0;i<searchlist.size();i++){
+								      for(int i=0;i<uploadlist.size();i++){
 								           %>
 								           <li><a href="#">
 								           <%=uploadlist.get(i)%>

@@ -1,5 +1,6 @@
 package net.kuangmeng.excel;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -41,27 +42,38 @@ public class ExcelAction extends ActionSupport{
 		     stmt = conn.createStatement();
 		     String sqlupdate = "select * from `" + tablename+"`";  
 		     ResultSet rs=stmt.executeQuery(sqlupdate);
-		     List<String> list=new ArrayList<String>();
+		     List<String> listth=new ArrayList<String>();
+		     List<String> listtd=new ArrayList<String>();
 		     int num = rs.getMetaData().getColumnCount();
 		     int coltag[]=new int[100];
 		     while(rs.next()){
-		    	 if(rs.getInt(1)==1){
-		    		 for(int i=3;i<num;i++){
+		    	 if(rs.getInt("id")==1){
+		    		 for(int i=3;i<=num;i++){
 		    			 coltag[i]=Integer.parseInt(rs.getString(i));
 		    		 }
 		    	 }else{
-		    		 if(Integer.parseInt(rs.getString(2))==0){
-		    			 for(int i=3;i<num;i++){
-		    				 if(coltag[i]==0){
-		    					 list.add(rs.getString(i));
+		    		 if(Integer.parseInt(rs.getString(2))==1 || Integer.parseInt(rs.getString(2))==101){
+		    			 for(int i=3;i<=num;i++){
+		    				 if(coltag[i]==0 || coltag[i]==10){
+		    					 listth.add(rs.getString(i));
+		    				 }
+		    			 }
+		    		 }else if(Integer.parseInt(rs.getString(2))==0 || Integer.parseInt(rs.getString(2))==100){
+		    			 for(int i=3;i<=num;i++){
+		    				 if(coltag[i]==0 || coltag[i]==10){
+		    					 listtd.add(rs.getString(i));
 		    				 }
 		    			 }
 		    		 }
 		    	 }
 		     }
 		     //调用方法
-		     String filename="C:\\Users\\Meng Kuang\\Desktop\\text.xls";
-		     exportExcel(filename,list,num);
+		     System.out.println(listth);
+		     System.out.println(listtd);
+		     System.out.println(listth.size());
+		     System.out.println(listtd.size());
+		     System.out.println(num);
+		     exportExcel(tablename,listth,listtd,num);
 		     return SUCCESS;
 		 }catch(SQLException s){
 			   return ERROR;
@@ -75,33 +87,49 @@ public class ExcelAction extends ActionSupport{
 	public void setTablename(String tablename) {
 		this.tablename = tablename;
 	}
-	public static void exportExcel(String fileName,List<String> content,int num) {
-	        WritableWorkbook wwb;
-	        FileOutputStream fos;
-	        try {    
-	            fos = new FileOutputStream(fileName);
-	            wwb = Workbook.createWorkbook(fos);
-	            WritableSheet ws = wwb.createSheet("Up2U表格导出", 1);        // 创建一个工作表
-	            //    设置单元格的文字格式
-	            WritableFont wf = new WritableFont(WritableFont.ARIAL,12,WritableFont.NO_BOLD,false,
-	                    UnderlineStyle.NO_UNDERLINE,Colour.BLUE);
-	            WritableCellFormat wcf = new WritableCellFormat(wf);
-	            wcf.setVerticalAlignment(VerticalAlignment.CENTRE);
-	            wcf.setAlignment(Alignment.CENTRE);
-	            ws.setRowView(1, 500);
-	            //    填充数据的内容
-	            for (int i = 0; i <content.size()/num; i++){
-	            	for(int j=0;j<num-2;j++){
-	            		 ws.addCell(new Label(i+1, j + 1,content.get(i*(content.size()/num)+j+1), wcf));
-	            	}
-	            if(i == 0)
-	            		wcf = new WritableCellFormat();
-	            }
-	            wwb.write();
-	            wwb.close();
+	public static void exportExcel(String fileName,List<String> listth,List<String> listtd,int num) {
+		 String excelName ="C:\\Users\\Meng Kuang\\Desktop\\"+ fileName+".xls";
+		  try {
+		   File excelFile = new File(excelName);
+		   // 如果文件存在就删除它
+		   if (excelFile.exists())
+		    excelFile.delete();
+		   // 打开文件
+		   WritableWorkbook book = Workbook.createWorkbook(excelFile);
+		   // 生成名为“第一页”的工作表，参数0表示这是第一页
+		   WritableSheet sheet = book.createSheet("Up2U导出表格 ", 0);
+		   // 合并单元格
+		   //sheet.mergeCells(5, 5, 6, 6);
+		   // 文字样式
+		   jxl.write.WritableFont wfc = new jxl.write.WritableFont(
+		     WritableFont.ARIAL, 10, WritableFont.NO_BOLD, false,
+		     UnderlineStyle.NO_UNDERLINE, jxl.format.Colour.BLACK);
+		   jxl.write.WritableCellFormat wcfFC = new jxl.write.WritableCellFormat(
+		     wfc);
+		   jxl.write.WritableCellFormat wcfF = new jxl.write.WritableCellFormat(wfc);
+		   wcfF.setBackground(jxl.format.Colour.BLACK);
+		   // 设置单元格样式
+		   wcfFC.setBackground(jxl.format.Colour.GRAY_25);// 单元格颜色
+		   wcfFC.setAlignment(jxl.format.Alignment.CENTRE);// 单元格居中
 
-	        } catch (IOException e){
-	        } catch (RowsExceededException e){
-	        } catch (WriteException e){}
-	    }
+		   // 在Label对象的构造子中指名单元格位置是第一列第一行(0,0)
+		   // 以及单元格内容为
+		   for(int i=0;i<listth.size()/(num-2);i++){
+			   for(int j=0;j<num-2;j++){
+				   sheet.addCell(new Label(j,i,listth.get(i*(num-2)+j),wcfFC));
+			   }
+		   }
+		   for(int i=listth.size()/(num-2);i<(listth.size()+listtd.size())/(num-2);i++){
+			   for(int j=0;j<num-2;j++){
+				   sheet.addCell(new Label(j,i,listtd.get((i-1)*(num-2)+j),wcfF));
+			   }
+		   }
+		  // 写入数据并关闭文件
+		   book.write();
+		   book.close();
+		   System.out.println("Excel创建成功");
+		  } catch (Exception e) {
+		   System.out.println(e);
+		  }
+		 }
 }
