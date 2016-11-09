@@ -6,12 +6,54 @@
     <constant name="struts.enable.DynamicMethodInvocation" value="true" />
     <constant name="struts.devModel" value="true"/>
     <constant name="struts.i18n.encoding" value="UTF-8" />
+    <!--解决乱码    -->
+    <!-- 指定允许上传的文件最大字节数。默认值是2097152(2M) -->
+    <constant name="struts.multipart.maxSize" value="10701096"/>
+    <!-- 设置上传文件的临时文件夹,默认使用javax.servlet.context.tempdir -->
+    <constant name="struts.multipart.saveDir " value="C:\Users\Meng Kuang\Desktop\upload" />
     <package name="net.kuangmeng" namespace = "/" extends="struts-default">
         <action name="loginAction" class="net.kuangmeng.LoginAction" method="execute">
-            <result name="success">/index.jsp</result>
-            <result name="error">/index.jsp</result>
+            <result name="success">/main.jsp</result>
+            <result name="admin">/admin.jsp</result>
+            <result name="error">/error.jsp</result>
             <result name="back">/index.jsp</result>
         </action>
-       
+         <action name="registerAction" class="net.kuangmeng.RegisterAction" method="execute">
+            <result name="success">/index.jsp</result>
+            <result name="error">/error.jsp</result>
+            <result name="back">/index.jsp</result>
+        </action>
+        <action name="searchAction" class="net.kuangmeng.SaveAction" method="execute">
+            <result name="success">/success.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+         <action name="mailAction" class="net.kuangmeng.mail.MailAction" method="execute">
+            <result name="success">/index.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="fileuploadAction" class="net.kuangmeng.file.FileuploadAction" method="execute">
+            <result name="success">/success.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+         <action name="excelAction" class="net.kuangmeng.excel.ExcelAction" method="execute">
+            <result name="success">/success.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="deletecolAction" class="net.kuangmeng.table.DeletecolAction" method="execute">
+            <result name="success">/operations.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="deleterowAction" class="net.kuangmeng.table.DeleterowAction" method="execute">
+            <result name="success">/operations.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+       <action name="lovecolAction" class="net.kuangmeng.table.LovecolAction" method="execute">
+            <result name="success">/operations.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="loverowAction" class="net.kuangmeng.table.LoverowAction" method="execute">
+            <result name="success">/operations.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
     </package> 
 </struts>

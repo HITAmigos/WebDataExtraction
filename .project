@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Up2U</name>
+	<name>Up2UTest</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -16,11 +16,6 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>org.eclipse.m2e.core.maven2Builder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-		<buildCommand>
 			<name>org.eclipse.wst.validation.validationbuilder</name>
 			<arguments>
 			</arguments>
@@ -29,21 +24,8 @@
 	<natures>
 		<nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
 		<nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
-		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/main/webapp/js/jquery.js</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Desktop/%E5%AF%86%E7%A0%81%E6%98%BE%E7%A4%BA/vendor/jquery.js</locationURI>
-		</link>
-		<link>
-			<name>src/main/webapp/js/zepto.custom.js</name>
-			<type>1</type>
-			<locationURI>PARENT-3-PROJECT_LOC/Desktop/%E5%AF%86%E7%A0%81%E6%98%BE%E7%A4%BA/vendor/zepto.custom.js</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>
