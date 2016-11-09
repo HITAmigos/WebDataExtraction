@@ -492,7 +492,7 @@ public class SaveAction extends TableAction {
     // http://www.jq22.com/demo/sortableTable20160801/
     // http://www.w3school.com.cn/html/html_tables.asp
     //D:\\xampp\\htdocs\\index.php
-    sa.setUrl("D:\\xampp\\htdocs\\test.html");
+    sa.setUrl("http://211.93.39.2:7777/framework/main.jsp");
     // File(String pathname)
     // File f1 =new File("c:\\abc\\1.txt");
     // File(String parent,String child)
