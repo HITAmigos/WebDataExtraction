@@ -10,6 +10,7 @@ import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
+
 public class GetContent {
 
   private static String Encoding = "utf-8";
@@ -63,40 +64,44 @@ public class GetContent {
 
   public static void getCharset(File file) {
     try {
-      FileReader reader = new FileReader(file);
-      BufferedReader br = new BufferedReader(reader);
+      String fileName = file.getName();
+      if (fileName.substring(fileName.length() - 4, fileName.length()).equals(".txt")) {
+        Encoding = "utf-8";
+      } else {
+        FileReader reader = new FileReader(file);
+        BufferedReader br = new BufferedReader(reader);
 
-      int start = 0;
-      int end = 0;
-      boolean cut = false;
-      String line = br.readLine();
-      while (line != null) {
-        if (line.contains("charset")) {
-          for (int i = 0; i < line.length() - 7; i++) {
-            if (line.substring(i, i + 7).equals("charset")) {
-              for (int j = i + 7; j < line.length(); j++) {
-                if (!cut && line.charAt(j) == '\"') {
-                  start = j + 1;
-                  cut = true;
-                } else if (cut && line.charAt(j) == '\"') {
-                  end = j;
-                  cut = false;
+        int start = 0;
+        int end = 0;
+        boolean cut = false;
+        String line = br.readLine();
+        while (line != null) {
+          if (line.contains("charset")) {
+            for (int i = 0; i < line.length() - 7; i++) {
+              if (line.substring(i, i + 7).equals("charset")) {
+                for (int j = i + 7; j < line.length(); j++) {
+                  if (!cut && line.charAt(j) == '\"') {
+                    start = j + 1;
+                    cut = true;
+                  } else if (cut && line.charAt(j) == '\"') {
+                    end = j;
+                    cut = false;
+                  }
                 }
               }
             }
+            Encoding = line.substring(start, end);
+            break;
           }
-          Encoding = line.substring(start, end);
-          break;
+          line = br.readLine();
         }
-        line = br.readLine();
+        br.close();
+        reader.close();
       }
-
-
-      br.close();
-      reader.close();
     } catch (Exception e) {
       System.out.println(e.getMessage());
       e.printStackTrace();
+
     }
   }
 
@@ -112,7 +117,7 @@ public class GetContent {
       String line = null;
       line = br.readLine();
       while (line != null) {
-        webContent.append(line + "\r\n");
+        webContent.append(line);
         line = br.readLine();
       }
     } catch (Exception e) {
@@ -136,7 +141,7 @@ public class GetContent {
       String line = null;
       line = br.readLine();
       while (line != null) {
-        webContent.append(line + "\r\n");
+        webContent.append(line);
         line = br.readLine();
       }
     } catch (Exception e) {
@@ -151,28 +156,32 @@ public class GetContent {
   public static String getString(File file) {
 
     getCharset(file);
-    InputStreamReader reader = null;
+    // InputStreamReader reader = null;
     StringWriter writer = new StringWriter();
     try {
-      reader = new InputStreamReader(new FileInputStream(file), Encoding);
-      // ��������д�������
-      char[] buffer = new char[1000];
-      int pos = 0;
-      while (-1 != (pos = reader.read(buffer))) {
-        writer.write(buffer, 0, pos);
+      BufferedReader read = new BufferedReader(new FileReader(file));
+      String buf = null;
+      while ((buf = read.readLine()) != null) {
+        writer.write(buf);
       }
+
+      // reader = new InputStreamReader(new FileInputStream(file), Encoding);
+      // char[] buffer = new char[1000];
+      // int pos = 0;
+      // while (-1 != (pos = reader.read(buffer))) {
+      // writer.write(buffer, 0, pos);
+      // }
     } catch (Exception e) {
       e.printStackTrace();
       writer = null;
     } finally {
-      if (reader != null)
-        try {
-          reader.close();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
+      // if (reader != null)
+      // try {
+      // reader.close();
+      // } catch (IOException e) {
+      // e.printStackTrace();
+      // }
     }
-    // ����ת�����
     return writer.toString();
   }
 

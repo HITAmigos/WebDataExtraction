@@ -118,6 +118,7 @@ public class SaveAction extends TableAction {
     boolean cut = false;
     boolean tagContain = false;
     for (int i = 0; i < origin.length(); i++) {
+      //找到一个<>标签
       if (origin.charAt(i) == '<') {
 
         for (int j = i; j < origin.length(); j++) {
@@ -128,7 +129,9 @@ public class SaveAction extends TableAction {
         }
       }
 
+      //判断是否已经切割，是否有标签内容
       if (cut && tag != null) {
+        
         target = finish;
         for (int j = 0; j < tag.length(); j++) {
           if (tag.charAt(j) == '\"' || j == tag.length() - 1) {
@@ -144,10 +147,12 @@ public class SaveAction extends TableAction {
         if (tagContain) {
           tableFinish = i;
           segment.add(origin.substring(tableBegin, tableFinish));
-          i += tag.length();
+          i += tag.length() - 1;
           cut = false;
         }
+        
       } else if (tag != null) {
+        
         target = begin;
         for (int j = 0; j < tag.length(); j++) {
           if (tag.charAt(j) == '\"' || j == tag.length() - 1) {
@@ -165,8 +170,9 @@ public class SaveAction extends TableAction {
           i += tag.length() - 1;
           cut = true;
         }
+        
       }
-      quotationEnd = 0;
+      quotationEnd = 0; 
       quotationNum = 0;
       tagContain = false;
       tag = null;
@@ -211,7 +217,7 @@ public class SaveAction extends TableAction {
         for (int j = i - 1; j >= 0; j--) {
           if (str.charAt(j) == ' ') {
             continue;
-          } else if (str.charAt(j) == '/') {
+          } else if (strToDelete.charAt(j) == '/') {
             i -= tag.end + 1 - tag.start;
             strToDelete.delete(tag.start, tag.end + 1);
             break;
@@ -221,7 +227,7 @@ public class SaveAction extends TableAction {
             } else {
               for (int k = preTag.size() - 1; k >= 0; k--) {
                 tagUnit temp = preTag.remove(k);
-                if (tag.key.substring(2).equals(temp.key.substring(1))) {
+                if (tag.key.substring(1).equals(temp.key)) {
                   i -= tag.end + 1 - tag.start;
                   i -= temp.end + 1 - temp.start;
                   strToDelete.delete(tag.start, tag.end + 1);
@@ -416,17 +422,14 @@ public class SaveAction extends TableAction {
     sourceInfo[2][1] = Url;
 
     webContent = getContent();
-    System.out.println(webContent);
     List<List<String[]>> resultSet = grabWebTable(webContent);
     List<String[]> table = null;
     List<String[]> thTags = resultSet.get(resultSet.size() - 1);
-
     List<String[][]> formalTable = new ArrayList<String[][]>();
-    // �������
+    
     for (int tableNo = 0; tableNo < resultSet.size() - 1; tableNo++) {
       table = resultSet.get(tableNo);
       int rowMax = 0;
-      // �õ�����ֶγ�
       for (int rowNum = 0; rowNum < table.size(); rowNum++) {
         if (rowMax < table.get(rowNum).length) {
           rowMax = table.get(rowNum).length;
@@ -457,6 +460,7 @@ public class SaveAction extends TableAction {
       formalTable.add(temp);
     }
 
+    
     for (int i = 0; i < formalTable.size(); i++) {
       System.out.println("table No." + (i + 1));
       String[][] Table = formalTable.get(i);
@@ -469,10 +473,10 @@ public class SaveAction extends TableAction {
       System.out.println("-------------------");
     }
 
+    
     DBConnection dbHelper = new DBConnection();
-
+    
     int tableNum = dbHelper.getLastId("Source");
-
     for (int i = 0; i < formalTable.size(); i++) {
       sourceInfo[0][1] = new Integer(tableNum+i+1).toString();
       sourceInfo[4][1] = Username + "-" + (tableNum + i + 1);
@@ -492,7 +496,8 @@ public class SaveAction extends TableAction {
     // http://www.jq22.com/demo/sortableTable20160801/
     // http://www.w3school.com.cn/html/html_tables.asp
     //D:\\xampp\\htdocs\\index.php
-    sa.setUrl("http://211.93.39.2:7777/framework/main.jsp");
+    //C:\\Users\\liuyx\\Desktop\\test.txt
+    sa.setUrl("C:\\Users\\liuyx\\Desktop\\test.txt");
     // File(String pathname)
     // File f1 =new File("c:\\abc\\1.txt");
     // File(String parent,String child)
