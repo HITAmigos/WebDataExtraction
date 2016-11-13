@@ -56,5 +56,9 @@
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
+         <action name="addAction" class="net.kuangmeng.table.AddAction" method="execute">
+            <result name="success">/operations.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
     </package> 
 </struts>

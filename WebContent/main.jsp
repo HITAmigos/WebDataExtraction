@@ -87,11 +87,9 @@ $.QianLoad.PageLoading({
 </head>
 <body>
 <% 
-if(String.valueOf(session.getAttribute("username")).equals("null")){
 	String name=request.getParameter("username");  
 	session.setAttribute("username",name);
 	String User=String.valueOf(session.getAttribute("username")).trim();
-}
 %>
 <div class="container demo-1" style="width:100%;">
 <div class="content">

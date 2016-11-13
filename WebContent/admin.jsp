@@ -50,7 +50,7 @@ $.QianLoad.PageLoading({
                 <div data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
             </div>
             <!--logo start-->
-            <a href="main.jsp" class="logo">Up<span>2U</span></a>
+            <a href="main.jsp?username=<%=String.valueOf(session.getAttribute("username")) %>" class="logo">Up<span>2U</span></a>
             <!--logo end-->
             <div class="top-nav ">
                 <!--search & user info start-->
@@ -67,8 +67,19 @@ $.QianLoad.PageLoading({
                         </a>
                         <ul class="dropdown-menu extended logout">
                             <div class="log-arrow-up"></div>
-                            <li><a href="#"><i class=" icon-suitcase"></i>Profile</a></li>
-                            <li><a href="#"><i class="icon-cog"></i> 设置</a></li>
+                            <li><a href="javascript:_iframe('<%=String.valueOf(session.getAttribute("username"))%>')"><i class=" icon-suitcase"></i>信息</a></li>
+                            <script>
+                            function _iframe(username) {
+                                zeroModal.show({
+                                    title: '我的信息',
+                                    iframe: true,
+                                    url: 'message.jsp?username='+username,
+                                    width: '60%',
+                                    height: '60%',
+                                    cancel: true
+                                });
+                            }
+                            </script>
                             <li><a href="#"><i class="icon-bell-alt"></i> 通知</a></li>
                             <li><a href="index.jsp"><i class="icon-key"></i>登出</a></li>
                         </ul>

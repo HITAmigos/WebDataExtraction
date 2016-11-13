@@ -1,5 +1,5 @@
 <%@ page language="java"
-	import="java.io.*,java.sql.*,java.util.*,net.kuangmeng.Const"
+	import="java.io.*,java.sql.*,java.util.*,net.kuangmeng.*"
 	contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -98,10 +98,7 @@ button{
 						}
 				%>
 				<th>
-				<form action="addAction" >
-						<input type="hidden" value=<%=tablename%> name="tablename">
-            			<button type="submit" style="width:85.5px;"class="btn btn-warning">添加一行</button> 
-            		</form>
+            			<a href="add.jsp?tablename=<%=tablename%>"><button type="submit" style="width:85.5px;"class="btn btn-warning">添加一行</button></a> 
 				</th>
 			</tr>
 			</tfoot>
