@@ -171,6 +171,15 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
     </a>
   </ul>
 </div>
+<div><a id="loading"><img src="images/logo.png" style="top:20%;height:10%;width:20%;left:40%;position:absolute;"></img></a></div>
+<script>
+                    document.getElementById("loading").addEventListener("click",function(e){
+                     e.preventDefault();
+                   //接下来使用js代码进行页面跳转
+                   _loading(1);
+                   location.href="main.jsp";  
+            });
+ </script>
 <section class="webdesigntuts-workshop main-title">
 	<form action="searchAction" name="searchform">	
 	   <input name="Username" value=<%=String.valueOf(session.getAttribute("username")).trim() %> type="hidden">		    

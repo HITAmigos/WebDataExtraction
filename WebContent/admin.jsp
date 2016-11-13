@@ -42,7 +42,6 @@ $.QianLoad.PageLoading({
 <%
 	String name=request.getParameter("username");  
 	session.setAttribute("username",name);
-
 %>
  <section id="container" class="">
       <!--header start-->

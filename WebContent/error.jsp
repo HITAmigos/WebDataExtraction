@@ -36,5 +36,11 @@ $.QianLoad.PageLoading({
 		}
 </script>
 <script type="text/javascript" src="background/js/canvas-particle.js"></script>
+<script language="javascript">
+          setTimeout(function(){
+        	 location.href="main.jsp";   
+        	},3000);
+   </script>
+   
 </body>
 </html>

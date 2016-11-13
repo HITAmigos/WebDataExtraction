@@ -7,15 +7,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>对表格的操作！</title>
 <script src="public/js/jquery-3.1.1.js"></script>
-<link href="public/css/bootstrap.min..css" rel="stylesheet"
-	type="text/css">
-<script src="public/js/bootstrap.min.js"></script>
+<link href="public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<script src="public/js/bootstrap.js"></script>
+<script src="public/js/down.js"></script>
 <style type="text/css">
 #love{
    color:red;
 }
-
+button{
+ width:158px;
+}
 </style>
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="public/css/style.css" media="screen" type="text/css" />
 </head>
 <body>
 	<!-- 顶部加载进度条！ -->
@@ -26,7 +30,7 @@
 			sleep : 50
 		});
 	</script>
-			<table id="example" class="display" cellspacing="0" width="100%">
+<table class="table  table-striped table-hover success table-bordered">
 				<%
 					String sc = request.getParameter("tablename");
 					session.setAttribute("tablename", sc);
@@ -56,52 +60,49 @@
 								if (coltag[j] == 0 || coltag[j]==10) {
 				%>
 				<th>
-					<form action="loverowAction">
+<ul class="nav nav-pills">
+  <li class="dropdown active" id="menu1">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#menu1">
+     列操作
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+            <li>
+            		<form action="deleterowAction">
 						<input type="hidden" value=<%=tablename%> name="tablename">
-						<input type="hidden" value=<%=j - 2%> name="rownum"> <input
-							type="submit" value="收藏">
+						<input type="hidden" value=<%=j - 2%> name="rownum">
+                        <button type="submit" class="btn btn-primary">删除此列</button>      
+                 </form>
+            </li>
+           <li>
+            		<form action="loverowAction" >
+						<input type="hidden" value=<%=tablename%> name="tablename">
+						<input type="hidden" value=<%=j - 2%> name="rownum">
+						<button type="submit" class="btn btn-success">收藏此列</button>            		
 					</form>
+            </li>
+            <li>
+            		<form action="editrowAction" >
+						<input type="hidden" value=<%=tablename%> name="tablename">
+						<input type="hidden" value=<%=j - 2%> name="rownum">
+            			<button type="submit" class="btn btn-info">编辑此列</button> 
+            		</form>
+            </li>
+          </ul>
+        </li>
+      </ul>
 				</th>
+				
 				<%
 						}
 						}
 				%>
-			</tr>
-			<tr>
-				<%
-							for (int j = 3; j <= num; j++){
-								coltag[j] = Integer.parseInt(rss.getString(j));
-								if (coltag[j] == 0 || coltag[j]==10) {
-				%>
 				<th>
-					<form action="deleterowAction">
+				<form action="addAction" >
 						<input type="hidden" value=<%=tablename%> name="tablename">
-						<input type="hidden" value=<%=j - 2%> name="rownum"> <input
-							type="submit" value="删除">
-					</form>
+            			<button type="submit" style="width:85.5px;"class="btn btn-warning">添加一行</button> 
+            		</form>
 				</th>
-				<%
-								}
-								}
-				%>
-			</tr>
-			<tr>
-				<%
-							for (int j = 3; j <= num; j++){
-								coltag[j] = Integer.parseInt(rss.getString(j));
-								if (coltag[j] == 0 || coltag[j]==10) {
-				%>
-				<th>
-					<form action="deleterowAction">
-						<input type="hidden" value=<%=tablename%> name="tablename">
-						<input type="hidden" value=<%=j - 2%> name="rownum"> <input
-							type="submit" value="编辑">
-					</form>
-				</th>
-				<%
-								}
-								}
-				%>
 			</tr>
 			</tfoot>
 			<thead>
@@ -124,6 +125,7 @@
 					}
 								}
 				%>
+				<th>操作</th>
 			</tr>
 			<%
 				}
@@ -160,19 +162,37 @@
 								}
 				%>
 				<td>
-					<form action="deletecolAction">
+				<ul class="nav nav-pills">
+  <li class="dropdown active" id="menu1">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#menu1">
+     行操作
+      <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+            <li>
+            		<form action="deletecolAction">
 						<input type="hidden" value=<%=tablename%> name="tablename">
-						<input type="hidden" value=<%=colnum%> name="colnum"> <input
-							type="submit" value="删除">
-					</form>
-				</td>
-				<td>
-					<form action="lovecolAction">
+						<input type="hidden" value=<%=colnum%> name="colnum">
+            			<button type="submit" class="btn btn-primary">删除此行</button> 
+            		</form>
+            </li>
+           <li>
+            		<form action="lovecolAction" >
 						<input type="hidden" value=<%=tablename%> name="tablename">
-						<input type="hidden" value=<%=colnum%> name="colnum"> <input
-							type="submit" value="收藏">
-					</form>
-
+						<input type="hidden" value=<%=colnum%> name="colnum">
+            			<button type="submit" class="btn btn-success">收藏此行</button>  
+            		</form>
+            </li>
+            <li>
+            		<form action="editcolAction" >
+						<input type="hidden" value=<%=tablename%> name="tablename">
+						<input type="hidden" value=<%=colnum%> name="colnum">
+            			<button type="submit" class="btn btn-info">编辑此行</button> 
+            		</form>
+            </li>
+          </ul>
+        </li>
+      </ul>
 				</td>
 				<%
 					}
@@ -184,5 +204,8 @@
 			%>
 			</tbody>
 	</table>
+  <script src='http://codepen.io/assets/libs/fullpage/jquery.js'></script>
+  <script src='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'></script>
+  <script src="public/js/index.js"></script>
 </body>
 </html>

@@ -411,6 +411,9 @@ protected static File file;
     String webContent;
     sourceInfo[1][1] = username;
     sourceInfo[2][1] = Url;
+    if(Url.equals("")){
+    	return "back";
+    }
     LoginAction la=new LoginAction();
     if(la.SearchUrl(Url, username)){
     	return "success";

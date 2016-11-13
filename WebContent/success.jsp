@@ -34,7 +34,7 @@ a img {
 	outline: none;
 }
 .content {
-	margin: 100px auto;
+	margin: 10% auto;
 	padding: 0;
 	width:80%;
 	left:10%;
@@ -44,7 +44,7 @@ a img {
 
 .demo {
 	padding: 10px;
-	margin: 10px auto;
+	margin: 5% auto;
 	border: 1px solid #fff;
 	background-color: #f7f7f7;
 }
@@ -64,13 +64,23 @@ h1 {
 	background-color: white;
 }
 </style>
+<link rel="stylesheet" href="searchnav/css/jq22.css"> <!-- CSS reset -->	
+<link rel="stylesheet" href="searchnav/css/style.css"> <!-- Resource style -->
+<script src="searchnav/js/modernizr.js"></script> <!-- Modernizr -->
+<script src="public/js/jquery-3.1.1.js"></script>
+<link href="public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<script src="public/js/bootstrap.js"></script>
 <link rel="stylesheet" type="text/css" href="table/css/default.css">
   	<link rel="stylesheet" href="table/css/style.min.css">
 	<!--[if IE]>
 		<script src="http://libs.baidu.com/html5shiv/3.7/html5shiv.min.js"></script>
 	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="successsearch/css/search-form.css">
 </head>
 <body>
+<%
+String User = String.valueOf(session.getAttribute("username")).trim();
+%>
 	<!-- 顶部加载进度条！ -->
 	<script src="public/js/preload.min.js"></script>
 	<script src="public/js/bootstrap.min.js"></script>
@@ -80,8 +90,31 @@ h1 {
 			sleep : 50
 		});
 	</script>
-<div id="wrapper" class="wrapper">
-<div class="content">
+<header class="cd-main-header animate-search">
+		<div class="cd-logo"><a href="#0"><img src="images/logo.png" style="height:30px;width:80px;"" alt="Logo"></a></div>
+
+		<nav class="cd-main-nav-wrapper">
+            <a href="#search" class="cd-search-trigger cd-text-replace">Search</a>
+		</nav> <!-- .cd-main-nav-wrapper -->
+
+		<a href="#0" class="cd-nav-trigger cd-text-replace">Menu<span></span></a>
+	</header>
+<div id="search" class="cd-main-search">
+		<form action="searchAction">
+			<input type="search" placeholder="输入Url" name="Url">
+			<input type="hidden"  name="username" value=<%=User %>>
+		</form>
+		<a href="#0" class="close cd-text-replace">Close Form</a>
+	</div> <!-- .cd-main-search -->
+	<div class="cd-cover-layer"></div> <!-- cover main content when search form is open -->
+	<script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+	<script>window.jQuery || document.write('<script src="searchnav/js/jquery-2.1.1.min.js"><\/script>')</script>
+	<script src="searchnav/js/main.js"></script> <!-- Resource jQuery -->
+<ul class="pager">
+  <li class="next">
+    <a href="main.jsp"> &larr;返回</a>
+  </li>
+</ul>
 	<div id="paginationdemo" class="demo">
 			<%
 			Const c = new Const();
@@ -108,7 +141,6 @@ h1 {
 				}else {
 					SearchContain=String.valueOf(session.getAttribute("search")).trim();
 				}
-				String User = String.valueOf(session.getAttribute("username")).trim();
 				String sql = "SELECT * FROM " + tableName + " WHERE link = " + "\'" + SearchContain + "\' and username = \'"
 						+ User + "\'";
 				ResultSet rs = stmt.executeQuery(sql);
@@ -201,10 +233,7 @@ h1 {
 				<%
 					}
 				%>
-				<div id="demo5" style="margin: 20px auto;height:20%;left:40%;position:absolute;"></div>
-			</div>
-		</div>
-		
+				<div id="demo5" style="margin: 20px auto;left:40%;position:absolute;"></div>
 		<script>
 			function _loading(type) {
 				zeroModal.loading(type);
@@ -236,7 +265,7 @@ h1 {
 		</script>
 </div><!-- /wrapper -->
 
-	<button id="mm-menu-toggle" class="mm-menu-toggle">Toggle Menu</button>
+	<button id="mm-menu-toggle" class="mm-menu-toggle" style="margin-top:5%;">Toggle Menu</button>
 	<nav id="mm-menu" class="mm-menu">
 	  <div class="mm-menu__header">
 	    <h2 class="mm-menu__title">Up2U</h2>
@@ -264,6 +293,42 @@ h1 {
 	<script>
 	  var menu = new Menu;
 	</script>
+	<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
+	<script>window.jQuery || document.write('<script src="js/jquery-1.11.0.min.js"><\/script>')</script>
+	<script type="text/javascript">
+        function searchToggle(obj, evt){
+            var container = $(obj).closest('.search-wrapper');
+
+            if(!container.hasClass('active')){
+                  container.addClass('active');
+                  evt.preventDefault();
+            }
+            else if(container.hasClass('active') && $(obj).closest('.input-holder').length == 0){
+                  container.removeClass('active');
+                  // clear input
+                  container.find('.search-input').val('');
+                  // clear and hide result container when we press close
+                  container.find('.result-container').fadeOut(100, function(){$(this).empty();});
+            }
+        }
+
+        function submitFn(obj, evt){
+            value = $(obj).find('.search-input').val().trim();
+
+            _html = "Yup yup! Your search text sounds like this: ";
+            if(!value.length){
+                _html = "Yup yup! Add some text friend :D";
+            }
+            else{
+                _html += "<b>" + value + "</b>";
+            }
+
+            $(obj).find('.result-container').html('<span>' + _html + '</span>');
+            $(obj).find('.result-container').fadeIn(100);
+
+            evt.preventDefault();
+        }
+    </script>
 </body>
 <script type="text/javascript" src="fenye/jquery-1.3.2.js"></script>
 <script src="fenye/jquery.paginate.js" type="text/javascript"></script>		
