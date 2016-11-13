@@ -14,7 +14,7 @@ public class RegisterAction extends ActionSupport{
     final String DB_URL = c.getDB_URL();
     final String USER = c.getUSER();
     final String PASS = c.getPASS();
-    static final String tableName = "user(id,username,password,email,no,level,searchnum,searchthings,uploadnum,uploadthings,coins)"; 
+    static final String tableName = "user"; 
     static final String table = "user";
 	private String username;
 	private String password;
@@ -31,7 +31,7 @@ public class RegisterAction extends ActionSupport{
     			 Class.forName("com.mysql.jdbc.Driver").newInstance();
     		     conn = DriverManager.getConnection(DB_URL,USER,PASS);
     		     stmt = conn.createStatement();
-    		     String sqlupdate = "insert " + tableName + " values("+c.getId()+",\'"+username+"\',\'"+password+"\',\'"+email+ "\',"+0+","+0+","+0+","+"null,"+0+",null,"+0+")";  
+    		     String sqlupdate = "insert " + tableName + " values("+c.getId()+",\'"+username+"\',\'"+password+"\',\'"+email+ "\',"+0+","+0+","+0+")";  
     		     stmt.executeUpdate(sqlupdate);
     		     c.setId(c.getId()+1);
     		     return SUCCESS;

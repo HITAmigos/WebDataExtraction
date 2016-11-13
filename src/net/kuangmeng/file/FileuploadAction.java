@@ -3,8 +3,6 @@ import java.io.File;
 import org.apache.commons.io.FileUtils;
 import java.io.IOException;
 
-import javax.websocket.Session;
-
 import com.opensymphony.xwork2.ActionSupport;
 import net.kuangmeng.SaveAction;
 @SuppressWarnings("serial")
