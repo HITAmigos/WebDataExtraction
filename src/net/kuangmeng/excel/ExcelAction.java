@@ -90,6 +90,9 @@ public class ExcelAction extends ActionSupport{
 	public static void exportExcel(String fileName,List<String> listth,List<String> listtd,int num) {
 		 String excelName ="/Users/kuangmeng/Desktop/"+ fileName+".xls";
 		  try {
+			  
+			  
+			  
 		   File excelFile = new File(excelName);
 		   // 如果文件存在就删除它
 		   if (excelFile.exists())
