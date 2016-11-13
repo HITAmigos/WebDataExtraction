@@ -8,7 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>留言</title>
 <link rel="stylesheet" type="text/css" href="comment/form.css">
-<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="background/css/normalize.css" />
 <!--必要样式-->
 <link rel="stylesheet" type="text/css" href="background/css/component.css" />
 <link rel="stylesheet" type="text/css" href="comment/style.css">

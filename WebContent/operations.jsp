@@ -98,10 +98,7 @@ button{
 						}
 				%>
 				<th>
-				<form action="addAction" >
-						<input type="hidden" value=<%=tablename%> name="tablename">
-            			<button type="submit" style="width:85.5px;"class="btn btn-warning">添加一行</button> 
-            		</form>
+				<a href="add.jsp?tablename=<%=tablename%>"><button type="submit" style="width:85.5px;"class="btn btn-warning">添加一行</button></a>
 				</th>
 			</tr>
 			</tfoot>

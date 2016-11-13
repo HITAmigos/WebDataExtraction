@@ -88,7 +88,7 @@ public class ExcelAction extends ActionSupport{
 		this.tablename = tablename;
 	}
 	public static void exportExcel(String fileName,List<String> listth,List<String> listtd,int num) {
-		 String excelName ="/Users/kuangmeng/Desktop/"+ fileName+".xls";
+		 String excelName =fileName+".xls";
 		  try {
 			  
 			  
