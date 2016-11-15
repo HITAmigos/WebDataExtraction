@@ -29,9 +29,12 @@ public class DeletecolAction extends ActionSupport{
     		     String sqlupdate ="select * from  `" + tablename + "`  WHERE id = "+Integer.parseInt(colnum.trim());  
       		     ResultSet rss=stmt.executeQuery(sqlupdate);
       		     while(rss.next()){
-      		    	int mark = Integer.parseInt(rss.getString("0"));
-      		    	mark+=10;
-      		    	 String sql ="update `" + tablename + "` set `0`= \'" + mark+ "\' WHERE id = "+Integer.parseInt(colnum.trim());  
+      		       char[] mark = rss.getString("0").toCharArray();
+      		       if(mark[1]=='0'){
+      		         mark[1] = '1';
+      		       }
+      		       
+      		    	 String sql ="update `" + tablename + "` set `0`= \'" + (new String(mark))+ "\' WHERE id = "+Integer.parseInt(colnum.trim());  
        		      stmt.executeUpdate(sql); 
        		    return SUCCESS;
       		     }

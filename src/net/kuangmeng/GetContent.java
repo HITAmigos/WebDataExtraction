@@ -48,6 +48,7 @@ public class GetContent {
             }
           }
           Encoding = line.substring(start, end);
+          System.out.println(Encoding);
           break;
         }
         line = br.readLine();

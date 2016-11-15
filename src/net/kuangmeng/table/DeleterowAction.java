@@ -29,9 +29,11 @@ public class DeleterowAction extends ActionSupport{
     		     String sqlupdate="Select * from `"+tablename+"` where id = 1";
     		     ResultSet rs=stmt.executeQuery(sqlupdate);
     		     while(rs.next()){
-    		    	 int mark=Integer.parseInt(rs.getString(rownum));
-    		    	 mark+=1;
-    		    	 String sql ="update `"+tablename+"` set "+"`"+rownum+"`= \'" + mark+"\'  where  id = 1 ";
+    		       char[] mark = rs.getString(rownum).toCharArray();
+//    		    	 int mark=Integer.parseInt(rs.getString(rownum));
+//    		    	 mark+=1;
+    		       mark[1]='1';
+    		    	 String sql ="update `"+tablename+"` set "+"`"+rownum+"`= \'" + (new String(mark)) +"\'  where  id = 1 ";
         		     stmt.executeUpdate(sql); 
         		      return SUCCESS;
     		     }

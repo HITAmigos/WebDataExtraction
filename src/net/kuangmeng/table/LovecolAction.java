@@ -29,13 +29,13 @@ public class LovecolAction extends ActionSupport{
     		     String sqlupdate ="select * from  `" + tablename + "`  WHERE id = "+Integer.parseInt(colnum.trim());  
       		     ResultSet rss=stmt.executeQuery(sqlupdate);
       		     while(rss.next()){
-      		    	int mark = Integer.parseInt(String.valueOf(rss.getString("0")));
-      		    	if(mark<100){
-      		    	mark+=100;
-      		    	}else{
-      		    		mark-=100;
-      		    	}
-      		    	 String sql ="update `" + tablename + "` set `0`= \'" + mark+ "\' WHERE id = "+Integer.parseInt(colnum.trim());  
+      		       char[] mark = rss.getString("0").toCharArray();
+      		       if(mark[0]=='0'){
+      		         mark[0]='1';
+      		       }else if(mark[0]=='1'){
+      		         mark[0]='0';
+      		       }
+      		    	 String sql ="update `" + tablename + "` set `0`= \'" + (new String(mark))+ "\' WHERE id = "+Integer.parseInt(colnum.trim());  
        		      int rs = stmt.executeUpdate(sql); 
        		     if(rs>=1) return SUCCESS;
        		     else return ERROR;

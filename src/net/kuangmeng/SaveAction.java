@@ -1,4 +1,5 @@
 package net.kuangmeng;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,19 +8,23 @@ public class SaveAction {
 
   protected static String Url;
   private String username;
-  public String getUsername(){
-	return username;
-}
-public void setUsername(String username){
-	this.username = username;
-}
-protected static File file;
-  //转义字符集
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  protected static File file;
+  // 转义字符集
   private static List<String[]> escapeSet = new ArrayList<String[]>();
   private static final String HTTP = "http";
   private static final String HTTPS = "https";
   private static final String UPLOAD = "upload";
   private static String[][] sourceInfo = new String[5][2];
+
   public String getUrl() {
     return Url;
   }
@@ -27,18 +32,18 @@ protected static File file;
   public void setUrl(String url) {
     Url = url;
   }
-  
+
   public File getFile() {
     return file;
   }
 
   public void setFile(File file) {
-    SaveAction.file = file;
+    this.file = file;
   }
-  
-/**
- * 设置映射字段名
- */
+
+  /**
+   * 设置映射字段名
+   */
   static {
     sourceInfo[0][0] = "id";
     sourceInfo[1][0] = "Username";
@@ -56,13 +61,16 @@ protected static File file;
       escapeSet.add(escape[i]);
     }
   }
+
   /**
    * 判断输入Url类型：http、https、file
+   * 
    * @return
    */
   private String varifyInput() {
     String variety = new String();
     String url = Url.toLowerCase();
+
     if (url.length() >= 7) {
       if (url.substring(0, 5).equals(HTTPS)) {
         variety = HTTPS;
@@ -76,12 +84,13 @@ protected static File file;
       setFile(new File(Url));
       variety = UPLOAD;
     }
-    
+
     return variety;
   }
 
   /**
    * 获取Url指向网页或文件内容.
+   * 
    * @return
    */
   private String getContent() {
@@ -90,13 +99,13 @@ protected static File file;
     String variety = varifyInput();
 
     if (variety.equals(HTTP)) {
-      webContent = GetContent.getString(variety, Url);
+      webContent = gcHelper.getString(variety, Url);
       sourceInfo[3][1] = "0";
     } else if (variety.equals(HTTPS)) {
-      webContent = GetContent.getString(variety, Url);
+      webContent = gcHelper.getString(variety, Url);
       sourceInfo[3][1] = "0";
     } else if (variety.equals(UPLOAD)) {
-      webContent = GetContent.getString(file);
+      webContent = gcHelper.getString(file);
       sourceInfo[3][1] = "1";
     }
 
@@ -105,6 +114,7 @@ protected static File file;
 
   /**
    * 提取出<begin><finish>标签间字符串.
+   * 
    * @param origin
    * @param begin
    * @param finish
@@ -121,6 +131,7 @@ protected static File file;
     boolean cut = false;
     boolean tagContain = false;
     for (int i = 0; i < origin.length(); i++) {
+      // 找到一个<>标签
       if (origin.charAt(i) == '<') {
 
         for (int j = i; j < origin.length(); j++) {
@@ -131,7 +142,9 @@ protected static File file;
         }
       }
 
+      // 判断是否已经切割，是否有标签内容
       if (cut && tag != null) {
+
         target = finish;
         for (int j = 0; j < tag.length(); j++) {
           if (tag.charAt(j) == '\"' || j == tag.length() - 1) {
@@ -147,10 +160,12 @@ protected static File file;
         if (tagContain) {
           tableFinish = i;
           segment.add(origin.substring(tableBegin, tableFinish));
-          i += tag.length();
+          i += tag.length() - 1;
           cut = false;
         }
+
       } else if (tag != null) {
+
         target = begin;
         for (int j = 0; j < tag.length(); j++) {
           if (tag.charAt(j) == '\"' || j == tag.length() - 1) {
@@ -168,6 +183,7 @@ protected static File file;
           i += tag.length() - 1;
           cut = true;
         }
+
       }
       quotationEnd = 0;
       quotationNum = 0;
@@ -179,6 +195,7 @@ protected static File file;
 
   /**
    * 删除字符串中匹配标签.
+   * 
    * @param str
    * @return
    */
@@ -193,6 +210,7 @@ protected static File file;
     List<tagUnit> preTag = new ArrayList<tagUnit>();
     boolean inTag = false;
     int quotationNum = 0;
+
     tagUnit tag = null;
     for (int i = 0; i < strToDelete.length(); i++) {
       if (strToDelete.charAt(i) == '<') {
@@ -213,7 +231,7 @@ protected static File file;
         for (int j = i - 1; j >= 0; j--) {
           if (str.charAt(j) == ' ') {
             continue;
-          } else if (str.charAt(j) == '/') {
+          } else if (strToDelete.charAt(j) == '/') {
             i -= tag.end + 1 - tag.start;
             strToDelete.delete(tag.start, tag.end + 1);
             break;
@@ -223,7 +241,7 @@ protected static File file;
             } else {
               for (int k = preTag.size() - 1; k >= 0; k--) {
                 tagUnit temp = preTag.remove(k);
-                if (tag.key.substring(2).equals(temp.key.substring(1))) {
+                if (tag.key.substring(1).equals(temp.key)) {
                   i -= tag.end + 1 - tag.start;
                   i -= temp.end + 1 - temp.start;
                   strToDelete.delete(tag.start, tag.end + 1);
@@ -241,8 +259,10 @@ protected static File file;
 
     return strToDelete.toString();
   }
+
   /**
    * 反转义.
+   * 
    * @param str
    * @return
    */
@@ -274,12 +294,15 @@ protected static File file;
 
   /**
    * 抓取字符串中的表格(html格式).
+   * 
    * @param Content
    * @return
    */
   private List<List<String[]>> grabWebTable(final String Content) {
     List<List<String[]>> resultSet = new ArrayList<List<String[]>>();
     List<String[]> thTags = new ArrayList<String[]>();
+
+
     List<String> tableStr = null;
     List<String> theadStr = null;
     List<String> tbodyStr = null;
@@ -310,6 +333,7 @@ protected static File file;
               }
             }
           } else {
+
             thStr = cutOut(theadStr.get(theadNum), "th", "/th");
             temp = new String[thStr.size()];
             for (int thNum = 0; thNum < thStr.size(); thNum++) {
@@ -406,20 +430,27 @@ protected static File file;
     return resultSet;
   }
 
-  public String execute(){
+  public String execute() {
     String result = "error";
     String webContent;
     sourceInfo[1][1] = username;
     sourceInfo[2][1] = Url;
-    LoginAction la=new LoginAction();
-    if(la.SearchUrl(Url, username)){
-    	return "success";
+
+    if (Url.equals("")) {
+      return "back";
     }
+
+    LoginAction la = new LoginAction();
+    if (la.SearchUrl(Url, username)) {
+      return "success";
+    }
+
     webContent = getContent();
     List<List<String[]>> resultSet = grabWebTable(webContent);
     List<String[]> table = null;
     List<String[]> thTags = resultSet.get(resultSet.size() - 1);
     List<String[][]> formalTable = new ArrayList<String[][]>();
+
     for (int tableNo = 0; tableNo < resultSet.size() - 1; tableNo++) {
       table = resultSet.get(tableNo);
       int rowMax = 0;
@@ -428,18 +459,16 @@ protected static File file;
           rowMax = table.get(rowNum).length;
         }
       }
-      //
+      
       String[][] temp = new String[table.size() + 2][rowMax + 1];
       String[] thTag = thTags.get(tableNo);
       for (int colNum = 0; colNum <= rowMax; colNum++) {
-        // 
         temp[0][colNum] = new Integer(colNum).toString();
         temp[1][colNum] = "00";
       }
       for (int newRowNum = 2; newRowNum <= table.size() + 1; newRowNum++) {
         for (int colNum = 0; colNum <= rowMax; colNum++) {
           if (colNum == 0) {
-            //
             temp[newRowNum][colNum] = "00" + thTag[newRowNum - 2];
           } else if (colNum <= table.get(newRowNum - 2).length) {
             temp[newRowNum][colNum] = table.get(newRowNum - 2)[colNum - 1];
@@ -452,23 +481,26 @@ protected static File file;
       }
       formalTable.add(temp);
     }
-    for (int i = 0; i < formalTable.size(); i++) {
-      System.out.println("table No." + (i + 1));
-      String[][] Table = formalTable.get(i);
-      for (int j = 0; j < Table.length; j++) {
-        for (int k = 0; k < Table[j].length; k++) {
-          System.out.print(Table[j][k] + "\t|");
-        }
-        System.out.println();
-      }
-      System.out.println("-------------------");
-    }
+
+//    查看存储表格
+//    for (int i = 0; i < formalTable.size(); i++) {
+//      System.out.println("table No." + (i + 1));
+//      String[][] Table = formalTable.get(i);
+//      for (int j = 0; j < Table.length; j++) {
+//        for (int k = 0; k < Table[j].length; k++) {
+//          System.out.print(Table[j][k] + "\t|");
+//        }
+//        System.out.println();
+//      }
+//      System.out.println("-------------------");
+//    }
+
+
     DBConnection dbHelper = new DBConnection();
 
     int tableNum = dbHelper.getLastId("Source");
-
     for (int i = 0; i < formalTable.size(); i++) {
-      sourceInfo[0][1] = new Integer(tableNum+i+1).toString();
+      sourceInfo[0][1] = new Integer(tableNum + i + 1).toString();
       sourceInfo[4][1] = username + "-" + (tableNum + i + 1);
       dbHelper.Insert("Source", sourceInfo);
       if (dbHelper.Create(sourceInfo[4][1], formalTable.get(i))) {
@@ -476,5 +508,12 @@ protected static File file;
       }
     }
     return result;
+  }
+
+  public static void main(String args[]) {
+    SaveAction sa = new SaveAction();
+    sa.setUsername("lyx");
+    sa.setUrl("http://www.jq22.com/demo/jQuery-setTabelColor20160803/");
+    sa.execute();
   }
 }

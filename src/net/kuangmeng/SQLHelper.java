@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 
 public class SQLHelper {
 
-  private static final String url = "jdbc:mysql://localhost:3306/up2u";
+  private static final String url = "jdbc:mysql://localhost:3306/graphgrabtest?useUnicode=true&characterEncoding=utf8&&useSSL=false";
   private static final String name = "com.mysql.jdbc.Driver";
   private static final String user = "root";
-  private static final String password = "";
+  private static final String password = "123456789";
   
   public Connection conn = null;
   public PreparedStatement pst = null;

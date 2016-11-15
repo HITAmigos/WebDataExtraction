@@ -10,7 +10,6 @@
     <!-- 指定允许上传的文件最大字节数。默认值是2097152(2M) -->
     <constant name="struts.multipart.maxSize" value="10701096"/>
     <!-- 设置上传文件的临时文件夹,默认使用javax.servlet.context.tempdir -->
-    <constant name="struts.multipart.saveDir " value="C:\Users\Meng Kuang\Desktop\upload" />
     <package name="net.kuangmeng" namespace = "/" extends="struts-default">
         <action name="loginAction" class="net.kuangmeng.LoginAction" method="execute">
             <result name="success">/main.jsp</result>
@@ -25,6 +24,7 @@
         </action>
         <action name="searchAction" class="net.kuangmeng.SaveAction" method="execute">
             <result name="success">/success.jsp</result>
+            <result name="back">/main.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
          <action name="mailAction" class="net.kuangmeng.mail.MailAction" method="execute">
@@ -53,6 +53,19 @@
         </action>
         <action name="loverowAction" class="net.kuangmeng.table.LoverowAction" method="execute">
             <result name="success">/operations.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        
+         <action name="commentAction" class="net.kuangmeng.CommentAction" method="execute">
+            <result name="success">/main.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="addAction" class="net.kuangmeng.table.AddAction" method="execute">
+            <result name="success">/operations.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+         <action name="recoverAction" class="net.kuangmeng.table.RecoverAction" method="execute">
+            <result name="success">/message.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
     </package> 

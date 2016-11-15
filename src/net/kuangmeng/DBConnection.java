@@ -322,6 +322,88 @@ public class DBConnection {
     return userTables;
   }
 
+  public boolean RecoverTable(String Tablename) {
+    boolean result = true;
+    try {
+      sql = "select * from `" + Tablename + "`";
+      dbHelper = new SQLHelper(sql);
+      System.out.println(sql);
+
+      resultSet = dbHelper.pst.executeQuery();
+      ResultSetMetaData data = resultSet.getMetaData();
+      int colNum = data.getColumnCount();
+      String temp = null;
+      resultSet.next();
+      // 更新第一行标记的删除位
+      for (int colNo = 3; colNo <= colNum; colNo++) {
+        temp = resultSet.getString(colNo);
+        if (temp.charAt(1) == '0') {
+          continue;
+        }
+        if (temp.charAt(0) == '0') {
+          temp = "00";
+        } else {
+          temp = "10";
+        }
+        sql = "update `" + Tablename + "` set `" + (colNo - 2) + "`='" + temp + "' where id=1";
+        System.out.println(sql);
+
+        dbHelper = new SQLHelper(sql);
+        dbHelper.pst.execute();
+      }
+      int id = 2;
+      // 更新每一列的删除标记
+      while (resultSet.next()) {
+        char[] tempToRecover = resultSet.getString("0").toCharArray();
+        tempToRecover[1] = '0';
+        temp = new String(tempToRecover);
+        sql = "update `" + Tablename + "` set `0`='" + temp + "' where id=" + (id++);
+        System.out.println(sql);
+
+        dbHelper = new SQLHelper(sql);
+        dbHelper.pst.execute();
+      }
+    } catch (SQLException e) {
+      result = false;
+      System.out.println("DBConnection RecoverTable.");
+      e.printStackTrace();
+    } finally {
+      dbHelper.close();
+    }
+
+    return result;
+  }
+
+  public boolean RecoverAll(String Username) {
+    boolean result = true;
+    sql = "select * from `source`";
+    dbHelper = new SQLHelper(sql);
+
+    System.out.println(sql);
+    try {
+      String Tablename = null;
+      resultSet = dbHelper.pst.executeQuery();
+      //ResultSetMetaData data = resultSet.getMetaData();
+      while (resultSet.next()) {
+        ResultSet tempSet = resultSet;
+        System.out.println(resultSet.getString(1));
+        if(resultSet.getString("Username").equals(Username)){
+          Tablename = resultSet.getString("Tablename");
+          RecoverTable(Tablename);
+        }
+        resultSet = tempSet;
+      }
+    } catch (SQLException e) {
+      result = false;
+      System.out.println("DBConnection RecoverTable.");
+      e.printStackTrace();
+    } finally {
+      dbHelper.close();
+    }
+
+    return result;
+  }
+  
   /**
    * 注销用户.
    * 
@@ -359,7 +441,8 @@ public class DBConnection {
     try {
       resultSet = dbHelper.pst.executeQuery();
 
-      if (resultSet.last()) {
+      if (resultSet!=null) {
+        resultSet.last();
         LastId = resultSet.getInt("id");
       } else {
         ResultSetMetaData data = resultSet.getMetaData();
