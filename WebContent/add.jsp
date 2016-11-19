@@ -64,7 +64,5 @@ document.getElementById("result").value = num;
 </form>
 </div>
 
-<!-- tmp -->
-
 </body>
 </html>
