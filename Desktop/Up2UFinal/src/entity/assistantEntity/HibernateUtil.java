@@ -1,4 +1,4 @@
-package entity;
+package entity.assistantEntity;
 
 import org.hibernate.*;
 import org.hibernate.cfg.*; 

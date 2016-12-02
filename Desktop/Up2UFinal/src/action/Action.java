@@ -1,8 +1,8 @@
 package action;
 
 public class Action {
-  private String username;
-  private String tablename;
+  protected String username;
+  protected String tablename;
 
   public String getUsername() {
     return username;

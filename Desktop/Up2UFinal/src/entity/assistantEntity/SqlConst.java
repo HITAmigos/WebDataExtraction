@@ -1,4 +1,4 @@
-package entity;
+package entity.assistantEntity;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

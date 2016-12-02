@@ -1,4 +1,4 @@
-package entity;
+package entity.assistantEntity;
 
 public class ColumnUnit {
   private String columnName;

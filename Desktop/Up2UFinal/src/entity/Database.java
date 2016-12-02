@@ -3,9 +3,20 @@ package entity;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Database {
-  private String tablename;
+import entity.assistantEntity.ColumnUnit;
+import entity.assistantEntity.SqlConst;
 
+public class Database {
+  private String tablename = null;
+
+  public Database(){
+
+  }
+  
+  public Database(String tablename){
+    this.tablename = tablename;
+  }
+  
   public void setTablename(String tablename) {
     this.tablename = tablename;
   }
@@ -16,7 +27,6 @@ public class Database {
     String sql = null;
 
     sqlBuffer.append("create table if not exists `" + tablename + "` (");
-    sqlBuffer.append("`id` int primary key auto_increment,");
     for (int i = 0; i < column.size(); i++) {
       sqlBuffer.append("`" + column.get(i).getColumnName() + "` ");
       sqlBuffer.append(column.get(i).getColumnType() + " ");
