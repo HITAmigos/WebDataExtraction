@@ -1,5 +1,6 @@
 package entity;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -104,5 +105,46 @@ public class Database {
   // 第0组是条件组，即条件为'where columnName[0] = value[0]'
   public boolean update(ArrayList<String> columnName, ArrayList value) {
     return false;
+  }
+  
+  public ArrayList<String[]> getResultSet(){
+    ResultSet resultSet = null;
+    ArrayList<String[]> resultList = new ArrayList<String[]>();
+    int columnCount = 0;
+    String sql = "select * from `" + tablename + "`";
+    SqlConst sqlHelper= new SqlConst(sql);
+    try {
+      resultSet = sqlHelper.getPst().executeQuery();
+      columnCount = resultSet.getMetaData().getColumnCount();
+      while(resultSet.next()){
+        String[] currentResult = new String[columnCount];
+        for(int i = 0 ; i < columnCount ; i++){
+          currentResult[i] = resultSet.getObject(i+1).toString();
+        }
+        resultList.add(currentResult);
+      }
+    } catch (SQLException e) {
+      System.out.println("Database getColumnCount.");
+      e.printStackTrace();
+    } finally {
+      sqlHelper.close();
+    }
+    return resultList;
+  }
+  
+  public int getColumnCount(){
+    int columnCount = 0;
+    String sql = "select * from `" + tablename + "`";
+    SqlConst sqlHelper= new SqlConst(sql);
+    try {
+      ResultSet resultSet = sqlHelper.getPst().executeQuery();
+      columnCount = resultSet.getMetaData().getColumnCount();
+    } catch (SQLException e) {
+      System.out.println("Database getColumnCount.");
+      e.printStackTrace();
+    } finally {
+      sqlHelper.close();
+    }
+    return columnCount;
   }
 }
