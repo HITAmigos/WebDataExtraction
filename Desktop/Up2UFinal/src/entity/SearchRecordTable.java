@@ -1,11 +1,14 @@
 package entity;
 
+import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import entity.assistantEntity.BeijingTime;
 import entity.assistantEntity.HibernateUtil;
 import entity.assistantEntity.SearchRecord;
 
@@ -68,4 +71,29 @@ public class SearchRecordTable {
     }
     return id;
   }
+
+  public static List<SearchRecord> getLastestRecord(int dateNum) {
+    List<SearchRecord> SearchRecordSet = getSearchRecordSet();
+    List<SearchRecord> Targets = new ArrayList<SearchRecord>();
+    Date currentDate = BeijingTime.getWebsiteDatetime();
+    Date recordDate = null;
+    int days = 0; // 记录与当前相差天数
+    for (int i = 0; i < SearchRecordSet.size(); i++) {
+      recordDate = SearchRecordSet.get(i).getDate();
+      days = (int) (currentDate.getTime() / (1000 * 60 * 60 * 24)
+          - recordDate.getTime() / (1000 * 60 * 60 * 24));
+      if (days <= dateNum) {
+        Targets.add(SearchRecordSet.get(i));
+      }
+    }
+    for (int i = 0; i < Targets.size(); i++) {
+      System.out.println(Targets.get(i).getTablename());
+    }
+    return Targets;
+  }
+
+  public static void main(String args[]) {
+    SearchRecordTable.getLastestRecord(10);
+  }
+
 }

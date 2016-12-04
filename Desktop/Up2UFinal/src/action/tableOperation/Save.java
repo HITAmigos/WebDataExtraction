@@ -141,6 +141,8 @@ public class Save extends Action {
   public static void main(String args[]) {
     Save s = new Save();
     s.setUsername("lyx");
+    //http://www.w3school.com.cn/html/html_tables.asp
+    //http://software.hit.edu.cn/dsb.html
     s.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
     s.execute();
   }
