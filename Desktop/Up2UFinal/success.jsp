@@ -123,7 +123,7 @@ String User = String.valueOf(session.getAttribute("username")).trim();
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
 				String sc = request.getParameter("Url");
-				session.setAttribute("search", sc);
+				session.setAttribute("source", sc);
 				String SearchContain = new String();
 				if (String.valueOf(session.getAttribute("search")).trim().equals("null")){
 					String sql = "SELECT * FROM " + tableName;

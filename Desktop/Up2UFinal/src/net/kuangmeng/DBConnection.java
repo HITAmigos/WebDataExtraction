@@ -376,7 +376,7 @@ public class DBConnection {
 
   public boolean RecoverAll(String Username) {
     boolean result = true;
-    sql = "select * from `source`";
+    sql = "select * from `SearchRecord`";
     dbHelper = new SQLHelper(sql);
 
     System.out.println(sql);
