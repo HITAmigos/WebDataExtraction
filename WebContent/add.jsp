@@ -4,12 +4,13 @@
 <html>
 
 <head>
-<link rel="shortcut icon" href="images/favicon.ico" />
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>添加一行</title>
 <link href="public/css/bootstrap.css" rel="stylesheet">
 <script type="text/javascript" src="public/js/bootstrap.js"></script>
 <script type="text/javascript" src="public/js/jquery-3.1.1.min.js"></script>
+<link rel="shortcut icon" href="images/favicon.ico" />
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>添加一行</title>
+
 </head>
 <body>
 <!-- 顶部加载进度条！ -->
@@ -63,8 +64,6 @@ document.getElementById("result").value = num;
 <button>确认修改</button>
 </form>
 </div>
-
-<!-- tmp -->
 
 </body>
 </html>
