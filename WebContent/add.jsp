@@ -8,7 +8,7 @@
 <script type="text/javascript" src="public/js/bootstrap.js"></script>
 <script type="text/javascript" src="public/js/jquery-3.1.1.min.js"></script>
 <link rel="shortcut icon" href="images/favicon.ico" />
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>添加一行</title>
 
 </head>
