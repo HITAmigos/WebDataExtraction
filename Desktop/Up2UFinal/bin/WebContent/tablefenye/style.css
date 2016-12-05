@@ -1,0 +1,90 @@
+
+/*表格*/
+.table_body{
+	width: 100%;
+}
+.re{
+	width: 100%; 
+	border: 1px solid #95b8e7;
+	box-sizing: border-box;
+	outline: none;
+	border-collapse: collapse; 
+	border-spacing: 0;
+}
+.re th{
+	height: 25px; 
+	background: linear-gradient(to bottom, #f9f9f9 , #f1f1f1);
+}
+.re th{
+	height: 25px;
+	line-height: 25px;
+	vertical-align: top;
+	border-right: 1px #ddd solid;
+	padding: 0 4px;
+}
+.re th:last-child{
+	border-right: none;
+}
+.re th:first-child{
+	width: 40px;
+}
+.re tr td:first-child(){
+	text-align: center;
+	background: linear-gradient(to bottom, #f9f9f9 , #f1f1f1);
+}
+.re td{
+	height: 25px;
+	padding: 0 4px;
+	border: 1px solid #ddd;
+
+}
+/*分页*/
+#page_navigation{
+	padding: 10px 0;
+	border: 1px solid #CCCCCC;
+	border-top: none;
+	background: -webkit-linear-gradient(to bottom, #f9f9f9 , #f1f1f1);
+	background: linear-gradient(to bottom, #f9f9f9 , #f1f1f1);
+}
+.previous_link span,.next_link span,#page_navigation span{
+	width: 16px;
+	height: 16px;
+	min-width: 16px;
+	background: url(image/pagination_icons.png) no-repeat;
+}
+#page_navigation span{
+	background: none;
+	padding:3px;
+	margin:2px 3px;
+}
+#page_navigation span:first-of-type:before{
+	content: "";
+	padding: 0 5px;
+	border-left: 1px solid #CCCCCC;
+}
+#page_navigation span:last-of-type:after{
+	content: "";
+	padding: 0 5px;
+	border-right: 1px solid #CCCCCC;
+}
+#page_navigation a{
+	padding:3px;
+	margin:2px;
+	color:black;
+	text-decoration:none;
+	box-sizing: border-box;
+}
+.active_page{
+	background:#1395ed;
+	color:white !important;
+}
+/*页码*/
+.num_box{
+	height: 17px;width: 30px;
+	display: inline-block;
+	text-align: center;
+	border: 1px solid #CCCCCC;
+	padding: 1px 0 2px 0;
+	margin: -1px 3px 0 3px ;
+	border-radius: 0px;
+}
