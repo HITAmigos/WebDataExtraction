@@ -10,12 +10,12 @@
 		<generator class="increment" ></generator>
 	</id>
 
-	<property name="username" 	column="username" ></property>
-	<property name="password" 	column="password" ></property>
-	<property name="email" 		column="email" 	  ></property>
-	<property name="limit" 		column="limit" 	  ></property>
-	<property name="level" 		column="level" 	  ></property>
-	<property name="coins" 		column="coins" 	  ></property>
+	<property name="username"	type="string" 	column="username" ></property>
+	<property name="password" 	type="string"	column="password" ></property>
+	<property name="email" 		type="string"	column="email" 	  ></property>
+	<property name="limited" 	type="int"		column="limited"  ></property>
+	<property name="level" 		type="int"		column="level" 	  ></property>
+	<property name="coins" 		type="int"		column="coins" 	  ></property>
 
 </class>
 

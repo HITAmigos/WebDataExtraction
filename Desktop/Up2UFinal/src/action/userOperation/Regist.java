@@ -26,7 +26,7 @@ public class Regist extends Action {
       user.setUsername(username);
       user.setPassword(password);
       user.setEmail(email);
-      user.setLimit(0);
+      user.setLimited(0);
       user.setLevel(0);
       user.setCoins(0);
       if(!UserTable.Regist(user)){
@@ -38,9 +38,9 @@ public class Regist extends Action {
 
   public static void main(String args[]){
     Regist r = new Regist();
-    r.setEmail("eeee");
-    r.setPassword("111");
-    r.setUsername("aaa");
+    r.setEmail("1486587187@qq.com");
+    r.setPassword("882776");
+    r.setUsername("lyx");
     r.execute();
   }
 }

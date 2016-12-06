@@ -10,7 +10,7 @@ import entity.assistantEntity.HibernateUtil;
 import entity.assistantEntity.User;
 
 public class UserTable {
-  public static boolean Regist(User user){
+  public static boolean Regist(User user) {
     boolean result = true;
     Session session = HibernateUtil.currentSession();
     Transaction tran = null;
@@ -29,7 +29,7 @@ public class UserTable {
     }
     return result;
   }
-  
+
   public static List<User> getUserSet() {
     Session session = HibernateUtil.currentSession();
     Transaction tran = null;
@@ -47,14 +47,16 @@ public class UserTable {
     }
     return Users;
   }
-  
-  public static User getUser(String username){
+
+  public static User getUser(String username) {
     List<User> UserSet = getUserSet();
     User user = null;
-    for(int i = 0 ; i < UserSet.size() ;i++){
-      if(UserSet.get(i).getUsername().equals(username)){
-        user = UserSet.get(i);
-        break;
+    if (UserSet != null) {
+      for (int i = 0; i < UserSet.size(); i++) {
+        if (UserSet.get(i).getUsername().equals(username)) {
+          user = UserSet.get(i);
+          break;
+        }
       }
     }
     return user;

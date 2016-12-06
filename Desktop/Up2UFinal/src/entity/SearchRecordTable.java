@@ -51,7 +51,7 @@ public class SearchRecordTable {
     return searchRecords;
   }
 
-  public static List<SearchRecord> getUserSearchRecord(String username){
+  public static List<SearchRecord> getUserSearchRecord(String username) {
     Session session = HibernateUtil.currentSession();
     Transaction tran = null;
     List<SearchRecord> searchRecords = null;
@@ -59,8 +59,8 @@ public class SearchRecordTable {
     try {
       tran = session.beginTransaction();
       searchRecords = session.createQuery("FROM SearchRecord").list();
-      for(SearchRecord searchRecord:searchRecords){
-        if(searchRecord.getUsername().equals(username)){
+      for (SearchRecord searchRecord : searchRecords) {
+        if (searchRecord.getUsername().equals(username)) {
           userSearchRecords.add(searchRecord);
         }
       }
@@ -74,7 +74,7 @@ public class SearchRecordTable {
     }
     return userSearchRecords;
   }
-  
+
   public static SearchRecord getSearchRecord(String tablename) {
     List<SearchRecord> SearchRecordSet = getSearchRecordSet();
     SearchRecord searchRecord = null;
