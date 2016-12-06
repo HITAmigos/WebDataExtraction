@@ -36,10 +36,10 @@ public class SearchRecordTable {
   public static List<SearchRecord> getSearchRecordSet() {
     Session session = HibernateUtil.currentSession();
     Transaction tran = null;
-    List<SearchRecord> SearchRecords = null;
+    List<SearchRecord> searchRecords = null;
     try {
       tran = session.beginTransaction();
-      SearchRecords = session.createQuery("FROM SearchRecord").list();
+      searchRecords = session.createQuery("FROM SearchRecord").list();
     } catch (HibernateException e) {
       if (tran != null) {
         tran.rollback();
@@ -48,9 +48,33 @@ public class SearchRecordTable {
     } finally {
       HibernateUtil.closeSession();
     }
-    return SearchRecords;
+    return searchRecords;
   }
 
+  public static List<SearchRecord> getUserSearchRecord(String username){
+    Session session = HibernateUtil.currentSession();
+    Transaction tran = null;
+    List<SearchRecord> searchRecords = null;
+    List<SearchRecord> userSearchRecords = new ArrayList<SearchRecord>();
+    try {
+      tran = session.beginTransaction();
+      searchRecords = session.createQuery("FROM SearchRecord").list();
+      for(SearchRecord searchRecord:searchRecords){
+        if(searchRecord.getUsername().equals(username)){
+          userSearchRecords.add(searchRecord);
+        }
+      }
+    } catch (HibernateException e) {
+      if (tran != null) {
+        tran.rollback();
+      }
+      e.printStackTrace();
+    } finally {
+      HibernateUtil.closeSession();
+    }
+    return userSearchRecords;
+  }
+  
   public static SearchRecord getSearchRecord(String tablename) {
     List<SearchRecord> SearchRecordSet = getSearchRecordSet();
     SearchRecord searchRecord = null;
@@ -93,7 +117,7 @@ public class SearchRecordTable {
   }
 
   public static void main(String args[]) {
-    SearchRecordTable.getLastestRecord(10);
+    SearchRecordTable.getLastestRecord(3);
   }
 
 }

@@ -61,7 +61,7 @@ body {
 		final String DB_URL = c.getDB_URL();
 		final String USER = c.getUSER();
 		final String PASS = c.getPASS();
-		final String tableName = "source";
+		final String tableName = "SearchRecord";
 		int searchnum = 0, uploadnum = 0;
 		List<String> searchlist = new ArrayList<String>();
 		List<String> uploadlist = new ArrayList<String>();

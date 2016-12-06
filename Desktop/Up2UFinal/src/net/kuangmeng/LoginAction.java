@@ -119,7 +119,7 @@ public class LoginAction extends ActionSupport {
       Class.forName("com.mysql.jdbc.Driver").newInstance();
       conn = DriverManager.getConnection(DB_URL, USER, PASS);
       stmt = conn.createStatement();
-      String sql = "SELECT * FROM `source` WHERE link = " + "\'" + url + "\' and username = \'"
+      String sql = "SELECT * FROM `SearchRecord` WHERE link = " + "\'" + url + "\' and username = \'"
           + username + "\'";
       ResultSet rs = stmt.executeQuery(sql);
       if (rs.next()) {

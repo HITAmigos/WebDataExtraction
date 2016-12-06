@@ -46,22 +46,7 @@ public class Save extends Action {
     searchRecord.setLink(url);
     searchRecord.setType(type);
     searchRecord.setDate(BeijingTime.getWebsiteDatetime());
-
-    Session session = HibernateUtil.currentSession();
-    Transaction tran = null;
-    try {
-      tran = session.beginTransaction();
-      session.save(searchRecord);
-      session.getTransaction().commit();
-    } catch (HibernateException e) {
-      if (tran != null) {
-        tran.rollback();
-      }
-      e.printStackTrace();
-    } finally {
-      HibernateUtil.closeSession();
-    }
-
+    SearchRecordTable.insert(searchRecord);
     return tablename;
   }
 
@@ -143,7 +128,7 @@ public class Save extends Action {
     s.setUsername("lyx");
     //http://www.w3school.com.cn/html/html_tables.asp
     //http://software.hit.edu.cn/dsb.html
-    s.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
+    s.setUrl("http://software.hit.edu.cn/dsb.html");
     s.execute();
   }
 

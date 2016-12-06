@@ -502,11 +502,11 @@ public class SaveAction {
 
     DBConnection dbHelper = new DBConnection();
 
-    int tableNum = dbHelper.getLastId("source");
+    int tableNum = dbHelper.getLastId("SearchRecord");
     for (int i = 0; i < formalTable.size(); i++) {
       sourceInfo[0][1] = new Integer(tableNum + i + 1).toString();
       sourceInfo[4][1] = username + "-" + (tableNum + i + 1);
-      dbHelper.Insert("source", sourceInfo);
+      dbHelper.Insert("SearchRecord", sourceInfo);
       if (dbHelper.Create(sourceInfo[4][1], formalTable.get(i))) {
         result = "success";
       }

@@ -147,7 +147,7 @@ public class ExportExcel extends ActionSupport {
 
   public static void main(String args[]) throws Exception {
     ExportExcel ee = new ExportExcel();
-    ee.setTablename("lyx-1");
+    ee.setTablename("lyx-6");
     ee.execute();
   }
 }

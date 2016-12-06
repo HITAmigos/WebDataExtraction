@@ -94,8 +94,26 @@ public class Database {
     return false;
   }
 
-  public boolean deleteRow(int id) {
-    return false;
+  public boolean deleteRow(String columnName, Object value) {
+    boolean result = true;
+    String sql = null;
+    if (value instanceof String) {
+      sql = "delete from `" + tablename + "` where `" + columnName + "` = '" + value + "'";
+    } else {
+      sql = "delete from `" + tablename + "` where `" + columnName + "` = " + value;
+    }
+    SqlConst sqlHelper = new SqlConst(sql);
+    System.out.println(sql);
+    try {
+      sqlHelper.getPst().execute();
+    } catch (SQLException e) {
+      result = false;
+      System.out.println("Database deleteRow.");
+      e.printStackTrace();
+    } finally {
+      sqlHelper.close();
+    }
+    return result;
   }
 
   public boolean deleteCol(String colName) {
@@ -126,7 +144,7 @@ public class Database {
       } else {
         sqlBuffer.append("`" + columnName.get(0) + "`=" + value.get(0));
       }
-      
+
       sql = sqlBuffer.toString();
       SqlConst sqlHelper = new SqlConst(sql);
       System.out.println(sql);
@@ -141,6 +159,33 @@ public class Database {
       }
     }
     return result;
+  }
+
+  public String[] getRecord(String columnName, Object value) {
+    String[] record = null;
+    String sql = null;
+    if (value instanceof String) {
+      sql = "select * from `" + tablename + "` where `" + columnName + "` = '" + value + "'";
+    } else {
+      sql = "select * from `" + tablename + "` where `" + columnName + "` = " + value;
+    }
+    SqlConst sqlHelper = new SqlConst(sql);
+    System.out.println(sql);
+    try {
+      ResultSet result = sqlHelper.getPst().executeQuery();
+      result.next();
+      int columnCount = result.getMetaData().getColumnCount();
+      record = new String[columnCount];
+      for (int i = 0; i < columnCount; i++) {
+        record[i] = result.getObject(i + 1).toString();
+      }
+    } catch (SQLException e) {
+      System.out.println("Database getRecord.");
+      e.printStackTrace();
+    } finally {
+      sqlHelper.close();
+    }
+    return record;
   }
 
   public ArrayList<String[]> getResultSet() {
@@ -182,5 +227,41 @@ public class Database {
       sqlHelper.close();
     }
     return columnCount;
+  }
+
+  public ArrayList<String> getColumnName() {
+    ArrayList<String> columnName = new ArrayList<String>();
+    String sql = "select * from `" + tablename + "`";
+    SqlConst sqlHelper = new SqlConst(sql);
+    try {
+      ResultSet resultSet = sqlHelper.getPst().executeQuery();
+      for (int i = 0; i < resultSet.getMetaData().getColumnCount(); i++) {
+        columnName.add(resultSet.getMetaData().getColumnName(i + 1));
+      }
+    } catch (SQLException e) {
+      System.out.println("Database getColumnName.");
+      e.printStackTrace();
+    } finally {
+      sqlHelper.close();
+    }
+    return columnName;
+  }
+  
+  public int getRowCount(){
+    int rowCount = 0;
+    ResultSet resultSet = null;
+    String sql = "select * from `" + tablename + "`";
+    SqlConst sqlHelper = new SqlConst(sql);
+    try {
+      resultSet = sqlHelper.getPst().executeQuery();
+      resultSet.last();
+      rowCount = resultSet.getRow();
+    } catch (SQLException e) {
+      System.out.println("Database getColumnCount.");
+      e.printStackTrace();
+    } finally {
+      sqlHelper.close();
+    }
+    return rowCount;
   }
 }
