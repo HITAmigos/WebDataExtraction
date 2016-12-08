@@ -69,14 +69,19 @@ public class ImageTest {
   }
 
   // 将本地文件保存到数据库
-  public static void saveImage() {
+  public void saveImage() {
     InputStream inputStream = null;
     inputStream = getImageByte();
-    String sql = "insert into `image` set image= " + inputStream + ", path = '" + path + "'";
+    String sql = "insert into image(image,path) values(?,?)";
     SqlConst sqlHelper = new SqlConst(sql);
     try {
+      try{
+      sqlHelper.getPst().setBinaryStream(1, inputStream, inputStream.available());
+      sqlHelper.getPst().setString(2, path);
+      }catch(IOException e){
+        e.printStackTrace();
+      }
       sqlHelper.getPst().execute();
-      // preparedStatement.setBinaryStream(3, inputStream, inputStream.available());
     } catch (SQLException e) {
       e.printStackTrace();
     } finally {
@@ -92,15 +97,16 @@ public class ImageTest {
   }
 
   // 从数据库中读取并生成图片
-  public static void readImage() {
+  public void readImage() {
     String sql = "select image from `image` where id = 1";
+    System.out.println(sql);
     SqlConst sqlHelper = new SqlConst(sql);
     ResultSet resultSet = null;
     InputStream inputStream = null;
     try {
       resultSet = sqlHelper.getPst().executeQuery(sql);
       resultSet.next();
-      inputStream = resultSet.getBinaryStream("photo");
+      inputStream = resultSet.getBinaryStream("image");
       readBlob(inputStream, "C:\\Users\\liuyx\\Desktop\\mySql-1.jpg");
     } catch (SQLException e) {
       e.printStackTrace();
@@ -126,7 +132,8 @@ public class ImageTest {
   public static void main(String args[]) {
     ImageTest it = new ImageTest();
     it.setPath("E:\\照片\\拉花\\kafei.jpg");
-    
+    it.saveImage();
+    it.readImage();
   }
 
 }
