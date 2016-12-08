@@ -16,9 +16,13 @@ public class Login extends Action {
     String result = "success";
     User user = UserTable.getUser(username);
     if (!user.getPassword().equals(password)) {
-      result = "failure";
+      result = "back";
+    }else if(user.getLevel()==1){
+      result = "admin";
+    }else if(user.getLevel()==0){}
+    else{
+      result = "error";
     }
-    // System.out.println(result);
     return result;
   }
 

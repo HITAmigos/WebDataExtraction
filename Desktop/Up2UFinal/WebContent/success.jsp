@@ -162,7 +162,7 @@ h1 {
 					final String DB_URL = c.getDB_URL();
 					final String USER = c.getUSER();
 					final String PASS = c.getPASS();
-					final String tableName = "source";
+					final String tableName = "SearchRecord";
 					Connection conn = null;
 					Statement stmt = null;
 					Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -273,7 +273,6 @@ h1 {
 				</div>
 			</div>
 			<%
-			
 			  }
 			%>
 			<div id="demo5"
