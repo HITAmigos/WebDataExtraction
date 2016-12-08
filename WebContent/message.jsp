@@ -1,5 +1,5 @@
 <%@ page language="java"
-	import="java.io.*,java.sql.*,java.util.*,net.kuangmeng.Const"
+	import="java.io.*,java.sql.*,java.util.*,net.kuangmeng.*"
 	contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -61,7 +61,7 @@ body {
 		final String DB_URL = c.getDB_URL();
 		final String USER = c.getUSER();
 		final String PASS = c.getPASS();
-		final String tableName = "source";
+		final String tableName = "SearchRecord";
 		int searchnum = 0, uploadnum = 0;
 		List<String> searchlist = new ArrayList<String>();
 		List<String> uploadlist = new ArrayList<String>();
@@ -87,6 +87,9 @@ body {
 				}
 			}
 		}
+		LoginAction la = new LoginAction();
+		int level = la.SearchLevel(User);
+		int coins= la.SearchCoin(User);
 	%>
 	<ul class="tree">
 		<li><a href="">我的使用信息及相关操作</a></li>
@@ -94,8 +97,8 @@ body {
 			<ul>
 				<li><a href="#">积分与等级</a>
 					<ul>
-						<li><a href="#">等级：</a></li>
-						<li><a href="#">积分：</a></li>
+						<li><a href="#">等级：<%=level %></a></li>
+						<li><a href="#">积分：<%=coins %></a></li>
 					</ul></li>
 				<li><a href="#">使用记录</a>
 					<ul>

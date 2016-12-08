@@ -50,7 +50,7 @@ $.QianLoad.PageLoading({
                 <div data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
             </div>
             <!--logo start-->
-            <a href="main.jsp" class="logo">Up<span>2U</span></a>
+            <a href="main.jsp?username=<%=String.valueOf(session.getAttribute("username")) %>" class="logo">Up<span>2U</span></a>
             <!--logo end-->
             <div class="top-nav ">
                 <!--search & user info start-->

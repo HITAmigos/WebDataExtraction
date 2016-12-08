@@ -48,6 +48,11 @@ $.QianLoad.PageLoading({
 		}
 </script>
 <script type="text/javascript" src="background/js/canvas-particle.js"></script>
+
+<%
+session.removeAttribute("username"); 
+session.invalidate(); 
+%>
 <div class="lc-block" id="l-login" data-ng-class="{'toggled':lctrl.login === 1}">
     	<h1 class="lean">欢迎登录</h1>
     	<form action="loginAction" method="post" name="loginform">

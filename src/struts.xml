@@ -10,63 +10,68 @@
     <!-- 指定允许上传的文件最大字节数。默认值是2097152(2M) -->
     <constant name="struts.multipart.maxSize" value="10701096"/>
     <!-- 设置上传文件的临时文件夹,默认使用javax.servlet.context.tempdir -->
-    <package name="net.kuangmeng" namespace = "/" extends="struts-default">
-        <action name="loginAction" class="net.kuangmeng.LoginAction" method="execute">
+    <package name="action" namespace = "/" extends="struts-default">
+        <action name="loginAction" class="action.userOperation.Login" method="execute">
             <result name="success">/main.jsp</result>
             <result name="admin">/admin.jsp</result>
             <result name="error">/error.jsp</result>
             <result name="back">/index.jsp</result>
         </action>
-         <action name="registerAction" class="net.kuangmeng.RegisterAction" method="execute">
+         <action name="registerAction" class="action.userOperation.Regist" method="execute">
             <result name="success">/index.jsp</result>
             <result name="error">/error.jsp</result>
             <result name="back">/index.jsp</result>
         </action>
-        <action name="searchAction" class="net.kuangmeng.SaveAction" method="execute">
+        <action name="searchAction" class="action.tableOperation.Save" method="execute">
             <result name="success">/success.jsp</result>
             <result name="back">/main.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
+        
+        <!-- 
          <action name="mailAction" class="net.kuangmeng.mail.MailAction" method="execute">
             <result name="success">/index.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-        <action name="fileuploadAction" class="net.kuangmeng.file.FileuploadAction" method="execute">
+        -->
+        
+        <action name="fileuploadAction" class="action.tableOperation.Save" method="execute">
             <result name="success">/success.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-         <action name="excelAction" class="net.kuangmeng.excel.ExcelAction" method="execute">
+         <action name="excelAction" class="action.assistantOperation.ExportExcel" method="execute">
             <result name="success">/success.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-        <action name="deletecolAction" class="net.kuangmeng.table.DeletecolAction" method="execute">
+        <action name="deletecolAction" class="action.tableOperation.DeleteCol" method="execute">
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-        <action name="deleterowAction" class="net.kuangmeng.table.DeleterowAction" method="execute">
+        <action name="deleterowAction" class="action.tableOperation.DeleteRow" method="execute">
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-       <action name="lovecolAction" class="net.kuangmeng.table.LovecolAction" method="execute">
+       <action name="lovecolAction" class="action.tableOperation.LoveCol" method="execute">
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-        <action name="loverowAction" class="net.kuangmeng.table.LoverowAction" method="execute">
+        <action name="loverowAction" class="action.tableOperation.LoveRow" method="execute">
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
         
-         <action name="commentAction" class="net.kuangmeng.CommentAction" method="execute">
+         <action name="commentAction" class="action.assistantOperation.GiveComment" method="execute">
             <result name="success">/main.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-        <action name="addAction" class="net.kuangmeng.table.AddAction" method="execute">
+        <action name="addAction" class="action.tableOperation.AddRow" method="execute">
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-         <action name="recoverAction" class="net.kuangmeng.table.RecoverAction" method="execute">
+         <action name="recoverAction" class="action.tableOperation.Recover" method="execute">
             <result name="success">/message.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
+        
     </package> 
 </struts>

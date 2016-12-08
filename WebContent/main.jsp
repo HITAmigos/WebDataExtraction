@@ -117,6 +117,7 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
                             <li><a href="comment.jsp"><i class="icon-bell-alt"></i>评论</a></li>
                             <li>
                             <a href="index.jsp"><i class="icon-key"></i>登出</a></li>
+                            
                      </ul>
              </li>
             
