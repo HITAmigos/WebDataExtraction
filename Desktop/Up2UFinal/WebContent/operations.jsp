@@ -1,5 +1,5 @@
 <%@ page language="java"
-	import="java.io.*,java.sql.*,java.util.*,net.kuangmeng.Const"
+	import="java.io.*,java.sql.*,java.util.*,entity.assistantEntity.SqlConst"
 	contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -35,7 +35,7 @@ button{
 					String sc = request.getParameter("tablename");
 					session.setAttribute("tablename", sc);
 					String tablename = String.valueOf(session.getAttribute("tablename")).trim();
-					Const c = new Const();
+					SqlConst c = new SqlConst();
 					final String DB_URL = c.getDB_URL();
 					final String USER = c.getUSER();
 					final String PASS = c.getPASS();

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" import="net.kuangmeng.*,java.sql.*"
+<%@ page language="java" contentType="text/html; charset=utf-8" import="entity.assistantEntity.*,java.sql.*"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -22,7 +22,7 @@ $.QianLoad.PageLoading({
 </script>
 <%
 String tablename = request.getParameter("tablename");
-Const c = new Const();
+SqlConst c = new SqlConst();
 final String DB_URL = c.getDB_URL();
 final String USER = c.getUSER();
 final String PASS = c.getPASS();

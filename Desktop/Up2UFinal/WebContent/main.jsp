@@ -1,4 +1,4 @@
-<%@ page language="java"  import="java.sql.*,java.io.*,java.util.*,net.kuangmeng.LoginAction" contentType="text/html; charset=UTF-8"
+<%@ page language="java"  import="java.sql.*,java.io.*,java.util.*" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html>

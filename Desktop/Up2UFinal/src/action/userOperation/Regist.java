@@ -4,9 +4,11 @@ import action.Action;
 import entity.UserTable;
 import entity.assistantEntity.User;
 
-public class Regist extends Action {
+public class Regist extends Action  {
   private String password;
   private String email;
+  private String username;
+  private String pass;
   
   public void setPassword(String password) {
     this.password = password;
@@ -16,10 +18,29 @@ public class Regist extends Action {
     this.email = email;
   }
 
-  @Override
-  public String execute() {
+  public String getUsername() {
+	return username;
+}
+
+public void setUsername(String username) {
+	this.username = username;
+}
+
+public String getPassword() {
+	return password;
+}
+
+public String getEmail() {
+	return email;
+}
+
+@Override
+  public String execute(){
     String result = "success";
-    if(UserTable.getUser(username)!=null){
+    System.out.println(password);
+    System.out.println(pass);
+    System.out.println(username);
+    if(UserTable.getUser(username)!=null || !password.equals(pass)){
       result = "exist";
     }else{
       User user = new User();
@@ -29,18 +50,22 @@ public class Regist extends Action {
       user.setLimited(0);
       user.setLevel(0);
       user.setCoins(0);
+      System.out.println(username);
+      System.out.println(email);
+      
       if(!UserTable.Regist(user)){
-        result = "false";
+        result = "error";
       }
     }
+    System.out.println(result);
     return result;
   }
 
-  public static void main(String args[]){
-    Regist r = new Regist();
-    r.setEmail("1486587187@qq.com");
-    r.setPassword("882776");
-    r.setUsername("lyx");
-    r.execute();
-  }
+public String getPass() {
+	return pass;
+}
+
+public void setPass(String pass) {
+	this.pass = pass;
+}
 }
