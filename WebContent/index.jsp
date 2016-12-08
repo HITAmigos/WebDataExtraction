@@ -47,7 +47,10 @@ $.QianLoad.PageLoading({
 			CanvasParticle(config);
 		}
 </script>
-<script type="text/javascript" src="background/js/canvas-particle.js"></script>
+<%
+session.removeAttribute("username"); 
+session.invalidate(); 
+%>
 <div class="lc-block" id="l-login" data-ng-class="{'toggled':lctrl.login === 1}">
     	<h1 class="lean">欢迎登录</h1>
     	<form action="loginAction" method="post" name="loginform">
@@ -122,6 +125,14 @@ $.QianLoad.PageLoading({
     		</span>
     		<div class="fg-line">
     			<input type="password" name="password" class="form-control" placeholder="密码" regex="^\w+"/>
+    		</div>
+    	</div>
+    	 <div class="input-group m-b-20">
+    		<span class="input-group-addon">
+    			<i class="zmdi zmdi-male"></i>
+    		</span>
+    		<div class="fg-line">
+    			<input type="password" name="pass" class="form-control" placeholder="在次输入密码" regex="^\w+"/>
     		</div>
     	</div>
     	<div class="clearfix"></div>

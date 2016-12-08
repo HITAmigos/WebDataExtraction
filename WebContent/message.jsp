@@ -1,5 +1,5 @@
 <%@ page language="java"
-	import="java.io.*,java.sql.*,java.util.*,net.kuangmeng.Const"
+	import="java.io.*,java.sql.*,java.util.*,entity.assistantEntity.SqlConst"
 	contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -57,11 +57,11 @@ body {
 <body>
 	<%
 		String User = String.valueOf(session.getAttribute("username")).trim();
-		Const c = new Const();
+		SqlConst c = new SqlConst();
 		final String DB_URL = c.getDB_URL();
 		final String USER = c.getUSER();
 		final String PASS = c.getPASS();
-		final String tableName = "source";
+		final String tableName = "SearchRecord";
 		int searchnum = 0, uploadnum = 0;
 		List<String> searchlist = new ArrayList<String>();
 		List<String> uploadlist = new ArrayList<String>();
@@ -73,7 +73,7 @@ body {
 		String sql = "SELECT * FROM " + tableName + " WHERE username = " + "\'" + User + "\'";
 		ResultSet rs = stmt.executeQuery(sql);
 		while (rs.next()) {
-			int num = rs.getInt("tag");
+			int num = rs.getInt("type");
 			String things = rs.getString("link");
 			if (num == 0) {
 				if(!searchlist.contains(things)){
@@ -87,6 +87,14 @@ body {
 				}
 			}
 		}
+		
+		String lcsql = "SELECT * FROM user WHERE username = " + "\'" + User + "\'";
+		ResultSet lcrs = stmt.executeQuery(lcsql);
+		int level = 0,coins = 0;
+		while (lcrs.next()) {
+			level = lcrs.getInt("level");
+			coins = lcrs.getInt("coins");
+		}
 	%>
 	<ul class="tree">
 		<li><a href="">我的使用信息及相关操作</a></li>
@@ -94,8 +102,8 @@ body {
 			<ul>
 				<li><a href="#">积分与等级</a>
 					<ul>
-						<li><a href="#">等级：</a></li>
-						<li><a href="#">积分：</a></li>
+						<li><a href="#">等级：<%=level %></a></li>
+						<li><a href="#">积分：<%=coins %></a></li>
 					</ul></li>
 				<li><a href="#">使用记录</a>
 					<ul>
