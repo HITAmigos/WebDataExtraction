@@ -1,5 +1,11 @@
 package action;
 
+/**
+ * Url2lOBase
+ * @author liuyx
+ *
+ */
+
 public class Action {
   protected String username;
   protected String tablename;

@@ -46,26 +46,11 @@ public class Save extends Action {
     searchRecord.setLink(url);
     searchRecord.setType(type);
     searchRecord.setDate(BeijingTime.getWebsiteDatetime());
-
-    Session session = HibernateUtil.currentSession();
-    Transaction tran = null;
-    try {
-      tran = session.beginTransaction();
-      session.save(searchRecord);
-      session.getTransaction().commit();
-    } catch (HibernateException e) {
-      if (tran != null) {
-        tran.rollback();
-      }
-      e.printStackTrace();
-    } finally {
-      HibernateUtil.closeSession();
-    }
-
+    SearchRecordTable.insert(searchRecord);
     return tablename;
   }
 
-  private boolean createTable(String tablename, String[] tableTitle) {
+  private boolean createTable(String tablename, String[] tableTitle, int[] colMaxLength) {
     Database db = new Database(tablename);
     ArrayList<ColumnUnit> column = new ArrayList<ColumnUnit>();
 
@@ -78,7 +63,7 @@ public class Save extends Action {
     for (int j = 1; j < tableTitle.length; j++) {
       ColumnUnit temp = new ColumnUnit();
       temp.setColumnName(tableTitle[j]);
-      temp.setColumnType("varchar(225)");
+      temp.setColumnType("varchar(" + (colMaxLength[j] * 2) + ")");
       temp.setDefaultValue("");
       temp.setPrimaryKey(false);
       column.add(temp);
@@ -116,10 +101,19 @@ public class Save extends Action {
     boolean flag = true;
     WebText wt = grabTable();
     String tablename;
+    int[] colMaxLength = null;
     for (int i = 0; i < wt.getTable().size() && flag; i++) {
       String[][] table = wt.getTable().get(i);
       tablename = insertSearchRecord();
-      if (!createTable(tablename, table[0])) {
+      colMaxLength = new int[table[0].length];
+      for (int m = 0; m < table.length; m++) {
+        for (int n = 0; n < table[0].length; n++) {
+          if (colMaxLength[n] < table[m][n].length()) {
+            colMaxLength[n] = table[m][n].length();
+          }
+        }
+      }
+      if (!createTable(tablename, table[0], colMaxLength)) {
         flag = false;
       }
       if (!insertTable(tablename, table)) {
@@ -141,9 +135,9 @@ public class Save extends Action {
   public static void main(String args[]) {
     Save s = new Save();
     s.setUsername("lyx");
-    //http://www.w3school.com.cn/html/html_tables.asp
-    //http://software.hit.edu.cn/dsb.html
-    s.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
+    // http://www.w3school.com.cn/html/html_tables.asp
+    // http://software.hit.edu.cn/dsb.html
+    s.setUrl("C:\\Users\\liuyx\\Desktop\\博士生导师 - 哈尔滨工业大学软件学院.html");
     s.execute();
   }
 

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.assistantEntity.BeijingTime;
+
 public class SaveAction {
 
   protected static String Url;
@@ -23,7 +25,7 @@ public class SaveAction {
   private static final String HTTP = "http";
   private static final String HTTPS = "https";
   private static final String UPLOAD = "upload";
-  private static String[][] sourceInfo = new String[5][2];
+  private static String[][] sourceInfo = new String[6][2];
 
   public String getUrl() {
     return Url;
@@ -48,8 +50,9 @@ public class SaveAction {
     sourceInfo[0][0] = "id";
     sourceInfo[1][0] = "Username";
     sourceInfo[2][0] = "Link";
-    sourceInfo[3][0] = "Tag";
+    sourceInfo[3][0] = "Type";
     sourceInfo[4][0] = "Tablename";
+    sourceInfo[5][0] = "Date";
   }
 
   /**
@@ -435,6 +438,7 @@ public class SaveAction {
     String webContent;
     sourceInfo[1][1] = username;
     sourceInfo[2][1] = Url;
+    sourceInfo[5][1] = BeijingTime.getWebsiteDatetime().toString();
 
     if (Url.equals("")) {
       return "back";
@@ -498,11 +502,11 @@ public class SaveAction {
 
     DBConnection dbHelper = new DBConnection();
 
-    int tableNum = dbHelper.getLastId("Source");
+    int tableNum = dbHelper.getLastId("SearchRecord");
     for (int i = 0; i < formalTable.size(); i++) {
       sourceInfo[0][1] = new Integer(tableNum + i + 1).toString();
       sourceInfo[4][1] = username + "-" + (tableNum + i + 1);
-      dbHelper.Insert("Source", sourceInfo);
+      dbHelper.Insert("SearchRecord", sourceInfo);
       if (dbHelper.Create(sourceInfo[4][1], formalTable.get(i))) {
         result = "success";
       }

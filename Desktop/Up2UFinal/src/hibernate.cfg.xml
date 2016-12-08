@@ -15,6 +15,7 @@
 <property name="hibernate.hbm2ddl.auto">update</property>
 <mapping resource="entity/assistantEntity/SearchRecord.hbm.xml"/>
 <mapping resource="entity/assistantEntity/User.hbm.xml"/>
+<mapping resource="entity/assistantEntity/Comment.hbm.xml"/>
 
 </session-factory>
 </hibernate-configuration>

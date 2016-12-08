@@ -16,7 +16,7 @@ public class BackrecordAction extends ActionSupport{
     final String DB_URL = c.getDB_URL();
     final String USER = c.getUSER();
     final String PASS = c.getPASS();
-    static final String tableName = "source"; 
+    static final String tableName = "SearchRecord"; 
     private String username;
     public String execute() throws Exception {
     		 Connection conn = null;

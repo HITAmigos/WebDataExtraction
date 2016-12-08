@@ -298,7 +298,7 @@ public class WebText {
         trStr = cutOutTag(tableStr.get(tableNo), "tr");
         for (int trNum = 0; trNum < trStr.size(); trNum++) {
           tdStr = cutOutTag(trStr.get(trNum), "td");
-          if(tdStr.size()==0){
+          if (tdStr.size() == 0) {
             continue;
           }
           String[] temp = new String[tdStr.size()];
@@ -335,7 +335,7 @@ public class WebText {
         colNum = temp;
       }
     }
-    colNum+=2;
+    colNum += 2;
     String[][] tableTemp = new String[rowNum][colNum];
 
     for (int i = 0; i < rowNum; i++) {
@@ -351,6 +351,8 @@ public class WebText {
         for (int j = 0; j < colNum; j++) {
           if (j == 0) {
             tableTemp[i][j] = "1";
+          } else if (j == 1) {
+            tableTemp[i][j] = new Integer(rowNum - 1).toString();
           } else {
             tableTemp[i][j] = "00";
           }
@@ -362,8 +364,8 @@ public class WebText {
           } else if (j == 1) {
             tableTemp[i][j] = "001";
           } else {
-            if (j < thTags.get(i - 2).length+2) {
-              tableTemp[i][j] = thTags.get(i - 2)[j-2];
+            if (j < thTags.get(i - 2).length + 2) {
+              tableTemp[i][j] = thTags.get(i - 2)[j - 2];
             } else {
               tableTemp[i][j] = "";
             }
@@ -376,8 +378,8 @@ public class WebText {
           } else if (j == 1) {
             tableTemp[i][j] = "000";
           } else {
-            if (j < tdTags.get(i - thLength - 2).length+2) {
-              tableTemp[i][j] = tdTags.get(i - thLength - 2)[j-2];
+            if (j < tdTags.get(i - thLength - 2).length + 2) {
+              tableTemp[i][j] = tdTags.get(i - thLength - 2)[j - 2];
             } else {
               tableTemp[i][j] = "";
             }
