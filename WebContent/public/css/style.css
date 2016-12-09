@@ -1,0 +1,33 @@
+/* bootstrap dropdown hover menu*/
+body
+{
+    font-family: 'PT Sans', sans-serif;
+    font-size: 13px;
+	 position: relative;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a315f', endColorstr='#1a315f',GradientType=0 );
+}
+
+
+.body-wrap{min-height:700px; }
+.body-wrap {
+    position: relative;
+    z-index: 0;
+}
+.body-wrap:before,
+.body-wrap:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 260px;
+     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a315f', endColorstr='#001a315f',GradientType=0 );
+}
+.body-wrap:after {
+    top: auto;
+    bottom: 0;
+     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#001a315f', endColorstr='#1a315f',GradientType=0 );
+}
+nav{margin-top:60px;box-shadow: 5px 4px 5px #000;
+}
