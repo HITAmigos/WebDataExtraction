@@ -176,7 +176,7 @@ body {
         </script>
         </form>
 				<form action="recoverAction" name="backform">
-				<input type="hidden" name="username" value=<%=User %>>
+				<input type="hidden" name="user" value=<%=User %>>
 				<li>
 				<a id="backa">一键恢复</a>
 				</li>

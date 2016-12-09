@@ -36,7 +36,7 @@ public class GiveComment extends Action {
     comment.setMessage(message);
     comment.setDate(date);
     if (!CommentTable.insert(comment)) {
-      result = "failure";
+      result = "error";
     }
     return result;
   }

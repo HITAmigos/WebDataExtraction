@@ -6,7 +6,7 @@
 <head>
 <link rel="shortcut icon" href="images/favicon.ico" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>添加一行</title>
+<title>编辑某行</title>
 <link href="public/css/bootstrap.css" rel="stylesheet">
 <script type="text/javascript" src="public/js/bootstrap.js"></script>
 <script type="text/javascript" src="public/js/jquery-3.1.1.min.js"></script>
@@ -22,11 +22,11 @@ $.QianLoad.PageLoading({
 </script>
 <%
 String tablename = request.getParameter("tablename");
+int rownum = Integer.parseInt(request.getParameter("rownum"));
 SqlConst c = new SqlConst();
 final String DB_URL = c.getDB_URL();
 final String USER = c.getUSER();
 final String PASS = c.getPASS();
-final String tableName = "SearchRecord";
 Connection conn = null;
 Statement stmt = null;
 Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -46,11 +46,11 @@ function n(num2){
 	}
 document.getElementById("result").value = num;
 }
-
 </script>
 <div style="width:60%;margin:10% auto;">
 <form  action="addAction">
 <input type="hidden" name="tablename" value=<%=tablename %>>
+<input type="hidden" name="rownum" value=<%=rownum %>>
 <%
   for(int i=0;i<num-2;i++){
 %>
@@ -59,7 +59,7 @@ document.getElementById("result").value = num;
   }
 %>
 <input type="hidden" name="str" id="result">
-<input type="button" class="btn btn-primary  btn-block" style ="margin:20px auto;text-align:center;" value="确认修改">
+<button type="button" class="btn btn-primary  btn-block" style ="margin:20px auto;">确认修改</button>
 </form>
 </div>
 

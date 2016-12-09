@@ -7,8 +7,24 @@ import entity.Database;
 
 public class LoveCol extends Action {
   private int colNum = 0;
-  
-  public int getColNum() {
+  private int rownum;
+  public int getRownum() {
+	return rownum;
+}
+
+public void setRownum(int rownum) {
+	this.rownum = rownum;
+}
+
+public String getTablename() {
+	return tablename;
+}
+
+public void setTablename(String tablename) {
+	this.tablename = tablename;
+}
+
+public int getColNum() {
     return colNum;
   }
 
@@ -18,9 +34,9 @@ public class LoveCol extends Action {
 
   //使用数据库类中的update方法
   //将数据库中对应表格列的一行中"X0"->"X1"
-  @Override
   public String execute() {
     String result = "success";
+    setColNum(rownum);
     char[] tag = null;
     ArrayList<String> columnName = new ArrayList<String>();
     ArrayList<Object> value = new ArrayList<Object>();
@@ -33,14 +49,8 @@ public class LoveCol extends Action {
     value.add(new String(tag));
     
     if(!db.update(columnName, value)){
-     result = "failure";
+     result = "error";
     }
     return result;
-  }
-  public static void main(String args[]){
-    LoveCol lc = new LoveCol();
-    lc.setTablename("lyx-5");
-    lc.setColNum(2);
-    lc.execute();
   }
 }

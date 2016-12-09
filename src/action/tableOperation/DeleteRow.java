@@ -7,7 +7,15 @@ import entity.Database;
 
 public class DeleteRow extends Action {
   private int rowNum = 0;
-  
+  private int colnum;
+  public int getColnum() {
+	return colnum;
+}
+
+
+public void setColnum(int colnum) {
+	this.colnum = colnum;
+}
   public int getRowNum() {
     return rowNum;
   }
@@ -19,9 +27,9 @@ public class DeleteRow extends Action {
   
   //使用数据库类中的update方法
   //将数据库中对应表格行的一行中"0XX"->"1XX"
-  @Override
   public String execute() {
     String result = "success";
+    setRowNum(colnum);
     char[] tag = null;
     ArrayList<String> columnName = new ArrayList<String>();
     ArrayList<Object> value = new ArrayList<Object>();
@@ -38,12 +46,4 @@ public class DeleteRow extends Action {
     }
     return result;
   }
-
-  public static void main(String args[]){
-    DeleteRow dc = new DeleteRow();
-    dc.setTablename("lyx-5");
-    dc.setRowNum(2);
-    dc.execute();
-  }
-
 }

@@ -1,29 +1,17 @@
 package action.assistantOperation;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import com.opensymphony.xwork2.ActionSupport;
 
 import entity.Database;
 import jxl.Workbook;
-import jxl.format.Alignment;
-import jxl.format.Colour;
 import jxl.format.UnderlineStyle;
-import jxl.format.VerticalAlignment;
 import jxl.write.Label;
-import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import jxl.write.biff.RowsExceededException;
 
 @SuppressWarnings("serial")
 public class ExportExcel extends ActionSupport {
@@ -143,11 +131,5 @@ public class ExportExcel extends ActionSupport {
     } catch (Exception e) {
       System.out.println(e);
     }
-  }
-
-  public static void main(String args[]) throws Exception {
-    ExportExcel ee = new ExportExcel();
-    ee.setTablename("lyx-6");
-    ee.execute();
   }
 }

@@ -9,10 +9,8 @@ import entity.SearchRecordTable;
 import entity.assistantEntity.SearchRecord;
 
 public class Recover extends Action {
-
   // 将第一行所有"XX"->"00"
   // 将第一列所有"XXX"->"00X"
-  @Override
   public String execute() {
     String result = "success";
     int rawRowCount = 0;
@@ -52,7 +50,7 @@ public class Recover extends Action {
       if (result.equals("success")) {
         for (int i = rawRowCount; i < rowCount; i++) {
           if (!db.deleteRow("id", i+1)) {
-            result = "failure";
+            result = "error";
             break;
           }
         }
@@ -68,7 +66,7 @@ public class Recover extends Action {
             columnName.add(new Integer(i-1).toString());
             value.add(new String(tag));
             if (!db.update(columnName, value)) {
-              result = "failure";
+              result = "error";
               break;
             }
             columnName.clear();
@@ -79,11 +77,5 @@ public class Recover extends Action {
       
     }
     return result;
-  }
-
-  public static void main(String args[]){
-    Recover r = new Recover();
-    r.setUsername("lyx");
-    r.execute();
   }
 }

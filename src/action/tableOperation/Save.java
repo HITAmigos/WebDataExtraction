@@ -12,9 +12,8 @@ import entity.*;
 import entity.assistantEntity.*;
 
 public class Save extends Action {
-  private String url = null;
+  private String url;
   private int type = 0;
-
   public String getUrl() {
     return url;
   }
@@ -75,10 +74,12 @@ public class Save extends Action {
     return true;
   }
 
-  private boolean insertTable(String tablename, String[][] table) {
+  @SuppressWarnings("unchecked")
+private boolean insertTable(String tablename, String[][] table) {
     Database db = new Database(tablename);
     ArrayList<String> columnName = new ArrayList<String>();
-    ArrayList value = new ArrayList();
+    @SuppressWarnings("rawtypes")
+	ArrayList value = new ArrayList();
 
     for (int j = 0; j < table[0].length; j++) {
       columnName.add(table[0][j]);
@@ -95,8 +96,7 @@ public class Save extends Action {
     return true;
   }
 
-  @Override
-  public String execute() {
+  public String execute(){
     String result = "success";
     boolean flag = true;
     WebText wt = grabTable();
@@ -121,24 +121,8 @@ public class Save extends Action {
       }
     }
     if (!flag) {
-      result = "failure";
+      result = "error";
     }
-    /*
-     * ArrayList<String[][]> table = wt.getTable(); for (int i = 0; i < table.size(); i++) {
-     * System.out.println("table No." + (i + 1)); for (int j = 0; j < table.get(i).length; j++) {
-     * for (int k = 0; k < table.get(i)[j].length; k++) { System.out.print(table.get(i)[j][k] +
-     * "|\t"); } System.out.println(); } }
-     */
     return result;
   }
-
-  public static void main(String args[]) {
-    Save s = new Save();
-    s.setUsername("lyx");
-    // http://www.w3school.com.cn/html/html_tables.asp
-    // http://software.hit.edu.cn/dsb.html
-    s.setUrl("C:\\Users\\liuyx\\Desktop\\博士生导师 - 哈尔滨工业大学软件学院.html");
-    s.execute();
   }
-
-}

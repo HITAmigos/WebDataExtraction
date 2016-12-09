@@ -7,8 +7,8 @@ import entity.Database;
 
 public class UpdateRow extends Action {
   private int rowNum = 0;
-  private String[] newRow = null;
-  
+  private int colnum;
+  private String str;
   public int getRowNum() {
     return rowNum;
   }
@@ -17,20 +17,16 @@ public class UpdateRow extends Action {
     this.rowNum = rowNum;
   }
 
-  public String[] getNewRow() {
-    return newRow;
-  }
-
-  public void setNewRow(String[] newRow) {
-    this.newRow = newRow;
-  }
 
   //行号即为id的值，利用这个条件update
   //若某个元素为null表示不修改
   //传递给数据库类的参数在数据库类Update方法处有注释
   @Override
-  public String execute() {
+  public String execute(){
     String result = "success";
+    setRowNum(colnum);
+    str = str.substring(0, str.length()-1);
+    String[] newRow = str.split("\\,");
     ArrayList<String> columnName = new ArrayList<String>();
     ArrayList<Object> value = new ArrayList<Object>();
     columnName.add("id");
@@ -43,7 +39,7 @@ public class UpdateRow extends Action {
       }
     }
     if(!db.update(columnName, value)){
-      result = "failure";
+      result = "error";
     }
     for(int i = 0 ; i < columnName.size() ; i++){
       System.out.println(columnName.get(i)+":"+value.get(i));
@@ -51,13 +47,20 @@ public class UpdateRow extends Action {
     return result;
   }
 
-  public static void main(String args[]){
-    String[] newRow = {"abc",null,"kkk",null};
-    UpdateRow ur = new UpdateRow();
-    ur.setTablename("lyx-1");
-    ur.setRowNum(3);
-    ur.setNewRow(newRow);
-    ur.execute();
-  }
+public String getStr() {
+	return str;
+}
+
+public void setStr(String str) {
+	this.str = str;
+}
+
+public int getColnum() {
+	return colnum;
+}
+
+public void setColnum(int colnum) {
+	this.colnum = colnum;
+}
   
 }

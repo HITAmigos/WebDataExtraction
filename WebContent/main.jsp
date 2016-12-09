@@ -183,8 +183,8 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
  </script>
 <section class="webdesigntuts-workshop main-title">
 	<form action="searchAction" name="searchform">	
-	   <input name="Username" value=<%=String.valueOf(session.getAttribute("username")).trim() %> type="hidden">		    
-		<input type="text" name="Url" placeholder="请输入url……">	
+	   <input name="username" value=<%=String.valueOf(session.getAttribute("username")).trim() %> type="hidden">		    
+		<input type="text" name="url" placeholder="请输入url……">	
 		<div class="box bg-2" style="width:28%;left:36%;position:absolute;margin-top:50px;">
 				<button class="button button--wapasha button--text-thick button--text-upper button--size-s" id="searchloading" href="javascript:_loading(4);">立即搜索</button>
 				<script>

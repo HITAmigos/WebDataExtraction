@@ -21,6 +21,6 @@ public class Action {
   }
 
   public String execute() {
-    return "failure";
+    return "error";
   }
 }

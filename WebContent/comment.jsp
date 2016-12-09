@@ -44,7 +44,8 @@ $.QianLoad.PageLoading({
 				<option value="suggestion">建议</option>
 				<option value="question">吐槽</option>
 		</select>
-		</label> <label> <span>&nbsp;</span> <input type="button"
+		</label> <label> <span>&nbsp;</span> 
+		<input type="button"
 			class="button" value="提交留言" />
 		</label>
 	</form>

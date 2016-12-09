@@ -365,9 +365,7 @@ h1 {
 	$(function() {
 		$("#demo5").paginate(
 				{
-					count :
-<%=list.size()%>
-	,
+					count :<%=list.size()%>,
 					start : 1,
 					display : 5,
 					border : true,
@@ -380,8 +378,7 @@ h1 {
 					images : false,
 					mouse : 'press',
 					onChange : function(page) {
-						$('._current', '#paginationdemo').removeClass(
-								'_current').hide();
+						$('._current', '#paginationdemo').removeClass('_current').hide();
 						$('#p' + page).addClass('_current').show();
 					}
 				});

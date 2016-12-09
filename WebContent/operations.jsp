@@ -82,11 +82,7 @@ button{
 					</form>
             </li>
             <li>
-            		<form action="editrowAction" >
-						<input type="hidden" value=<%=tablename%> name="tablename">
-						<input type="hidden" value=<%=j - 2%> name="rownum">
-            			<button type="submit" class="btn btn-info">编辑此列</button> 
-            		</form>
+           		<a href="UpdateCol.jsp?tablename=<%=tablename%>&rownum=<%=j-2%>"><button type="submit" class="btn btn-info">编辑此列</button></a> 
             </li>
           </ul>
         </li>
@@ -98,7 +94,7 @@ button{
 						}
 				%>
 				<th>
-				<a href="add.jsp?tablename=<%=tablename%>"><button type="submit" style="width:85.5px;"class="btn btn-warning">添加一行</button></a>
+				<a href="add.jsp?tablename=<%=tablename %>"><button type="submit" style="width:85.5px;"class="btn btn-warning">添加一行</button></a>
 				</th>
 			</tr>
 			</tfoot>
@@ -181,11 +177,8 @@ button{
             		</form>
             </li>
             <li>
-            		<form action="editcolAction" >
-						<input type="hidden" value=<%=tablename%> name="tablename">
-						<input type="hidden" value=<%=colnum%> name="colnum">
-            			<button type="submit" class="btn btn-info">编辑此行</button> 
-            		</form>
+            		
+            			<a href="UpdateRow.jsp?tablename=<%=tablename%>&rownum=<%=colnum%>"><button type="submit" class="btn btn-info">编辑此行</button></a> 
             </li>
           </ul>
         </li>

@@ -28,12 +28,11 @@
             <result name="error">/error.jsp</result>
         </action>
         
-        <!-- 
-         <action name="mailAction" class="net.kuangmeng.mail.MailAction" method="execute">
+         <action name="mailAction" class="action.assistantOperation.Email" method="execute">
             <result name="success">/index.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-        -->
+      
         
         <action name="fileuploadAction" class="action.tableOperation.Save" method="execute">
             <result name="success">/success.jsp</result>
