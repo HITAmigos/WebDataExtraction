@@ -132,7 +132,7 @@ session.invalidate();
     			<i class="zmdi zmdi-male"></i>
     		</span>
     		<div class="fg-line">
-    			<input type="password" name="pass" class="form-control" placeholder="在次输入密码" regex="^\w+"/>
+    			<input type="password" name="pass" class="form-control" placeholder="再次输入密码" regex="^\w+"/>
     		</div>
     	</div>
     	<div class="clearfix"></div>

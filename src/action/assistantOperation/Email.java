@@ -14,7 +14,6 @@ public class Email {
     final String PASS = c.getPASS();
     static final String tableName = "user"; 
 	private String email;
-	@SuppressWarnings("static-access")
 	public String execute(){  
         //这个类主要是设置邮件  
      MailSenderInfo mailInfo = new MailSenderInfo();   
@@ -31,7 +30,8 @@ public class Email {
         //这个类主要来发送邮件  
      SimpleMailSender sms = new SimpleMailSender();  
         boolean state1=sms.sendTextMail(mailInfo);//发送文体格式   
-        boolean state2=sms.sendHtmlMail(mailInfo);//发送html格式 
+        @SuppressWarnings("static-access")
+		boolean state2=sms.sendHtmlMail(mailInfo);//发送html格式 
         if(state1 || state2){
         	return "success";
         }else{
