@@ -22,7 +22,7 @@ public class Recover extends Action {
     ArrayList<Object> value = new ArrayList<Object>();
     List<SearchRecord> userSearchRecords = SearchRecordTable.getUserSearchRecord(username);
     // 对数据库中每一个表格进行恢复
-    for (SearchRecord searchRecord : userSearchRecords) {
+    for (SearchRecord searchRecord : userSearchRecords){
       db.setTablename(searchRecord.getTablename());
       rawRowCount = Integer.parseInt(db.getRecord("id", 1)[1]);
       rowCount = db.getRowCount();

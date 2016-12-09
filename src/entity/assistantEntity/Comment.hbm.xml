@@ -11,10 +11,10 @@
 	</id>
 
 	<property name="username"	type="string" 	column="username"  ></property>
-	<property name="selection" 	type="int" 		column="selection" ></property>
+	<property name="name" 	type="string" 		column="name" ></property>
 	<property name="message" 	type="string"	column="message"   ></property>
 	<property name="date" 		type="date"		column="date" 	   ></property>
-
+    <property name="email" 		type="string"		column="email" 	   ></property>
 </class>
 
 </hibernate-mapping>

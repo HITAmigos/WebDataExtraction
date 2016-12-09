@@ -24,15 +24,12 @@
         </action>
         <action name="searchAction" class="action.tableOperation.Save" method="execute">
             <result name="success">/success.jsp</result>
+            <result name="exist">/success.jsp</result>
             <result name="back">/main.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
         
-         <action name="mailAction" class="action.assistantOperation.Email" method="execute">
-            <result name="success">/index.jsp</result>
-            <result name="error">/error.jsp</result>
-        </action>
-      
+       
         
         <action name="fileuploadAction" class="action.tableOperation.Save" method="execute">
             <result name="success">/success.jsp</result>
@@ -71,6 +68,9 @@
             <result name="success">/message.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-        
+         <action name="deleteRecord" class="action.tableOperation.DeleteAllRecord" method="execute">
+            <result name="success">/message.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
     </package> 
 </struts>

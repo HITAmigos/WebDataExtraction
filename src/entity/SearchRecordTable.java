@@ -75,6 +75,18 @@ public class SearchRecordTable {
     return userSearchRecords;
   }
 
+  public static boolean UrlIsExist(String url) {
+    boolean result = false;
+    List<SearchRecord> SearchRecordSet = getSearchRecordSet();
+    for (int i = 0; i < SearchRecordSet.size(); i++) {
+      if (SearchRecordSet.get(i).getLink().equals(url)) {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  }
+
   public static SearchRecord getSearchRecord(String tablename) {
     List<SearchRecord> SearchRecordSet = getSearchRecordSet();
     SearchRecord searchRecord = null;

@@ -1,5 +1,5 @@
 <%@ page language="java"
-	import="java.io.*,java.sql.*,java.util.*,entity.assistantEntity.SqlConst"
+	import="java.io.*,java.sql.*,java.util.*,entity.assistantEntity.SqlConst,action.tableOperation.*"
 	contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -162,7 +162,7 @@ body {
 			</ul></li>
 		<li><span>相关操作</span>
 			<ul> 
-				<form action="deleterecordAction" name="deleteform">
+				<form action="deleteRecord" name="deleteform">
 				<input type="hidden" name="username" value=<%=User %>>
 				<li>
 				<a id="deletea">删除记录</a>
@@ -176,7 +176,7 @@ body {
         </script>
         </form>
 				<form action="recoverAction" name="backform">
-				<input type="hidden" name="user" value=<%=User %>>
+				<input type="hidden" name="username" value=<%=User %>>
 				<li>
 				<a id="backa">一键恢复</a>
 				</li>

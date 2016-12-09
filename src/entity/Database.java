@@ -1,12 +1,7 @@
 package entity;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 
 import entity.assistantEntity.ColumnUnit;
@@ -68,54 +63,26 @@ public class Database {
     } else {
       StringBuffer sqlBuffer = new StringBuffer();
       String sql = null;
-      sqlBuffer.append("insert into `" + tablename + "` (");
+
+      sqlBuffer.append("insert into `" + tablename + "` set ");
       for (int i = 0; i < columnName.size(); i++) {
-        sqlBuffer.append("`"+columnName.get(i) + "`,");
+        if (value.get(i) instanceof String) {
+          sqlBuffer.append("`" + columnName.get(i) + "`='" + value.get(i) + "',");
+        } else {
+          sqlBuffer.append("`" + columnName.get(i) + "`=" + value.get(i) + ",");
+        }
       }
       sqlBuffer.deleteCharAt(sqlBuffer.length() - 1);
-      sqlBuffer.append(") values(");
-      for (int i = 0; i < columnName.size(); i++) {
-        sqlBuffer.append("?,");
-      }
-      sqlBuffer.deleteCharAt(sqlBuffer.length() - 1);
-      sqlBuffer.append(")");
+
       sql = sqlBuffer.toString();
       SqlConst sqlHelper = new SqlConst(sql);
       System.out.println(sql);
       try {
-        for (int i = 0; i < value.size(); i++) {
-          if (value.get(i) instanceof Integer) {
-            sqlHelper.getPst().setInt(i + 1, (Integer) value.get(i));
-          } else if (value.get(i) instanceof Float) {
-            sqlHelper.getPst().setFloat(i + 1, (Float) value.get(i));
-          } else if (value.get(i) instanceof Long) {
-            sqlHelper.getPst().setLong(i + 1, (Long) value.get(i));
-          } else if (value.get(i) instanceof String) {
-            sqlHelper.getPst().setString(i + 1, (String) value.get(i));
-          } else if (value.get(i) instanceof Date) {
-            sqlHelper.getPst().setDate(i + 1, (Date) value.get(i));
-          } else if (value.get(i) instanceof Time) {
-            sqlHelper.getPst().setTime(i + 1, (Time) value.get(i));
-          } else if (value.get(i) instanceof URL) {
-            sqlHelper.getPst().setURL(i + 1, (URL) value.get(i));
-          } else if (value.get(i) instanceof InputStream) {
-            try {
-              sqlHelper.getPst().setBinaryStream(i + 1, (InputStream) value.get(i),
-                  ((InputStream) value.get(i)).available());
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-          }else{
-            System.out.println("无法解析");
-            return false;
-          }
-        }
         sqlHelper.getPst().execute();
       } catch (SQLException e) {
         result = false;
         System.out.println("Database insert.");
         e.printStackTrace();
-        
       } finally {
         sqlHelper.close();
       }
@@ -279,8 +246,8 @@ public class Database {
     }
     return columnName;
   }
-
-  public int getRowCount() {
+  
+  public int getRowCount(){
     int rowCount = 0;
     ResultSet resultSet = null;
     String sql = "select * from `" + tablename + "`";

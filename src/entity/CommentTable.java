@@ -9,7 +9,6 @@ import org.hibernate.Transaction;
 
 import entity.assistantEntity.Comment;
 import entity.assistantEntity.HibernateUtil;
-import entity.assistantEntity.SearchRecord;
 
 public class CommentTable {
   public static boolean insert(Comment comment) {

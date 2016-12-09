@@ -1,11 +1,11 @@
 .holder {
-	margin: 15px 0;
+	margin: 25px 0;
 }
 
 .holder a {
 	font-size: 12px;
 	cursor: pointer;
-	margin: 0 5px;
+	margin: 0 10px;
 	color: #333;
 }
 
@@ -32,4 +32,4 @@
 	background: none;
 }
 
-.holder span { margin: 0 5px; }
+.holder span { margin: 0 10px; }

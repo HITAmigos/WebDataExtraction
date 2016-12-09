@@ -29,25 +29,23 @@ $.QianLoad.PageLoading({
 	<div class="content">
 		<div id="large-header" class="large-header">
 			<canvas id="demo-canvas"></canvas>
-			<form action="commentAction" method="post" class="bootstrap-frm">
+	<form action="commentAction" method="get" class="bootstrap-frm">
 		<h1>
-			反馈意见 <span>感谢你为我们提供宝贵意见！</span>
+			反馈意见 <span>感谢<%=session.getAttribute("username")%>为我们提供宝贵意见！</span>
 		</h1>
-		<input name="username" value=<%=String.valueOf(session.getAttribute("username")).trim() %> type="hidden">
-		<label> <span>称呼:</span> <input id="name" type="text"
-			name="name" placeholder=<%=String.valueOf(session.getAttribute("username")) %> />
-		</label> <label> <span>邮箱:</span> <input id="email" type="email"
-			name="email" placeholder="邮箱地址" />
-		</label> <label> <span>留言:</span> <textarea id="message"
-				name="message" placeholder="请填写留言"></textarea>
-		</label> <label> <span>类型 :</span><select name="selection">
-				<option value="suggestion">建议</option>
-				<option value="question">吐槽</option>
-		</select>
-		</label> <label> <span>&nbsp;</span> 
-		<input type="button"
-			class="button" value="提交留言" />
-		</label>
+			   <input type="hidden" name="username" value="<%=session.getAttribute("username")%>">
+			<ul>
+				<li class="first">
+					<input type="text" class="text" name="name" placeholder="<%=session.getAttribute("username")%>" >
+				</li>
+				<li class="first">
+					<input type="text" class="text" name="email" placeholder="邮箱">
+				</li>
+				<li class="second">
+				<textarea name="comment" placeholder="请留下评论！"></textarea>
+				</li>
+			</ul>
+			<input type="submit" class="button" style="margin-left:50px;" value="提交留言" >
 	</form>
 	<div class="box2">
   <ul>

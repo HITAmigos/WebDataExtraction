@@ -12,14 +12,19 @@ import entity.*;
 import entity.assistantEntity.*;
 
 public class Save extends Action {
-  private String url;
+  private String url = null;
   private int type = 0;
+
   public String getUrl() {
     return url;
   }
 
   public void setUrl(String url) {
     this.url = url;
+  }
+
+  private boolean IsExistSearchRecord() {
+    return SearchRecordTable.UrlIsExist(url);
   }
 
   private WebText grabTable() {
@@ -74,12 +79,10 @@ public class Save extends Action {
     return true;
   }
 
-  @SuppressWarnings("unchecked")
-private boolean insertTable(String tablename, String[][] table) {
+  private boolean insertTable(String tablename, String[][] table) {
     Database db = new Database(tablename);
     ArrayList<String> columnName = new ArrayList<String>();
-    @SuppressWarnings("rawtypes")
-	ArrayList value = new ArrayList();
+    ArrayList value = new ArrayList();
 
     for (int j = 1; j < table[0].length; j++) {
       columnName.add(table[0][j]);
@@ -96,33 +99,52 @@ private boolean insertTable(String tablename, String[][] table) {
     return true;
   }
 
-  public String execute(){
+  @Override
+  public String execute() {
     String result = "success";
-    boolean flag = true;
-    WebText wt = grabTable();
-    String tablename;
-    int[] colMaxLength = null;
-    for (int i = 0; i < wt.getTable().size() && flag; i++) {
-      String[][] table = wt.getTable().get(i);
-      tablename = insertSearchRecord();
-      colMaxLength = new int[table[0].length];
-      for (int m = 0; m < table.length; m++) {
-        for (int n = 0; n < table[0].length; n++) {
-          if (colMaxLength[n] < table[m][n].length()) {
-            colMaxLength[n] = table[m][n].length();
+    if (IsExistSearchRecord()) {
+      result = "exist";
+      System.out.println(result);
+    } else {
+      boolean flag = true;
+      WebText wt = grabTable();
+      String tablename;
+      int[] colMaxLength = null;
+      for (int i = 0; i < wt.getTable().size() && flag; i++) {
+        String[][] table = wt.getTable().get(i);
+        tablename = insertSearchRecord();
+        colMaxLength = new int[table[0].length];
+        for (int m = 0; m < table.length; m++) {
+          for (int n = 0; n < table[0].length; n++) {
+            if (colMaxLength[n] < table[m][n].length()) {
+              colMaxLength[n] = table[m][n].length();
+            }
           }
         }
+        if (!createTable(tablename, table[0], colMaxLength)) {
+          flag = false;
+        }
+        if (!insertTable(tablename, table)) {
+          flag = false;
+        }
       }
-      if (!createTable(tablename, table[0], colMaxLength)) {
-        flag = false;
-      }
-      if (!insertTable(tablename, table)) {
-        flag = false;
+      if (!flag) {
+        result = "failure";
       }
     }
-    if (!flag) {
-      result = "error";
-    }
+    System.out.println(result);
+
     return result;
   }
+
+
+  public static void main(String args[]) {
+    Save s = new Save();
+    s.setUsername("lyx");
+    // http://www.w3school.com.cn/html/html_tables.asp
+    // http://software.hit.edu.cn/dsb.html
+    s.setUrl("C:\\Users\\liuyx\\Desktop\\博士生导师 - 哈尔滨工业大学软件学院.html");
+    s.execute();
   }
+
+}

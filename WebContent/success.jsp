@@ -74,9 +74,7 @@ a img {
 }
 
 .demo {
-	padding: 10px;
-	margin: 5% auto;
-	border: 1px solid #fff;
+	margin:5% auto;
 	background-color: #f7f7f7;
 }
 
@@ -87,12 +85,11 @@ h1 {
 }
 
 .pagedemo {
-	border: 1px solid #CCC;
 	width: 80%;
 	margin: 2px auto;
-	padding: 50px 10px;
+	padding: 30px 10px 0px 10px;
 	text-align: center;
-	background-color: white;
+	background-color: #f7f7f7;
 }
 </style>
 <link rel="stylesheet" href="searchnav/css/jq22.css">
@@ -377,7 +374,7 @@ h1 {
 					background_hover_color : '#fff',
 					images : false,
 					mouse : 'press',
-					onChange : function(page) {
+					onChange : function(page){
 						$('._current', '#paginationdemo').removeClass('_current').hide();
 						$('#p' + page).addClass('_current').show();
 					}

@@ -5,7 +5,8 @@ import java.sql.Date;
 public class Comment {
   private int id;
   private String username;
-  private int selection;
+  private String name;
+  private String email;
   private String message;
   private Date date;
 
@@ -25,14 +26,6 @@ public class Comment {
     this.username = username;
   }
 
-  public int getSelection() {
-    return selection;
-  }
-
-  public void setSelection(int selection) {
-    this.selection = selection;
-  }
-
   public String getMessage() {
     return message;
   }
@@ -48,5 +41,21 @@ public class Comment {
   public void setDate(Date date) {
     this.date = date;
   }
+
+public String getName() {
+	return name;
+}
+
+public void setName(String name) {
+	this.name = name;
+}
+
+public String getEmail() {
+	return email;
+}
+
+public void setEmail(String email) {
+	this.email = email;
+}
 
 }
