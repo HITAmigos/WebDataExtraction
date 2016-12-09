@@ -116,6 +116,38 @@ public class SearchRecordTable {
     return Targets;
   }
 
+  public static boolean DeleteSearchRecord(SearchRecord searchRecord) {
+    boolean result = true;
+    Session session = HibernateUtil.currentSession();
+    Transaction tran = null;
+    try {
+      tran = session.beginTransaction();
+      session.delete(searchRecord);
+      session.getTransaction().commit();
+    } catch (HibernateException e) {
+      result = false;
+      if (tran != null) {
+        tran.rollback();
+      }
+      e.printStackTrace();
+    } finally {
+      HibernateUtil.closeSession();
+    }
+    return result;
+  }
+
+  public static boolean ClearAllRecords(String username) {
+    boolean result = true;
+    List<SearchRecord> userSearchRecords = getUserSearchRecord(username);
+    for (int i = 0; i < userSearchRecords.size(); i++) {
+      if (!DeleteSearchRecord(userSearchRecords.get(i))) {
+        result = false;
+        break;
+      }
+    }
+    return result;
+  }
+
   public static void main(String args[]) {
     SearchRecordTable.getLastestRecord(3);
   }

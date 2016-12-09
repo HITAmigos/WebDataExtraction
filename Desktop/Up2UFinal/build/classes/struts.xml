@@ -20,7 +20,7 @@
          <action name="registerAction" class="action.userOperation.Regist" method="execute">
             <result name="success">/index.jsp</result>
             <result name="error">/error.jsp</result>
-            <result name="back">/index.jsp</result>
+            <result name="exist">/index.jsp</result>
         </action>
         <action name="searchAction" class="action.tableOperation.Save" method="execute">
             <result name="success">/success.jsp</result>

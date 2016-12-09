@@ -33,6 +33,7 @@ public class Regist extends Action {
         result = "false";
       }
     }
+    System.out.println(result);
     return result;
   }
 
