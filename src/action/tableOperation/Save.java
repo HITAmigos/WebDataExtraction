@@ -81,11 +81,11 @@ private boolean insertTable(String tablename, String[][] table) {
     @SuppressWarnings("rawtypes")
 	ArrayList value = new ArrayList();
 
-    for (int j = 0; j < table[0].length; j++) {
+    for (int j = 1; j < table[0].length; j++) {
       columnName.add(table[0][j]);
     }
     for (int i = 1; i < table.length; i++) {
-      for (int j = 0; j < table[i].length; j++) {
+      for (int j = 1; j < table[i].length; j++) {
         value.add(table[i][j]);
       }
       if (!db.insert(columnName, value)) {

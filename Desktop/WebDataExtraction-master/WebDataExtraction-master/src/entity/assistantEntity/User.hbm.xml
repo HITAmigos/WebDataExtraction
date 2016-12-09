@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="entity.assistantEntity">
+
+<class name="User" polymorphism="explicit">
+
+	<id name="id">
+		<generator class="increment" ></generator>
+	</id>
+
+	<property name="username"	type="string" 	column="username" ></property>
+	<property name="password" 	type="string"	column="password" ></property>
+	<property name="email" 		type="string"	column="email" 	  ></property>
+	<property name="limited" 	type="int"		column="limited"  ></property>
+	<property name="level" 		type="int"		column="level" 	  ></property>
+	<property name="coins" 		type="int"		column="coins" 	  ></property>
+
+</class>
+
+</hibernate-mapping>
