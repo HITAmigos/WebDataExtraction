@@ -16,7 +16,7 @@ public class ContentReader {
   private String url = null;
   private File file = null;
   private String content = null;
-  private static String Encoding = "utf-8";
+  private static String Encoding = "gbk";
 
   private static final String HTTP = "http";
   private static final String HTTPS = "https";
