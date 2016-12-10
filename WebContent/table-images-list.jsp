@@ -152,7 +152,7 @@ $.QianLoad.PageLoading({
                       <div class="tpl-block">
                           <div class="am-g">
                               <div class="am-u-sm-12">
-                                  <form class="am-form">
+                                  
                                       <table class="am-table am-table-striped am-table-hover table-main">
                                           <thead>
                                               <tr>
@@ -162,6 +162,7 @@ $.QianLoad.PageLoading({
                                                   <th class="table-author am-hide-sm-only">等级</th>
                                                   <th class="table-date am-hide-sm-only">积分</th>
                                                   <th class="table-set">操作</th>
+                                                  <th class="table-set">提升权限</th>
                                               </tr>
                                           </thead>
                                           <tbody>
@@ -173,7 +174,7 @@ $.QianLoad.PageLoading({
                                                   <%
                                                     String username=rs.getString("username");
                                                   %>
-                                                  <td><a href="#"><%=username%></a></td>
+                                                  <td><%=username%></a></td>
                                                   <td><%=rs.getString("email") %></td>
                                                   <td class="am-hide-sm-only"><%=rs.getInt("level") %></td>
                                                   <td class="am-hide-sm-only"><%=rs.getInt("coins") %></td>
@@ -183,6 +184,16 @@ $.QianLoad.PageLoading({
                                                           <form action="deleteUser" method="post">
                                                               <input type="hidden" name="username" value=<%=username %>>
                                                               <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
+                                                          </form>
+                                                          </div>
+                                                          </div>
+                                                   </td>
+                                                   <td>
+                                                          <div class="am-btn-toolbar">
+                                                          <div class="am-btn-group am-btn-group-xs">
+                                                          <form action="upadmin">
+                                                              <input type="hidden" name="username" value=<%=username %>>
+                                                              <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 提升</button>
                                                           </form>
                                                           </div>
                                                       </div>
@@ -195,7 +206,6 @@ $.QianLoad.PageLoading({
                                       </table>
                                       <hr>
 
-                                  </form>
                               </div>
 
                           </div>

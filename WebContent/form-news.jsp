@@ -153,6 +153,7 @@ $.QianLoad.PageLoading({
                             <div class="cosB" style="width:100px;">
                                 <%=rs.getString("username") %><br>
                                 <%=rs.getDate("date") %>
+                                <br>
                             </div>
                             <div class="cosA">
                                 <span class="cosIco">
@@ -163,7 +164,6 @@ $.QianLoad.PageLoading({
                         </li>
                         <%
                           }
-                        
                         %>
                     </ul>
                 </div>

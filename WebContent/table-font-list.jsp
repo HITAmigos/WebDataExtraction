@@ -97,7 +97,7 @@ $.QianLoad.PageLoading({
                               <a href="table-images-list.jsp">
                                   <i class="am-icon-angle-right"></i>
                                   <span>普通用户</span>
-                                  <a href="form-news.html">
+                                  </a>
                           </li>
                       </ul>
                   </li>

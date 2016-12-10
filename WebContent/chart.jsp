@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*,action.admin.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*,action.admin.*,java.sql.*,entity.assistantEntity.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -126,19 +126,86 @@ $.QianLoad.PageLoading({
                   </ul>
               </div>
           </div>
-        <div class="tpl-content-wrapper">
-            <ol class="am-breadcrumb">
-                <li><a href="admin.jsp" class="am-icon-home">首页</a></li>
-                <li class="am-active">数据表</li>
-            </ol>
-            <div class="tpl-portlet-components">
-                <div class="tpl-block">
-                    <div class="tpl-echarts tpl-chart-mb" id="tpl-echarts-C">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+          
+          <%
+		SqlConst sc = new SqlConst();
+        final String DB_URL = sc.getDB_URL();
+        final String PASS = sc.getPASS();
+        final String USER = sc.getUSER();
+        Connection conn = null;
+	    Statement stmt = null;
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+ 	   conn = DriverManager.getConnection(DB_URL,USER,PASS);
+ 	   stmt = conn.createStatement();
+ 	   String sql = "select * from searchRecord";  
+ 	   ResultSet rs = stmt.executeQuery(sql); 
+%>
+
+          <div class="tpl-content-wrapper">
+
+                  <ol class="am-breadcrumb">
+                      <li><a href="admin.jsp" class="am-icon-home">首页</a></li>
+                      <li class="am-active">普通用户</li>
+                  </ol>
+                  <div class="tpl-portlet-components">
+
+                      <div class="tpl-block">
+                          <div class="am-g">
+                              <div class="am-u-sm-12">
+                                 
+                                      <table class="am-table am-table-striped am-table-hover table-main">
+                                          <thead>
+                                              <tr>
+                                                  <th class="table-id">ID</th>
+                                                  <th class="table-title">用户名</th>
+                                                  <th class="table-type">类型</th>
+                                                  <th class="table-author am-hide-sm-only">时间</th>
+                                                  <th class="table-date am-hide-sm-only">表名</th>
+                                                  <th class="table-set">操作</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                          <%
+                                            while(rs.next()){
+                                          %>
+                                              <tr>
+                                                  <td><%=rs.getInt("id") %></td>
+                                                  <%
+                                                  String tn = rs.getString("tablename");
+                                                  String type =null;
+                                                  int num = rs.getInt("type");
+                                                  if(num == 0){
+                                                	  type = "Search";
+                                                  }else{
+                                                	  type = "Upload";
+                                                  }
+                                                  %>
+                                                  <td><%=rs.getString("username")%></td>
+                                                  <td><%=type %></td>
+                                                  <td class="am-hide-sm-only"><%=rs.getDate("date") %></td>
+                                                  <td class="am-hide-sm-only"><%=tn %></td>
+                                                  <td>
+                                                  <form action="deleteTable">
+                                                              <input type="hidden" name="tablename" value=<%=tn %>>
+                                                              <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
+                                                     </form>
+                                                  </td>
+                                              </tr>
+										<%
+                                            }
+										%>
+                                          </tbody>
+                                      </table>
+                                      <hr>
+
+                              </div>
+
+                          </div>
+                      </div>
+                      <div class="tpl-alert"></div>
+                  </div>
+              </div>
+          </div>
     <script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
     <script src="assets/js/amazeui.min.js"></script>
     <script src="assets/js/app.js"></script>

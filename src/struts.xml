@@ -52,6 +52,14 @@
             <result name="success">/table-images-list.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
+          <action name="deleteTable" class="action.assistantOperation.DeleteTable" method="execute">
+            <result name="success">/chart.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+         <action name="upadmin" class="action.assistantOperation.UpAdmin" method="execute">
+            <result name="success">/table-font-list.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
        <action name="lovecolAction" class="action.tableOperation.LoveCol" method="execute">
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
