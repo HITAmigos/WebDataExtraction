@@ -113,7 +113,8 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
     	   <a data-toggle="dropdown" href="#" style="font-size:2.2em;margin-top:-10px;"><span class="spot"></span><%=String.valueOf(session.getAttribute("username")).trim() %></a>
     	    <ul class="dropdown-menu extended logout" style="float: left;background:#c0c0c0;">
                             <div class="log-arrow-up"></div>
-                            <li><a href="javascript:_iframe('<%=String.valueOf(session.getAttribute("username"))%>')"><i class=" icon-suitcase"></i>我的信息</a></li>
+                            <li><a href="javascript:_iframe('<%=String.valueOf(session.getAttribute("username"))%>')">
+                            <i class=" icon-suitcase"></i>我的信息</a></li>
                             <li><a href="comment.jsp"><i class="icon-bell-alt"></i>评论</a></li>
                             <li>
                             <a href="index.jsp"><i class="icon-key"></i>登出</a></li>

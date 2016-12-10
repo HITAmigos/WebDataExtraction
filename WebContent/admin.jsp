@@ -1,35 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*,action.admin.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  <link rel="shortcut icon" href="images/favicon.ico" />
+<head>
+<link rel="shortcut icon" href="images/favicon.ico" />
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="Mosaddek">
-    <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>后台管理</title>
-    <!-- Bootstrap core CSS -->
-    
-    <link href="admin/css/bootstrap.min.css" rel="stylesheet">
-    <link href="admin/css/bootstrap-reset.css" rel="stylesheet">
-    <!--external css-->
-    <link href="admin/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="admin/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
-    <link rel="stylesheet" href="admin/css/owl.carousel.css" type="text/css">
-    <!-- Custom styles for this template -->
-    <link href="admin/css/style.css" rel="stylesheet">
-    <link href="admin/css/style-responsive.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="comment/style.css">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
-    <!--[if lt IE 9]>
-      <script src="js/html5shiv.js"></script>
-      <script src="js/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
+    <meta name="description" content="后台">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" href="assets/css/amazeui.min.css" />
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <script src="assets/js/echarts.min.js"></script>
+</head>
   <body>
 <!-- 顶部加载进度条！ -->
 <script src="public/js/preload.min.js"></script>
@@ -42,194 +32,150 @@ $.QianLoad.PageLoading({
 <%
 	String name=request.getParameter("username");  
 	session.setAttribute("username",name);
+	AdminOperation ao = new AdminOperation();
 %>
- <section id="container" class="">
-      <!--header start-->
-      <header class="header white-bg">
-            <div class="sidebar-toggle-box">
-                <div data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
+
+
+    <header class="am-topbar am-topbar-inverse admin-header">
+        <div class="am-topbar-brand">
+            <a href="main.jsp" class="tpl-logo">
+                <img src="images/logo.png" alt="">
+            </a>
+        </div>
+        <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right">
+        </div>
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+        <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+
+            <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+
+                <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                    <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                        <span class="tpl-header-list-user-nick"><%=name %></span><span class="tpl-header-list-user-ico"> <img src="assets/img/user01.png"></span>
+                    </a>
+                    <ul class="am-dropdown-content">
+                        <li><a href="index.jsp"><span class="am-icon-power-off"></span> 退出</a></li>
+                    </ul>
+                </li>
+                <li><a href="index.jsp" class="tpl-header-list-link"><span class="am-icon-sign-out tpl-header-list-ico-out-size"></span></a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="tpl-page-container tpl-page-header-fixed">
+        <div class="tpl-left-nav tpl-left-nav-hover">
+            <div class="tpl-left-nav-title">
+                操作
             </div>
-            <!--logo start-->
-            <a href="main.jsp?username=<%=String.valueOf(session.getAttribute("username")) %>" class="logo">Up<span>2U</span></a>
-            <!--logo end-->
-            <div class="top-nav ">
-                <!--search & user info start-->
-                <ul class="nav pull-right top-menu">
-                    <li>
-                        <input type="text" class="form-control search" placeholder="搜索">
-                    </li>
-                    <!-- user login dropdown start-->
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img alt="" src="admin/img/avatar1_small.jpg">
-                            <span class="username"><%=String.valueOf(session.getAttribute("username")) %></span>
-                            <b class="caret"></b>
+            <div class="tpl-left-nav-list">
+                <ul class="tpl-left-nav-menu">
+                    <li class="tpl-left-nav-item">
+                        <a href="admin.jsp" class="nav-link active">
+                            <i class="am-icon-home"></i>
+                            <span>主页</span>
                         </a>
-                        <ul class="dropdown-menu extended logout">
-                            <div class="log-arrow-up"></div>
-                            <li><a href="#"><i class=" icon-suitcase"></i>Profile</a></li>
-                            <li><a href="#"><i class="icon-cog"></i> 设置</a></li>
-                            <li><a href="#"><i class="icon-bell-alt"></i> 通知</a></li>
-                            <li><a href="index.jsp"><i class="icon-key"></i>登出</a></li>
+                    </li>
+                    <li class="tpl-left-nav-item">
+                        <a href="chart.jsp" class="nav-link tpl-left-nav-link-list">
+                            <i class="am-icon-bar-chart"></i>
+                            <span>数据表</span>
+                        </a>
+                    </li>
+
+                    <li class="tpl-left-nav-item">
+                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                            <i class="am-icon-table"></i>
+                            <span>用户</span>
+                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                        </a>
+                        <ul class="tpl-left-nav-sub-menu">
+                            <li>
+                                <a href="table-font-list.jsp">
+                                    <i class="am-icon-angle-right"></i>
+                                    <span>管理员</span>
+                                    <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                                </a>
+                                <a href="table-images-list.jsp">
+                                    <i class="am-icon-angle-right"></i>
+                                    <span>普通用户</span>
+                                   </a>
+                            </li>
                         </ul>
                     </li>
-                    <!-- user login dropdown end -->
+
+                    <li class="tpl-left-nav-item">
+                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                            <i class="am-icon-wpforms"></i>
+                            <span>留言</span>
+                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right tpl-left-nav-more-ico-rotate"></i>
+                        </a>
+                        <ul class="tpl-left-nav-sub-menu" style="display: block;">
+                            <li>
+                                <a href="form-amazeui.jsp">
+                                    <i class="am-icon-angle-right"></i>
+                                    <span>添加用户</span>
+                                    <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                                </a>
+
+                                <a href="form-news.jsp">
+                                    <i class="am-icon-angle-right"></i>
+                                    <span>留言</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
-                <!--search & user info end-->
             </div>
-        </header>
-      <!--header end-->
-      <!--sidebar start-->
-      <aside>
-          <div id="sidebar"  class="nav-collapse ">
-              <!-- sidebar menu start-->
-              <ul class="sidebar-menu">
-                  <li class="active">
-                      <a class="" href="admin.jsp">
-                          <i class="icon-dashboard"></i>
-                          <span>主页</span>
-                      </a>
-                  </li>
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i class="icon-cogs"></i>
-                          <span>设置</span>
-                          <span class="arrow"></span>
-                      </a>
-                      <ul class="sub">
-                          <li><a class="" href="admin/html/grids.html">Grids</a></li>
-                          <li><a class="" href="admin/html/calendar.html">Calendar</a></li>
-                          <li><a class="" href="admin/html/charts.html">Charts</a></li>
-                      </ul>
-                  </li>
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i class="icon-tasks"></i>
-                          <span>用户</span>
-                          <span class="arrow"></span>
-                      </a>
-                      <ul class="sub">
-                          <li><a class="" href="admin/html/form_component.html">Form Components</a></li>
-                          <li><a class="" href="admin/html/form_wizard.html">Form Wizard</a></li>
-                          <li><a class="" href="admin/html/form_validation.html">Form Validation</a></li>
-                      </ul>
-                  </li>
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i class="icon-th"></i>
-                          <span>数据表</span>
-                          <span class="arrow"></span>
-                      </a>
-                      <ul class="sub">
-                          <li><a class="" href="admin/html/basic_table.html">Basic Table</a></li>
-                          <li><a class="" href="admin/html/dynamic_table.html">Dynamic Table</a></li>
-                      </ul>
-                  </li>
-                  <li>
-                      <a class="" href="admin/html/inbox.html">
-                          <i class="icon-envelope"></i>
-                          <span>留言</span>
-                          <span class="label label-danger pull-right mail-info"></span>
-                      </a>
-                  </li>
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i class="icon-glass"></i>
-                          <span>拓展</span>
-                          <span class="arrow"></span>
-                      </a>
-                      <ul class="sub">
-                          <li><a class="" href="admin/html/blank.html">空白页</a></li>
-                          <li><a class="" href="admin/html/profile.html">Profile</a></li>
-                          <li><a class="" href="admin/html/invoice.html">Invoice</a></li>
-                      </ul>
-                  </li>
-              </ul>
-              <!-- sidebar menu end-->
+        </div>
+
+
+        <div class="tpl-content-wrapper">
+            <ol class="am-breadcrumb">
+                <li><a href="admin.jsp" class="am-icon-home">首页</a></li>
+                <li class="am-active">内容</li>
+            </ol>
+            <div class="row">
+                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                    <div class="dashboard-stat blue">
+                        <div class="visual">
+                            <i class="am-icon-comments-o"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number"><%=ao.CommentNum() %></div>
+                            <div class="desc"> 留言</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                    <div class="dashboard-stat red">
+                        <div class="visual">
+                            <i class="am-icon-bar-chart-o"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number"> <%=ao.RecordNum() %> </div>
+                            <div class="desc"> 数据表 </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
+                    <div class="dashboard-stat green">
+                        <div class="visual">
+                            <i class="am-icon-apple"></i>
+                        </div>
+                        <div class="details">
+                            <div class="number"> <%=ao.UserNum() %> </div>
+                            <div class="desc"> 用户 </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
           </div>
-      </aside>
-      <!--sidebar end-->
-      <!--main content start-->
-      <section id="main-content">
-          <section class="wrapper">
-              <!--state overview start-->
-              <div class="row state-overview">
-                  <div class="col-lg-3 col-sm-6">
-                      <section class="panel">
-                          <div class="symbol terques">
-                              <i class="icon-user"></i>
-                          </div>
-                          <div class="value">
-                              <h1>22</h1>
-                              <p>用户</p>
-                          </div>
-                      </section>
-                  </div>
-                  <div class="col-lg-3 col-sm-6">
-                      <section class="panel">
-                          <div class="symbol red">
-                              <i class="icon-tags"></i>
-                          </div>
-                          <div class="value">
-                              <h1>140</h1>
-                              <p>留言</p>
-                          </div>
-                      </section>
-                  </div>
-                  <div class="col-lg-3 col-sm-6">
-                      <section class="panel">
-                          <div class="symbol blue">
-                              <i class="icon-bar-chart"></i>
-                          </div>
-                          <div class="value">
-                              <h1>34,500</h1>
-                              <p>数据表</p>
-                          </div>
-                      </section>
-                  </div>
-              </div>
-    <!-- js placed at the end of the document so the pages load faster -->
-    <script src="admin/js/jquery.js"></script>
-    <script src="admin/js/jquery-1.8.3.min.js"></script>
-    <script src="admin/js/bootstrap.min.js"></script>
-    <script src="admin/js/jquery.scrollTo.min.js"></script>
-    <script src="admin/js/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="admin/js/jquery.sparkline.js" type="text/javascript"></script>
-    <script src="admin/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js"></script>
-    <script src="admin/js/owl.carousel.js" ></script>
-    <script src="admin/js/jquery.customSelect.min.js" ></script>
-    <!--common script for all pages-->
-    <script src="admin/js/common-scripts.js"></script>
-    <!--script for this page-->
-    <script src="admin/js/sparkline-chart.js"></script>
-    <script src="admin/js/easy-pie-chart.js"></script>
-  <script>
-      //owl carousel
 
-      $(document).ready(function() {
-          $("#owl-demo").owlCarousel({
-              navigation : true,
-              slideSpeed : 300,
-              paginationSpeed : 400,
-              singleItem : true
 
-          });
-      });
+    <script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
+    <script src="assets/js/amazeui.min.js"></script>
+    <script src="assets/js/iscroll.js"></script>
+    <script src="assets/js/app.js"></script>
 
-      //custom select box
-
-      $(function(){
-          $('select.styled').customSelect();
-      });
-
-  </script>
-<div class="box2">
-  <ul>
-    <li class="weixin">
-      <div class="weixin-logo"></div>
-    </li>
-    <a href="comment.jsp"><li class="idea"></li></a>
-  </ul>
-</div>
   </body>
 </html>

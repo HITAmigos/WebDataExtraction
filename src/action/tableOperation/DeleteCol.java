@@ -30,7 +30,6 @@ public int getColNum() {
     tag[1] = '1';
     columnName.add(new Integer(colNum).toString());
     value.add(new String(tag));
-    
     if(!db.update(columnName, value)){
      result = "error";
     }
