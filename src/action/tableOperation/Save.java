@@ -34,7 +34,7 @@ public class Save extends Action {
   }
 
   private boolean IsExistSearchRecord() {
-    return SearchRecordTable.UrlIsExist(username,url);
+    return SearchRecordTable.UrlIsExist(username, url);
   }
 
   private WebText grabTable() {
@@ -122,26 +122,30 @@ public class Save extends Action {
       WebText wt = grabTable();
       String tablename;
       int[] colMaxLength = null;
-      for (int i = 0; i < wt.getTable().size() && flag; i++) {
-        String[][] table = wt.getTable().get(i);
-        tablename = insertSearchRecord();
-        colMaxLength = new int[table[0].length];
-        for (int m = 0; m < table.length; m++) {
-          for (int n = 0; n < table[0].length; n++) {
-            if (colMaxLength[n] < table[m][n].length()) {
-              colMaxLength[n] = table[m][n].length();
+      if (wt.getTable().size() == 0) {
+        result = "error";
+      } else {
+        for (int i = 0; i < wt.getTable().size() && flag; i++) {
+          String[][] table = wt.getTable().get(i);
+          tablename = insertSearchRecord();
+          colMaxLength = new int[table[0].length];
+          for (int m = 0; m < table.length; m++) {
+            for (int n = 0; n < table[0].length; n++) {
+              if (colMaxLength[n] < table[m][n].length()) {
+                colMaxLength[n] = table[m][n].length();
+              }
             }
           }
-        }
-        if (!createTable(tablename, table[0], colMaxLength)) {
-          flag = false;
-        }
-        if (!insertTable(tablename, table)) {
-          flag = false;
+          if (!createTable(tablename, table[0], colMaxLength)) {
+            flag = false;
+          }
+          if (!insertTable(tablename, table)) {
+            flag = false;
+          }
         }
       }
       if (!flag) {
-        result = "failure";
+        result = "error";
       }
     }
     System.out.println(result);
