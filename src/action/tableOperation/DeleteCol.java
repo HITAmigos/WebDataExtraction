@@ -6,17 +6,7 @@ import action.Action;
 import entity.Database;
 
 public class DeleteCol extends Action {
-  private int colNum = 0;
-  private String tablename;
-  private int rownum;
-  public String getTablename() {
-	return tablename;
-}
-
-public void setTablename(String tablename) {
-	this.tablename = tablename;
-}
-
+  private int colNum;
 public int getColNum() {
     return colNum;
   }
@@ -26,11 +16,10 @@ public int getColNum() {
   }
 
   //使用数据库类中的update方法
-  //将数据库中对应表格列的一行中"0X"->"1X"
+  //将数据库中对应表格列的一行中"X0"->"X1"
   //传递给数据库类的参数在数据库类Update方法处有注释
   public String execute() {
     String result = "success";
-    setColNum(rownum);
     char[] tag = null;
     ArrayList<String> columnName = new ArrayList<String>();
     ArrayList<Object> value = new ArrayList<Object>();
@@ -38,7 +27,7 @@ public int getColNum() {
     value.add(new Integer(1));
     Database db = new Database(tablename);
     tag = db.getRecord("id",1)[colNum+1].toCharArray();
-    tag[0] = '1';
+    tag[1] = '1';
     columnName.add(new Integer(colNum).toString());
     value.add(new String(tag));
     
@@ -47,12 +36,5 @@ public int getColNum() {
     }
     return result;
   }
-public int getRownum() {
-	return rownum;
-}
-
-public void setRownum(int rownum) {
-	this.rownum = rownum;
-}
   
 }

@@ -6,16 +6,8 @@ import action.Action;
 import entity.Database;
 
 public class DeleteRow extends Action {
-  private int rowNum = 0;
-  private int colnum;
-  public int getColnum() {
-	return colnum;
-}
-
-
-public void setColnum(int colnum) {
-	this.colnum = colnum;
-}
+  private int rowNum;
+ 
   public int getRowNum() {
     return rowNum;
   }
@@ -26,23 +18,22 @@ public void setColnum(int colnum) {
   }
   
   //使用数据库类中的update方法
-  //将数据库中对应表格行的一行中"0XX"->"1XX"
+  //将数据库中对应表格行的一行中"X0X"->"X1X"
   public String execute() {
     String result = "success";
-    setRowNum(colnum);
     char[] tag = null;
     ArrayList<String> columnName = new ArrayList<String>();
     ArrayList<Object> value = new ArrayList<Object>();
     columnName.add("id");
-    value.add(new Integer(rowNum+1));
+    value.add(new Integer(rowNum));
     Database db = new Database(tablename);
-    tag = db.getRecord("id",rowNum+1)[1].toCharArray();
-    tag[0] = '1';
+    tag = db.getRecord("id",rowNum)[1].toCharArray();
+    tag[1] = '1';
     columnName.add("0");
     value.add(new String(tag));
     
     if(!db.update(columnName, value)){
-     result = "failure";
+     result = "error";
     }
     return result;
   }

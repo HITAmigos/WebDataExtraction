@@ -68,17 +68,17 @@ button{
     </a>
     <ul class="dropdown-menu">
             <li>
-            		<form action="deleterowAction">
+            		<form action="deletecolAction">
 						<input type="hidden" value=<%=tablename%> name="tablename">
-						<input type="hidden" value=<%=j - 2%> name="rownum">
-                        <button type="submit" class="btn btn-primary">删除此列</button>      
+						<input type="hidden" value=<%=j - 2%> name="colNum">
+                       <a> <button type="submit" class="btn btn-primary">删除此列</button>  </a>    
                  </form>
             </li>
            <li>
-            		<form action="loverowAction" >
+            		<form action="lovecolAction" >
 						<input type="hidden" value=<%=tablename%> name="tablename">
-						<input type="hidden" value=<%=j - 2%> name="rownum">
-						<button type="submit" class="btn btn-success">收藏此列</button>            		
+						<input type="hidden" value=<%=j - 2%> name="colNum">
+						<a ><button type="submit" class="btn btn-success">收藏此列</button>   </a>         		
 					</form>
             </li>
             <li>
@@ -163,16 +163,16 @@ button{
     </a>
     <ul class="dropdown-menu">
             <li>
-            		<form action="deletecolAction">
+            		<form action="deleterowAction">
 						<input type="hidden" value=<%=tablename%> name="tablename">
-						<input type="hidden" value=<%=colnum%> name="colnum">
+						<input type="hidden" value=<%=colnum%> name="rowNum">
             			<button type="submit" class="btn btn-primary">删除此行</button> 
             		</form>
             </li>
            <li>
-            		<form action="lovecolAction" >
+            		<form action="loverowAction" >
 						<input type="hidden" value=<%=tablename%> name="tablename">
-						<input type="hidden" value=<%=colnum%> name="colnum">
+						<input type="hidden" value=<%=colnum%> name="rowNum">
             			<button type="submit" class="btn btn-success">收藏此行</button>  
             		</form>
             </li>

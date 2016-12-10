@@ -8,11 +8,11 @@ import entity.Database;
 public class UpdateCol extends Action {
   private int colNum;
   private String str;
-  public int getColNum() {
+  public int getColNum(){
     return colNum;
   }
 
-  public void setColNum(int colNum) {
+  public void setColNum(int colNum){
     this.colNum = colNum;
   }
   // 获取的newRow数组中第i个元素即为第i-1行元素，利用这个条件：id = （i+1）
