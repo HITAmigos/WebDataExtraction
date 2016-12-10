@@ -73,7 +73,7 @@ public class ExportExcel extends ActionSupport {
 
   private static void exportExcel(String fileName, List<String> listth, List<String> listtd,
       int columnCount) {
-    String excelName = "C:\\Users\\liuyx\\Desktop\\" + fileName + ".xls";
+    String excelName = "/Users/kuangmeng/Desktop/" + fileName + ".xls";
     int[] strLength = new int[columnCount];
     try {
       File excelFile = new File(excelName);

@@ -209,21 +209,15 @@ public class ContentReader {
    */
   public String varifyInput() {
     String variety = new String();
-
-    if (url.length() >= 7) {
+  if(url == null){
+	  variety = UPLOAD;
+  }else if (url.length() >= 7) {
       if (url.substring(0, 5).equals(HTTPS)) {
         variety = HTTPS;
       } else if (url.substring(0, 4).equals(HTTP)) {
         variety = HTTP;
-      } else {
-        file = new File(url);
-        variety = UPLOAD;
-      }
-    } else {
-      file = new File(url);
-      variety = UPLOAD;
-    }
-
+      } 
+  }
     return variety;
   }
 

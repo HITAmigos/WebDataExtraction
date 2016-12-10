@@ -29,12 +29,7 @@
             <result name="error">/error.jsp</result>
         </action>
         
-       
-        
-        <action name="fileuploadAction" class="action.tableOperation.FileUploadAction" method="execute">
-            <result name="success">/success.jsp</result>
-            <result name="error">/error.jsp</result>
-        </action>
+      
          <action name="excelAction" class="action.assistantOperation.ExportExcel" method="execute">
             <result name="success">/success.jsp</result>
             <result name="error">/error.jsp</result>
@@ -47,7 +42,14 @@
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-        
+         <action name="updatecolAction" class="action.tableOperation.UpdateCol" method="execute">
+            <result name="success">/operations.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+        <action name="UpdaterowAction" class="action.tableOperation.UpdateRow" method="execute">
+            <result name="success">/operations.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
         <action name="deleteUser" class="action.assistantOperation.DeleteUser" method="execute">
             <result name="success">/table-images-list.jsp</result>
             <result name="error">/error.jsp</result>
@@ -92,6 +94,14 @@
            <action name="addUser" class="action.assistantOperation.AddUser" method="execute">
             <result name="success">/table-images-list.jsp</result>
              <result name="exist">/form-amazeui.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+         <action name="mailAction" class="action.assistantOperation.MailAction" method="execute">
+            <result name="success">/index.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+         <action name="fileuploadAction" class="action.tableOperation.Save" method="execute">
+            <result name="success">/index.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
     </package> 

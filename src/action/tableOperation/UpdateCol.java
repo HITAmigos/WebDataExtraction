@@ -11,7 +11,6 @@ public class UpdateCol extends Action {
   public int getColNum(){
     return colNum;
   }
-
   public void setColNum(int colNum){
     this.colNum = colNum;
   }
@@ -27,7 +26,7 @@ public class UpdateCol extends Action {
     columnName.add("id");
     columnName.add(new Integer(colNum).toString());
     Database db = new Database(tablename);
-    for (int i = 0; i < newCol.length; i++) {
+    for (int i = 0; i < newCol.length; i++){
       if (newCol[i] != null) {
         value.add(i + 2);
         value.add(newCol[i]);

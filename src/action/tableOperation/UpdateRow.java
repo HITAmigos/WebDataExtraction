@@ -6,8 +6,7 @@ import action.Action;
 import entity.Database;
 
 public class UpdateRow extends Action {
-  private int rowNum = 0;
-  private int colnum;
+  private int rowNum;
   private String str;
   public int getRowNum() {
     return rowNum;
@@ -24,7 +23,6 @@ public class UpdateRow extends Action {
   @Override
   public String execute(){
     String result = "success";
-    setRowNum(colnum);
     str = str.substring(0, str.length()-1);
     String[] newRow = str.split("\\,");
     ArrayList<String> columnName = new ArrayList<String>();
@@ -55,12 +53,5 @@ public void setStr(String str) {
 	this.str = str;
 }
 
-public int getColnum() {
-	return colnum;
-}
-
-public void setColnum(int colnum) {
-	this.colnum = colnum;
-}
   
 }

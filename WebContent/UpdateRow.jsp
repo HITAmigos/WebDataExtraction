@@ -22,7 +22,7 @@ $.QianLoad.PageLoading({
 </script>
 <%
 String tablename = request.getParameter("tablename");
-int rownum = Integer.parseInt(request.getParameter("rownum"));
+int rowNum = Integer.parseInt(request.getParameter("rownum"));
 SqlConst c = new SqlConst();
 final String DB_URL = c.getDB_URL();
 final String USER = c.getUSER();
@@ -48,9 +48,9 @@ document.getElementById("result").value = num;
 }
 </script>
 <div style="width:60%;margin:10% auto;">
-<form  action="addAction">
+<form  action="updaterowAction">
 <input type="hidden" name="tablename" value=<%=tablename %>>
-<input type="hidden" name="rownum" value=<%=rownum %>>
+<input type="hidden" name="rowNum" value=<%=rowNum %>>
 <%
   for(int i=0;i<num-2;i++){
 %>
@@ -59,9 +59,8 @@ document.getElementById("result").value = num;
   }
 %>
 <input type="hidden" name="str" id="result">
-<button type="button" class="btn btn-primary  btn-block" style ="margin:20px auto;">确认修改</button>
+<button type="submit" class="btn btn-primary  btn-block" style ="margin:20px auto;">确认修改</button>
 </form>
 </div>
-
 </body>
 </html>

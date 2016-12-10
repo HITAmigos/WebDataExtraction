@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import entity.assistantEntity.*;
 
-public class Email {
+public class MailAction {
 	SqlConst c=new SqlConst();
     final String DB_URL = c.getDB_URL();
     final String USER = c.getUSER();

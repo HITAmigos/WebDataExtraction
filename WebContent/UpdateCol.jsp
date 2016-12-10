@@ -35,9 +35,13 @@ conn = DriverManager.getConnection(DB_URL, USER, PASS);
 stmt = conn.createStatement();
 String sql = "SELECT * FROM `" + tablename+"`";
 ResultSet rs = stmt.executeQuery(sql);
-int num = Integer.parseInt(rownum.trim());
+int num = 0;
+while(rs.next()){
+	if(rs.getInt("id")>0){
+		num++;
+	}
+}
 %>
-
 <script type="text/javascript">
 
 function n(num2){
@@ -50,18 +54,18 @@ document.getElementById("result").value = num;
 
 </script>
 <div style="width:60%;margin:10% auto;">
-<form  action="addAction">
+<form  action="updatecolAction">
 <input type="hidden" name="tablename" value=<%=tablename %>>
 <input type="hidden" name="colNum" value=<%=rownum %>>
 <%
-  for(int i=0;i<num-2;i++){
+  for(int i=0;i<num-1;i++){
 %>
 <input type="text" id="num<%=i%>" class="form-control" onblur="n(<%=num-2%>)" style ="margin-top:20px;">
 <%
   }
 %>
 <input type="hidden" name="str" id="result">
-<button type="button" class="btn btn-primary  btn-block" style ="margin:20px auto;">确认修改</button>
+<button type="submit" class="btn btn-primary  btn-block" style ="margin:20px auto;">确认修改</button>
 </form>
 </div>
 

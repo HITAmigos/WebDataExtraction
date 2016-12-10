@@ -59,7 +59,7 @@ document.getElementById("result").value = num;
   }
 %>
 <input type="hidden" name="str" id="result">
-<input type="button" class="btn btn-primary  btn-block" style ="margin:20px auto;text-align:center;" value="确认修改">
+<input type="submit" class="btn btn-primary  btn-block" style ="margin:20px auto;text-align:center;" value="确认修改">
 </form>
 </div>
 
