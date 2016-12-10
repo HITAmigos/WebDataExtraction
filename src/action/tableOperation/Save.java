@@ -110,7 +110,7 @@ public class Save extends Action {
       WebText wt = grabTable();
       String tablename;
       int[] colMaxLength = null;
-      for (int i = 0; i < wt.getTable().size() && flag; i++) {
+      for (int i = 0; i < wt.getTable().size() && flag; i++){
         String[][] table = wt.getTable().get(i);
         tablename = insertSearchRecord();
         colMaxLength = new int[table[0].length];
@@ -129,22 +129,11 @@ public class Save extends Action {
         }
       }
       if (!flag) {
-        result = "failure";
+        result = "error";
       }
     }
     System.out.println(result);
 
     return result;
   }
-
-
-  public static void main(String args[]) {
-    Save s = new Save();
-    s.setUsername("lyx");
-    // http://www.w3school.com.cn/html/html_tables.asp
-    // http://software.hit.edu.cn/dsb.html
-    s.setUrl("C:\\Users\\liuyx\\Desktop\\博士生导师 - 哈尔滨工业大学软件学院.html");
-    s.execute();
-  }
-
 }

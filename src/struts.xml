@@ -31,7 +31,7 @@
         
        
         
-        <action name="fileuploadAction" class="action.tableOperation.Save" method="execute">
+        <action name="fileuploadAction" class="action.tableOperation.FileUploadAction" method="execute">
             <result name="success">/success.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
