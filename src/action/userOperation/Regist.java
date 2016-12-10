@@ -36,6 +36,7 @@ public String getEmail() {
 
   public String execute(){
     String result = "success";
+    username = username.toLowerCase();
     System.out.println(password);
     System.out.println(pass);
     System.out.println(username);
