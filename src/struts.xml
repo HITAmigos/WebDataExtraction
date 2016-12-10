@@ -89,6 +89,10 @@
             <result name="success">/form-news.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-         
+           <action name="addUser" class="action.assistantOperation.AddUser" method="execute">
+            <result name="success">/table-images-list.jsp</result>
+             <result name="exist">/form-amazeui.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
     </package> 
 </struts>

@@ -12,10 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="icon" type="image/png" href="assets/i/favicon.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
-    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
-    <link rel="stylesheet" href="assets/css/amazeui.min.css" />
+     <link rel="stylesheet" href="assets/css/amazeui.min.css" />
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="assets/css/app.css">
     <script src="assets/js/echarts.min.js"></script>
@@ -110,7 +107,11 @@ $.QianLoad.PageLoading({
                           </a>
                           <ul class="tpl-left-nav-sub-menu" style="display: block;">
                               <li>
-                                  
+                                   <a href="form-amazeui.jsp">
+                                  <i class="am-icon-angle-right"></i>
+                                  <span>添加用户</span>
+                                  <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                              </a>
 
                                   <a href="form-news.jsp">
                                       <i class="am-icon-angle-right"></i>

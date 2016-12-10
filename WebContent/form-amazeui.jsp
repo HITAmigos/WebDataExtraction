@@ -12,22 +12,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-   <link rel="stylesheet" href="assets/css/amazeui.min.css" />
+   
+    <link rel="stylesheet" href="assets/css/amazeui.min.css" />
     <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="assets/css/app.css">
-    <script src="assets/js/echarts.min.js"></script>
 </head>
-  <body>
-<!-- 顶部加载进度条！ -->
-<script src="public/js/preload.min.js"></script>
-<script type="text/javascript">
-//调用
-$.QianLoad.PageLoading({
-    sleep: 50
-});
-</script>
 
 <body data-type="generalComponents">
+
+
   <header class="am-topbar am-topbar-inverse admin-header">
       <div class="am-topbar-brand">
           <a href="main.jsp" class="tpl-logo">
@@ -97,6 +90,7 @@ $.QianLoad.PageLoading({
                           </li>
                       </ul>
                   </li>
+
                   <li class="tpl-left-nav-item">
                       <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
                           <i class="am-icon-wpforms"></i>
@@ -105,7 +99,7 @@ $.QianLoad.PageLoading({
                       </a>
                       <ul class="tpl-left-nav-sub-menu" style="display: block;">
                           <li>
-                              <a href="form-amazeui.jsp">
+                           <a href="form-amazeui.jsp">
                                   <i class="am-icon-angle-right"></i>
                                   <span>添加用户</span>
                                   <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
@@ -121,96 +115,54 @@ $.QianLoad.PageLoading({
           </div>
       </div>
 
-<%
-		SqlConst sc = new SqlConst();
-        final String DB_URL = sc.getDB_URL();
-        final String PASS = sc.getPASS();
-        final String USER = sc.getUSER();
-        Connection conn = null;
-	    Statement stmt = null;
-        Class.forName("com.mysql.jdbc.Driver").newInstance();
- 	   conn = DriverManager.getConnection(DB_URL,USER,PASS);
- 	   stmt = conn.createStatement();
- 	   String sql = "select * from user where limited = 0";  
- 	   ResultSet rs = stmt.executeQuery(sql); 
- 	 
-%>
+        <div class="tpl-content-wrapper">
+
+            <ol class="am-breadcrumb">
+                <li><a href="#" class="am-icon-home">首页</a></li>
+                <li class="am-active">添加用户</li>
+            </ol>
+            <div class="tpl-portlet-components">
+
+                <div class="tpl-block ">
+
+                    <div class="am-g tpl-amazeui-form">
 
 
+                        <div class="am-u-sm-12 am-u-md-9">
+                            <form class="am-form am-form-horizontal" action= "addUser">
+                                <div class="am-form-group">
+                                    <label for="user-name" class="am-u-sm-3 am-form-label">用户名 / Username</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="text" id="user-name" name="username" placeholder="用户名 / Username">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-email" class="am-u-sm-3 am-form-label">电子邮件 / Email</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="email" id="user-email" name="email" placeholder="电子邮件 / Email">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label for="user-email" class="am-u-sm-3 am-form-label">密码 / Password</label>
+                                    <div class="am-u-sm-9">
+                                        <input type="password" id="user-weibo"  name="password" placeholder="密码 / Password">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="submit" class="am-btn am-btn-primary">确认添加</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-              <div class="tpl-content-wrapper">
+    </div>
 
-                  <ol class="am-breadcrumb">
-                      <li><a href="admin.jsp" class="am-icon-home">首页</a></li>
-                      <li class="am-active">普通用户</li>
-                  </ol>
-                  <div class="tpl-portlet-components">
 
-                      <div class="tpl-block">
-                          <div class="am-g">
-                              <div class="am-u-sm-12">
-                                  
-                                      <table class="am-table am-table-striped am-table-hover table-main">
-                                          <thead>
-                                              <tr>
-                                                  <th class="table-id">ID</th>
-                                                  <th class="table-title">用户名</th>
-                                                  <th class="table-type">邮箱</th>
-                                                  <th class="table-author am-hide-sm-only">等级</th>
-                                                  <th class="table-date am-hide-sm-only">积分</th>
-                                                  <th class="table-set">操作</th>
-                                                  <th class="table-set">提升权限</th>
-                                              </tr>
-                                          </thead>
-                                          <tbody>
-                                          <%
-                                            while(rs.next()){
-                                          %>
-                                              <tr>
-                                                  <td><%=rs.getInt("id") %></td>
-                                                  <%
-                                                    String username=rs.getString("username");
-                                                  %>
-                                                  <td><%=username%></a></td>
-                                                  <td><%=rs.getString("email") %></td>
-                                                  <td class="am-hide-sm-only"><%=rs.getInt("level") %></td>
-                                                  <td class="am-hide-sm-only"><%=rs.getInt("coins") %></td>
-                                                  <td>
-                                                      <div class="am-btn-toolbar">
-                                                          <div class="am-btn-group am-btn-group-xs">
-                                                          <form action="deleteUser" method="post">
-                                                              <input type="hidden" name="username" value=<%=username %>>
-                                                              <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
-                                                          </form>
-                                                          </div>
-                                                          </div>
-                                                   </td>
-                                                   <td>
-                                                          <div class="am-btn-toolbar">
-                                                          <div class="am-btn-group am-btn-group-xs">
-                                                          <form action="upadmin">
-                                                              <input type="hidden" name="username" value=<%=username %>>
-                                                              <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 提升</button>
-                                                          </form>
-                                                          </div>
-                                                      </div>
-                                                  </td>
-                                              </tr>
-										<%
-                                            }
-										%>
-                                          </tbody>
-                                      </table>
-                                      <hr>
-
-                              </div>
-
-                          </div>
-                      </div>
-                      <div class="tpl-alert"></div>
-                  </div>
-              </div>
-          </div>
     <script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
     <script src="assets/js/amazeui.min.js"></script>
     <script src="assets/js/app.js"></script>
