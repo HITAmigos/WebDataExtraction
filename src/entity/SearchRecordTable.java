@@ -75,11 +75,12 @@ public class SearchRecordTable {
     return userSearchRecords;
   }
 
-  public static boolean UrlIsExist(String url) {
+  public static boolean UrlIsExist(String username,String url) {
     boolean result = false;
-    List<SearchRecord> SearchRecordSet = getSearchRecordSet();
-    for (int i = 0; i < SearchRecordSet.size(); i++) {
-      if (SearchRecordSet.get(i).getLink().equals(url)) {
+    List<SearchRecord> UserSearchRecord = getUserSearchRecord(username);
+    for (int i = 0; i < UserSearchRecord.size(); i++) {
+      System.out.println(UserSearchRecord.get(i).getLink());
+      if (url!=null&&UserSearchRecord.get(i).getLink().equals(url)) {
         result = true;
         break;
       }

@@ -9,7 +9,7 @@ public class SqlConst {
       "jdbc:mysql://localhost:3306/graphgrabtest?useUnicode=true&characterEncoding=utf8&&useSSL=false";
   private  final String name = "com.mysql.jdbc.Driver";
   private final String USER = "root";
-  private  final String PASS = "601939";
+  private  final String PASS = "123456789";
   static int id =0;
   public static int getId() {
 	return id;

@@ -26,6 +26,10 @@ public class ContentReader {
     this.url = url;
   }
 
+  public void setFile(File file) {
+    this.file = file;
+  }
+
   public String getContent() {
     return content;
   }
@@ -210,18 +214,16 @@ public class ContentReader {
   public String varifyInput() {
     String variety = new String();
 
-    if (url.length() >= 7) {
+    System.out.println(url);
+
+    if (url == null) {
+      variety = UPLOAD;
+    } else if (url.length() >= 7) {
       if (url.substring(0, 5).equals(HTTPS)) {
         variety = HTTPS;
       } else if (url.substring(0, 4).equals(HTTP)) {
         variety = HTTP;
-      } else {
-        file = new File(url);
-        variety = UPLOAD;
       }
-    } else {
-      file = new File(url);
-      variety = UPLOAD;
     }
 
     return variety;
@@ -232,22 +234,19 @@ public class ContentReader {
    * 
    * @return
    */
-  public String readAsString() {
-    String webContent = null;
+  public void readAsString() {
+    //String webContent = null;
     String variety = varifyInput();
 
     if (variety.equals(HTTP)) {
       getString(variety, url);
-      // sourceInfo[3][1] = "0";
     } else if (variety.equals(HTTPS)) {
       getString(variety, url);
-      // sourceInfo[3][1] = "0";
     } else if (variety.equals(UPLOAD)) {
       getString(file);
-      // sourceInfo[3][1] = "1";
     }
 
-    return webContent;
+    // return webContent;
   }
 
 }

@@ -1,5 +1,6 @@
 package action.tableOperation;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import entity.assistantEntity.*;
 public class Save extends Action {
   private String url = null;
   private int type = 0;
+  private File myFile = null;
 
   public String getUrl() {
     return url;
@@ -23,8 +25,16 @@ public class Save extends Action {
     this.url = url;
   }
 
+  public File getMyFile() {
+    return myFile;
+  }
+
+  public void setMyFile(File myFile) {
+    this.myFile = myFile;
+  }
+
   private boolean IsExistSearchRecord() {
-    return SearchRecordTable.UrlIsExist(url);
+    return SearchRecordTable.UrlIsExist(username,url);
   }
 
   private WebText grabTable() {
@@ -32,6 +42,7 @@ public class Save extends Action {
     WebText wt = new WebText();
     cr.setUrl(url);
     if (cr.varifyInput().equals("upload")) {
+      cr.setFile(myFile);
       type = 1;
     } else {
       type = 0;
@@ -102,6 +113,7 @@ public class Save extends Action {
   @Override
   public String execute() {
     String result = "success";
+    System.out.println(url);
     if (IsExistSearchRecord()) {
       result = "exist";
       System.out.println(result);
