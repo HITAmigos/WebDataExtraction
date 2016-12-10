@@ -78,4 +78,25 @@ public class AdminOperation {
 		   return 0;
 	}
 }
+   public boolean AdminOrNot(String username) throws Exception{
+		Connection conn = null;
+	    Statement stmt = null;
+	try{
+	    Class.forName("com.mysql.jdbc.Driver").newInstance();
+	   conn = DriverManager.getConnection(DB_URL,USER,PASS);
+	   stmt = conn.createStatement();
+	   String sql = "select * from "+tablename[0]+" where username = \'"+username+"\'";  
+	   ResultSet rs = stmt.executeQuery(sql); 
+	   while(rs.next()){
+		   if(rs.getInt("limited")==1){
+			  return true;
+		   }
+	   }
+	   return false;
+	}catch(SQLException s){
+		   return false;
+	}catch(Exception e){
+		   return false;
+	}
+}
 }

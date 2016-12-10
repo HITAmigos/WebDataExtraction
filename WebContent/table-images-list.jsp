@@ -96,7 +96,7 @@ $.QianLoad.PageLoading({
                               <a href="table-images-list.jsp">
                                   <i class="am-icon-angle-right"></i>
                                   <span>普通用户</span>
-                                  <a href="form-news.html">
+                                  </a>
                           </li>
                       </ul>
                   </li>
@@ -180,10 +180,10 @@ $.QianLoad.PageLoading({
                                                   <td>
                                                       <div class="am-btn-toolbar">
                                                           <div class="am-btn-group am-btn-group-xs">
-                                                          <form action="deleteUser" >
+                                                          <form action="deleteUser" method="post">
                                                               <input type="hidden" name="username" value=<%=username %>>
                                                               <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
-                                                           </form>
+                                                          </form>
                                                           </div>
                                                       </div>
                                                   </td>

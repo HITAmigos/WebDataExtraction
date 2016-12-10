@@ -150,7 +150,7 @@ $.QianLoad.PageLoading({
                        %>
                        
                         <li>
-                            <div class="cosB" style="width:30px;">
+                            <div class="cosB" style="width:100px;">
                                 <%=rs.getString("username") %><br>
                                 <%=rs.getDate("date") %>
                             </div>

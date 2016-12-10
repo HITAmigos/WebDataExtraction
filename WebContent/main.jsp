@@ -1,4 +1,4 @@
-<%@ page language="java"  import="java.sql.*,java.io.*,java.util.*" contentType="text/html; charset=UTF-8"
+<%@ page language="java"  import="java.sql.*,java.io.*,java.util.*,action.admin.*" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html>
@@ -87,10 +87,11 @@ $.QianLoad.PageLoading({
 </head>
 <body>
 <% 
+String User=String.valueOf(session.getAttribute("username")).trim();
 if(String.valueOf(session.getAttribute("username")).equals("null")){
 	String name=request.getParameter("username");  
 	session.setAttribute("username",name);
-	String User=String.valueOf(session.getAttribute("username")).trim();
+	User=String.valueOf(session.getAttribute("username")).trim();
 }
 %>
 <div class="container demo-1" style="width:100%;">
@@ -115,7 +116,18 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
                             <div class="log-arrow-up"></div>
                             <li><a href="javascript:_iframe('<%=String.valueOf(session.getAttribute("username"))%>')">
                             <i class=" icon-suitcase"></i>我的信息</a></li>
+                            <%
+                              AdminOperation ao = new AdminOperation();
+                            if(!ao.AdminOrNot(User)){
+                            %>
                             <li><a href="comment.jsp"><i class="icon-bell-alt"></i>评论</a></li>
+                            <%
+                            }else{
+                            %>
+                             <li><a href="admin.jsp"><i class="icon-bell-alt"></i>管理</a></li>
+                            <%
+                            }
+                            %>
                             <li>
                             <a href="index.jsp"><i class="icon-key"></i>登出</a></li>
                             

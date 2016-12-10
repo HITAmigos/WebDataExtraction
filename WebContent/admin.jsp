@@ -30,8 +30,12 @@ $.QianLoad.PageLoading({
 });
 </script>
 <%
+String User=String.valueOf(session.getAttribute("username")).trim();
+if(String.valueOf(session.getAttribute("username")).equals("null")){
 	String name=request.getParameter("username");  
 	session.setAttribute("username",name);
+	User=String.valueOf(session.getAttribute("username")).trim();
+}
 	AdminOperation ao = new AdminOperation();
 %>
 
@@ -52,7 +56,7 @@ $.QianLoad.PageLoading({
 
                 <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
                     <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
-                        <span class="tpl-header-list-user-nick"><%=name %></span><span class="tpl-header-list-user-ico"> <img src="assets/img/user01.png"></span>
+                        <span class="tpl-header-list-user-nick"><%=User %></span><span class="tpl-header-list-user-ico"> <img src="assets/img/user01.png"></span>
                     </a>
                     <ul class="am-dropdown-content">
                         <li><a href="index.jsp"><span class="am-icon-power-off"></span> 退出</a></li>
