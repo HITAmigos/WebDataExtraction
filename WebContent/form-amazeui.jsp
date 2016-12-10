@@ -138,23 +138,23 @@ $.QianLoad.PageLoading({
                 <div class="tpl-block ">
                     <div class="am-g tpl-amazeui-form">
                         <div class="am-u-sm-12 am-u-md-9">
-                            <form class="am-form am-form-horizontal">
+                            <form class="am-form am-form-horizontal" action="AddUser">
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">用户名 / Username</label>
                                     <div class="am-u-sm-9">
-                                        <input type="text" id="user-name" placeholder="用户名 / Username">
+                                        <input type="text" id="user-name" name="username" placeholder="用户名 / Username">
                                     </div>
                                 </div>
                                 <div class="am-form-group">
                                     <label for="user-email" class="am-u-sm-3 am-form-label">电子邮件 / Email</label>
                                     <div class="am-u-sm-9">
-                                        <input type="email" id="user-email" placeholder="电子邮件 / Email">
+                                        <input type="email" id="user-email" name="email" placeholder="电子邮件 / Email">
                                     </div>
                                 </div>
                                 <div class="am-form-group">
                                     <label for="user-email" class="am-u-sm-3 am-form-label">密码 / Password</label>
                                     <div class="am-u-sm-9">
-                                        <input type="password" id="user-weibo" placeholder="密码 / Password">
+                                        <input type="password" id="user-weibo" name="password" placeholder="密码 / Password">
                                     </div>
                                 </div>
                                 <div class="am-form-group">

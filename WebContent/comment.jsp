@@ -42,7 +42,7 @@ $.QianLoad.PageLoading({
 					<input type="text" class="text" name="email" placeholder="邮箱">
 				</li>
 				<li class="second">
-				<textarea name="comment" placeholder="请留下评论！"></textarea>
+				<textarea name="message" placeholder="请留下评论！"></textarea>
 				</li>
 			</ul>
 			<input type="submit" class="button" style="margin-left:50px;" value="提交留言" >

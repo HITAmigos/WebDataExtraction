@@ -1,6 +1,6 @@
 package entity.assistantEntity;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Comment {
   private int id;

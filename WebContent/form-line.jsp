@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*,action.admin.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*,action.admin.*,java.sql.*,entity.assistantEntity.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -128,7 +128,24 @@ $.QianLoad.PageLoading({
           </div>
       </div>
 
-
+<%
+        String ID = String.valueOf(session.getAttribute("id")).trim();
+		SqlConst sc = new SqlConst();
+        final String DB_URL = sc.getDB_URL();
+        final String PASS = sc.getPASS();
+        final String USER = sc.getUSER();
+        Connection conn = null;
+	    Statement stmt = null;
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+ 	   conn = DriverManager.getConnection(DB_URL,USER,PASS);
+ 	   stmt = conn.createStatement();
+ 	   String sql = "select * from comment where id = "+ID;  
+ 	   ResultSet rs = stmt.executeQuery(sql); 
+ 	   String email = null;
+ 	   while(rs.next()){
+ 		   email = rs.getString("email");
+ 	   }
+%>
         <div class="tpl-content-wrapper">
             <ol class="am-breadcrumb">
                 <li><a href="admin.jsp" class="am-icon-home">首页</a></li>
@@ -138,23 +155,24 @@ $.QianLoad.PageLoading({
                         <div class="tpl-block">
                     <div class="am-g">
                         <div class="tpl-form-body tpl-form-line">
-                            <form class="am-form tpl-form-line-form">
+                            <form class="am-form tpl-form-line-form" action = "commentbackAction">
+                                <input type="hidden" name ="email" value =<%=email %>>
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">主题 <span class="tpl-form-line-small-title">Title</span></label>
                                     <div class="am-u-sm-9">
-                                        <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入主题">
+                                        <input type="text" class="tpl-form-input" id="user-name" name="topic" placeholder="请输入主题">
                                     </div>
                                 </div>
                                 <div class="am-form-group">
                                     <label for="user-email" class="am-u-sm-3 am-form-label">时间 <span class="tpl-form-line-small-title">Time</span></label>
                                     <div class="am-u-sm-9">
-                                        <input type="text" class="am-form-field tpl-form-no-bg" placeholder="请选择时间" data-am-datepicker="" readonly/>
+                                        <input type="text" class="am-form-field tpl-form-no-bg" name="date" placeholder="请选择时间" data-am-datepicker="" readonly/>
                                     </div>
                                 </div>
                                 <div class="am-form-group">
                                     <label for="user-intro" class="am-u-sm-3 am-form-label">回复内容 <span class="tpl-form-line-small-title">Contains</span></label>
                                     <div class="am-u-sm-9">
-                                        <textarea class="" rows="10" id="user-intro" placeholder="请输入内容"></textarea>
+                                        <textarea class="" rows="10" id="user-intro" name="message" placeholder="请输入内容"></textarea>
                                     </div>
                                 </div>
 

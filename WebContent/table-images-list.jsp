@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*,action.admin.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*,action.admin.*,java.sql.*,entity.assistantEntity.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -125,6 +125,19 @@ $.QianLoad.PageLoading({
           </div>
       </div>
 
+<%
+		SqlConst sc = new SqlConst();
+        final String DB_URL = sc.getDB_URL();
+        final String PASS = sc.getPASS();
+        final String USER = sc.getUSER();
+        Connection conn = null;
+	    Statement stmt = null;
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+ 	   conn = DriverManager.getConnection(DB_URL,USER,PASS);
+ 	   stmt = conn.createStatement();
+ 	   String sql = "select * from user where limited = 0";  
+ 	   ResultSet rs = stmt.executeQuery(sql); 
+%>
 
 
 
@@ -152,21 +165,32 @@ $.QianLoad.PageLoading({
                                               </tr>
                                           </thead>
                                           <tbody>
+                                          <%
+                                            while(rs.next()){
+                                          %>
                                               <tr>
-                                                  <td>1</td>
-                                                  <td><a href="#">Business management</a></td>
-                                                  <td>default</td>
-                                                  <td class="am-hide-sm-only">12</td>
-                                                  <td class="am-hide-sm-only">122</td>
+                                                  <td><%=rs.getInt("id") %></td>
+                                                  <%
+                                                    String username=rs.getString("username");
+                                                  %>
+                                                  <td><a href="#"><%=username%></a></td>
+                                                  <td><%=rs.getString("email") %></td>
+                                                  <td class="am-hide-sm-only"><%=rs.getInt("level") %></td>
+                                                  <td class="am-hide-sm-only"><%=rs.getInt("coins") %></td>
                                                   <td>
                                                       <div class="am-btn-toolbar">
                                                           <div class="am-btn-group am-btn-group-xs">
+                                                          <form action="deleteUser" >
+                                                              <input type="hidden" name="username" value=<%=username %>>
                                                               <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
+                                                           </form>
                                                           </div>
                                                       </div>
                                                   </td>
                                               </tr>
-
+										<%
+                                            }
+										%>
                                           </tbody>
                                       </table>
                                       <hr>

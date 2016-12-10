@@ -47,6 +47,11 @@
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
+        
+        <action name="deleteUser" class="action.assistantOperation.DeleteUser" method="execute">
+            <result name="success">/table-images-list.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
        <action name="lovecolAction" class="action.tableOperation.LoveCol" method="execute">
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
@@ -70,6 +75,15 @@
         </action>
          <action name="deleteRecord" class="action.tableOperation.DeleteAllRecord" method="execute">
             <result name="success">/message.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+          <action name="commentbackAction" class="action.assistantOperation.CommentBack" method="execute">
+            <result name="success">/form-news.jsp</result>
+            <result name="error">/error.jsp</result>
+        </action>
+         <action name="AddUser" class="action.assistantOperation.AddUser" method="execute">
+            <result name="success">/table-images-list.jsp</result>
+            <result name="exist">/form-amazeui.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
     </package> 

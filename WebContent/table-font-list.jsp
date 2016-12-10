@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*,action.admin.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*,action.admin.*,java.sql.*,entity.assistantEntity.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -126,6 +126,21 @@ $.QianLoad.PageLoading({
               </ul>
           </div>
       </div>
+      
+
+<%
+		SqlConst sc = new SqlConst();
+        final String DB_URL = sc.getDB_URL();
+        final String PASS = sc.getPASS();
+        final String USER = sc.getUSER();
+        Connection conn = null;
+	    Statement stmt = null;
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+ 	   conn = DriverManager.getConnection(DB_URL,USER,PASS);
+ 	   stmt = conn.createStatement();
+ 	   String sql = "select * from user where limited = 1";  
+ 	   ResultSet rs = stmt.executeQuery(sql); 
+%>
 
 
         <div class="tpl-content-wrapper">
@@ -135,7 +150,6 @@ $.QianLoad.PageLoading({
             </ol>
             <div class="tpl-portlet-components">
                 <div class="tpl-block">
-
                     <div class="am-g">
                         <div class="am-u-sm-12">
                             <form class="am-form">
@@ -150,15 +164,19 @@ $.QianLoad.PageLoading({
                                         </tr>
                                     </thead>
                                     <tbody>
+                                    <%
+                                      while(rs.next()){
+                                    %>
                                         <tr>
-                                            <td>1</td>
-                                            <td><a href="#">ni href</a></td>
-                                            <td>6@qq.com</td>
-                                            <td class="am-hide-sm-only">10</td>
-                                            <td class="am-hide-sm-only">100000</td>
-
+                                            <td><%=rs.getInt("id") %></td>
+                                            <td><%=rs.getString("username") %></a></td>
+                                            <td><%=rs.getString("email") %></td>
+                                            <td class="am-hide-sm-only"><%=rs.getInt("level")%></td>
+                                            <td class="am-hide-sm-only"><%=rs.getInt("coins") %></td>
                                         </tr>
-
+                                      <%
+                                      }
+                                      %>
                                     </tbody>
                                 </table>
 

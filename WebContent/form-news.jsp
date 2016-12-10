@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*,action.admin.*" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" import="java.io.*,action.admin.*,entity.assistantEntity.*,java.sql.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +29,6 @@ $.QianLoad.PageLoading({
     sleep: 50
 });
 </script>
-
 <body data-type="generalComponents">
   <header class="am-topbar am-topbar-inverse admin-header">
       <div class="am-topbar-brand">
@@ -38,9 +37,7 @@ $.QianLoad.PageLoading({
           </a>
       </div>
       <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right">
-
       </div>
-
       <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
 
       <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
@@ -125,7 +122,20 @@ $.QianLoad.PageLoading({
               </ul>
           </div>
       </div>
+<%
+		SqlConst sc = new SqlConst();
+        final String DB_URL = sc.getDB_URL();
+        final String PASS = sc.getPASS();
+        final String USER = sc.getUSER();
+        Connection conn = null;
+	    Statement stmt = null;
 
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+ 	   conn = DriverManager.getConnection(DB_URL,USER,PASS);
+ 	   stmt = conn.createStatement();
+ 	   String sql = "select * from comment";  
+ 	   ResultSet rs = stmt.executeQuery(sql); 
+%>
 
         <div class="tpl-content-wrapper">
             <ol class="am-breadcrumb">
@@ -135,19 +145,26 @@ $.QianLoad.PageLoading({
             <div class="tpl-portlet-components">
                 <div class="tpl-block">
                     <ul class="tpl-task-list tpl-task-remind">
+                       <%
+                          while(rs.next()){
+                       %>
+                       
                         <li>
-                            <div class="cosB">
-                                12分钟前
+                            <div class="cosB" style="width:30px;">
+                                <%=rs.getString("username") %><br>
+                                <%=rs.getDate("date") %>
                             </div>
                             <div class="cosA">
                                 <span class="cosIco">
                         <i class="am-icon-bell-o"></i>
                            </span>
-                                <a href="form-line.jsp"><span> 注意：Chrome 和 Firefox 下， display: inline-block; 或 display: block; 的元素才会应用旋转动画。<span class="tpl-label-info"> 提取文件
-                                <i class="am-icon-share"></i>
-                              </span></span></a>
+                                <a href="form-line.jsp?id=<%=rs.getInt("id")%>"><span><%=rs.getString("message") %></span></a>
                             </div>
                         </li>
+                        <%
+                          }
+                        
+                        %>
                     </ul>
                 </div>
             </div>
