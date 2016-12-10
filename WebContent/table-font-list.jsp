@@ -110,15 +110,10 @@ $.QianLoad.PageLoading({
                       </a>
                       <ul class="tpl-left-nav-sub-menu" style="display: block;">
                           <li>
-                              <a href="form-amazeui.jsp">
-                                  <i class="am-icon-angle-right"></i>
-                                  <span>添加用户</span>
-                                  <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
-                              </a>
-
+                              
                               <a href="form-news.jsp">
                                   <i class="am-icon-angle-right"></i>
-                                  <span>留言</span>
+                                  <span>查看留言</span>
                               </a>
                           </li>
                       </ul>
@@ -140,6 +135,7 @@ $.QianLoad.PageLoading({
  	   stmt = conn.createStatement();
  	   String sql = "select * from user where limited = 1";  
  	   ResultSet rs = stmt.executeQuery(sql); 
+ 	 
 %>
 
 

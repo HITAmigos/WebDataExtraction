@@ -111,15 +111,9 @@ $.QianLoad.PageLoading({
                       </a>
                       <ul class="tpl-left-nav-sub-menu" style="display: block;">
                           <li>
-                              <a href="form-amazeui.jsp">
-                                  <i class="am-icon-angle-right"></i>
-                                  <span>添加用户</span>
-                                  <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
-                              </a>
-
                               <a href="form-news.jsp">
                                   <i class="am-icon-angle-right"></i>
-                                  <span>留言</span>
+                                  <span>查看留言</span>
                               </a>
                           </li>
                       </ul>
@@ -145,36 +139,38 @@ $.QianLoad.PageLoading({
  	   while(rs.next()){
  		   email = rs.getString("email");
  	   }
+ 	   
 %>
         <div class="tpl-content-wrapper">
             <ol class="am-breadcrumb">
                 <li><a href="admin.jsp" class="am-icon-home">首页</a></li>
                 <li class="am-active">回复留言</li>
-            </ol>
-            <div class="tpl-portlet-components">
+            </ol>  
+       </div>
+   <div class="tpl-portlet-components">
                         <div class="tpl-block">
                     <div class="am-g">
                         <div class="tpl-form-body tpl-form-line">
-                            <form class="am-form tpl-form-line-form" action ="commentbackAction">
-                                <input type="hidden" name ="email" value =<%=email %>>
+                            <form class="am-form tpl-form-line-form" action="commentbackAction" method="post">
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-u-sm-3 am-form-label">主题 <span class="tpl-form-line-small-title">Title</span></label>
                                     <div class="am-u-sm-9">
-                                        <input type="text" class="tpl-form-input" id="user-name" name="topic" placeholder="请输入主题">
+                                        <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入主题">
                                     </div>
                                 </div>
                                 <div class="am-form-group">
                                     <label for="user-email" class="am-u-sm-3 am-form-label">时间 <span class="tpl-form-line-small-title">Time</span></label>
                                     <div class="am-u-sm-9">
-                                        <input type="text" class="am-form-field tpl-form-no-bg" name="date" placeholder="请选择时间" data-am-datepicker="" readonly/>
+                                        <input type="text" class="am-form-field tpl-form-no-bg" placeholder="请选择时间" data-am-datepicker="" readonly/>
                                     </div>
                                 </div>
                                 <div class="am-form-group">
                                     <label for="user-intro" class="am-u-sm-3 am-form-label">回复内容 <span class="tpl-form-line-small-title">Contains</span></label>
                                     <div class="am-u-sm-9">
-                                        <textarea class="" rows="10" id="user-intro" name="message" placeholder="请输入内容"></textarea>
+                                        <textarea class="" rows="10" id="user-intro" placeholder="请输入内容"></textarea>
                                     </div>
                                 </div>
+
                                 <div class="am-form-group">
                                     <div class="am-u-sm-9 am-u-sm-push-3">
                                         <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
@@ -186,11 +182,7 @@ $.QianLoad.PageLoading({
                 </div>
             </div>
 
-        </div>
-
-    </div>
-
-
+ 
     <script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
     <script src="assets/js/amazeui.min.js"></script>
     <script src="assets/js/app.js"></script>

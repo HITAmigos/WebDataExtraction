@@ -31,6 +31,7 @@ public class UpAdmin {
 		   stmt = conn.createStatement();
 		   String sql = "UPDATE user SET limited = 1  WHERE username = \'"+username+"\'";  
 		   stmt.executeUpdate(sql); 
+		   
 		  return "success";
 		}catch(SQLException s){
 			   return "error";
