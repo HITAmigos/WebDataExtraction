@@ -18,6 +18,7 @@ public class UpdateCol extends Action {
   // 传递给数据库类的参数在数据库类Update方法处有注释
   @Override
   public String execute() {
+	  System.out.println(str);
     String result = "success";
     str = str.substring(0, str.length()-1);
     String[] newCol = str.split("\\,");

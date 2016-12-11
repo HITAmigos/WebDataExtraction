@@ -15,7 +15,15 @@ public class ContentReader {
 
   private String url = null;
   private File file = null;
-  private String content = null;
+  public File getFile() {
+	return file;
+}
+
+public void setFile(File file) {
+	this.file = file;
+}
+
+private String content = null;
   private static String Encoding = "utf-8";
 
   private static final String HTTP = "http";

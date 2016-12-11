@@ -26,10 +26,9 @@
             <result name="success">/success.jsp</result>
             <result name="exist">/success.jsp</result>
             <result name="back">/main.jsp</result>
-            <result name="error">/error.jsp</result>
+            <result name="error">/main.jsp</result>
         </action>
         
-      
          <action name="excelAction" class="action.assistantOperation.ExportExcel" method="execute">
             <result name="success">/success.jsp</result>
             <result name="error">/error.jsp</result>
@@ -46,7 +45,7 @@
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
-        <action name="UpdaterowAction" class="action.tableOperation.UpdateRow" method="execute">
+        <action name="updaterowAction" class="action.tableOperation.UpdateRow" method="execute">
             <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
@@ -101,7 +100,11 @@
             <result name="error">/error.jsp</result>
         </action>
          <action name="fileuploadAction" class="action.tableOperation.Save" method="execute">
-            <result name="success">/index.jsp</result>
+            <result name="success">/success.jsp</result>
+            <result name="error">/main.jsp</result>
+        </action>
+        <action name="pushupAction" class="action.tableOperation.PushUpAction" method="execute">
+            <result name="success">/operations.jsp</result>
             <result name="error">/error.jsp</result>
         </action>
     </package> 

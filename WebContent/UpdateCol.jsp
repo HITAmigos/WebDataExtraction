@@ -23,6 +23,7 @@ $.QianLoad.PageLoading({
 <%
 String tablename = request.getParameter("tablename");
 String rownum = request.getParameter("rownum");
+System.out.println(rownum);
 SqlConst c = new SqlConst();
 final String DB_URL = c.getDB_URL();
 final String USER = c.getUSER();
@@ -40,6 +41,14 @@ while(rs.next()){
 	if(rs.getInt("id")>0){
 		num++;
 	}
+}
+rs.first();
+String[] temp = new String[100];
+int ii=0;
+while(rs.next()){
+	temp[ii]=rs.getString(rownum);
+	System.out.println(temp[ii]);
+	ii++;
 }
 %>
 <script type="text/javascript">
@@ -60,7 +69,7 @@ document.getElementById("result").value = num;
 <%
   for(int i=0;i<num-1;i++){
 %>
-<input type="text" id="num<%=i%>" class="form-control" onblur="n(<%=num-2%>)" style ="margin-top:20px;">
+<input type="text" id="num<%=i%>" placeholder="<%=temp[i] %>" class="form-control" onblur="n(<%=num-1%>)" style ="margin-top:20px;">
 <%
   }
 %>
@@ -68,6 +77,5 @@ document.getElementById("result").value = num;
 <button type="submit" class="btn btn-primary  btn-block" style ="margin:20px auto;">确认修改</button>
 </form>
 </div>
-
 </body>
 </html>

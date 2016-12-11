@@ -32,9 +32,17 @@ Statement stmt = null;
 Class.forName("com.mysql.jdbc.Driver").newInstance();
 conn = DriverManager.getConnection(DB_URL, USER, PASS);
 stmt = conn.createStatement();
-String sql = "SELECT * FROM `" + tablename+"`";
+String sql = "SELECT * FROM `" + tablename+"`"+" where id="+rowNum;
 ResultSet rs = stmt.executeQuery(sql);
 int num = rs.getMetaData().getColumnCount();
+String[] temp=new String[100];
+while(rs.next()){
+	System.out.println(33);
+	for(int i=1;i<=num;i++){
+	temp[i]= rs.getString(i);
+	System.out.println(temp[i]);
+	}
+}
 %>
 
 <script type="text/javascript">
@@ -54,7 +62,7 @@ document.getElementById("result").value = num;
 <%
   for(int i=0;i<num-2;i++){
 %>
-<input type="text" id="num<%=i%>" class="form-control" onblur="n(<%=num-2%>)" style ="margin-top:20px;">
+<input type="text" id="num<%=i%>" class="form-control" onblur="n(<%=num-2%>)" style ="margin-top:20px;"  placeholder="<%=temp[i+3] %>">
 <%
   }
 %>

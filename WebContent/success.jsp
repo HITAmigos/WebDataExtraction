@@ -64,7 +64,14 @@ a img {
 	border: none;
 	outline: none;
 }
-
+.redth{
+   background-color:green;
+   font-color:#fff;
+   font-size:24px;
+   height:30px;
+   text-align:center;
+   
+}
 .content {
 	margin: 10% auto;
 	padding: 0;
@@ -75,7 +82,6 @@ a img {
 
 .demo {
 	margin:5% auto;
-	background-color: #f7f7f7;
 }
 
 h1 {
@@ -83,13 +89,18 @@ h1 {
 	margin: 5px 30px 20px 0px;
 	font-weight: 100;
 }
-
+h2 {
+	background-color:green;
+	font-weight: 50;
+	font-size:100;
+}
 .pagedemo {
 	width: 80%;
 	margin: 2px auto;
 	padding: 30px 10px 0px 10px;
 	text-align: center;
-	background-color: #f7f7f7;
+    background-color: #f7f7f7;
+	
 }
 </style>
 <link rel="stylesheet" href="searchnav/css/jq22.css">
@@ -136,7 +147,7 @@ h1 {
 	</header>
 	<div id="search" class="cd-main-search">
 		<form action="searchAction">
-			<input type="search" placeholder="输入Url" name="Url"> <input
+			<input type="search" placeholder="输入Url" name="url"> <input
 				type="hidden" name="username" value=<%=User%>>
 		</form>
 		<a href="#0" class="close cd-text-replace">Close Form</a>
@@ -165,7 +176,7 @@ h1 {
 					Class.forName("com.mysql.jdbc.Driver").newInstance();
 					conn = DriverManager.getConnection(DB_URL, USER, PASS);
 					stmt = conn.createStatement();
-					String sc = request.getParameter("Url");
+					String sc = request.getParameter("url");
 					session.setAttribute("search", sc);
 					String SearchContain = new String();
 					if (String.valueOf(session.getAttribute("search")).trim().equals("null")) {
@@ -201,6 +212,7 @@ h1 {
 				  }
 				%>
 				<div class=" ptb20">
+				<h1>这是抓取的第<%=i+1 %>张表</h1>
 					<div class="inner">
 						<table id="process" class="tb tb-b c-100 c-t-center" id="tblGrid">
 							<%
@@ -228,14 +240,16 @@ h1 {
 															for (int j = 3; j <= num; j++) {
 																if (coltag[j] == 10 || coltag[j] == 0) {
 								%>
-								<td>
+								<td class="redth"><h2>
 									<%
 									  out.print(rss.getString(j));
-									%>
+									%></h2>
 								</td>
+								
 								<%
 								  }
 															}
+							
 														} else if (0 == Integer.parseInt(rss.getString(2))
 																|| 100 == Integer.parseInt(rss.getString(2))) {
 															for (int j = 3; j <= num; j++) {
@@ -295,7 +309,7 @@ h1 {
 				$(document).ready(function() {
 					var tr = $("#process tr").length;
 					var td = $("#process td").length / tr;
-					for (var i = 1; i <= td + 10; i++) {
+					for (var i = 0; i <= td + 10; i++) {
 						table_rowspan("#process", i);
 					}
 					for (var i = 0; i <= tr + 2; i++) {

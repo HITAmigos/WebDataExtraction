@@ -20,8 +20,15 @@ public class SearchRecordTable {
     try {
       tran = session.beginTransaction();
       session.save(searchRecord);
+      System.out.println("inSearchRecordInsert");
+      System.out.println(searchRecord.getLink());
+      System.out.println(searchRecord.getTablename());
+      System.out.println(searchRecord.getType());
+      System.out.println(searchRecord.getUsername());
+      System.out.println(searchRecord.getDate());
       session.getTransaction().commit();
     } catch (HibernateException e) {
+      System.out.println("SecrchRecordinsert");
       result = false;
       if (tran != null) {
         tran.rollback();
@@ -41,6 +48,7 @@ public class SearchRecordTable {
       tran = session.beginTransaction();
       searchRecords = session.createQuery("FROM SearchRecord").list();
     } catch (HibernateException e) {
+      System.out.println("SecrchRecordGetRecordSet");
       if (tran != null) {
         tran.rollback();
       }
@@ -65,6 +73,7 @@ public class SearchRecordTable {
         }
       }
     } catch (HibernateException e) {
+      System.out.println("SecrchRecordGetUserRecord");
       if (tran != null) {
         tran.rollback();
       }
@@ -75,11 +84,12 @@ public class SearchRecordTable {
     return userSearchRecords;
   }
 
-  public static boolean UrlIsExist(String url) {
+  public static boolean UrlIsExist(String username,String url) {
     boolean result = false;
-    List<SearchRecord> SearchRecordSet = getSearchRecordSet();
-    for (int i = 0; i < SearchRecordSet.size(); i++) {
-      if (SearchRecordSet.get(i).getLink().equals(url)) {
+    List<SearchRecord> UserSearchRecord = getUserSearchRecord(username);
+    for (int i = 0; i < UserSearchRecord.size(); i++) {
+      System.out.println(UserSearchRecord.get(i).getLink());
+      if (url!=null&&UserSearchRecord.get(i).getLink().equals(url)) {
         result = true;
         break;
       }
@@ -137,6 +147,7 @@ public class SearchRecordTable {
       session.delete(searchRecord);
       session.getTransaction().commit();
     } catch (HibernateException e) {
+      System.out.println("SecrchRecordDelete");
       result = false;
       if (tran != null) {
         tran.rollback();

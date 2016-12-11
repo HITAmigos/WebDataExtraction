@@ -31,6 +31,8 @@ public class CommentBack {
   
 	private String email;
 	public String execute(){  
+		System.out.println(email);
+		System.out.println(message);
         //这个类主要是设置邮件  
      MailSenderInfo mailInfo = new MailSenderInfo();   
      mailInfo.setMailServerHost("smtp.yeah.net");   

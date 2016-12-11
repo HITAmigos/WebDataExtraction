@@ -1,6 +1,13 @@
 package action.tableOperation;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import action.Action;
 import entity.*;
 import entity.assistantEntity.*;
@@ -8,6 +15,7 @@ import entity.assistantEntity.*;
 public class Save extends Action {
   private String url = null;
   private int type = 0;
+  private File myFile = null;
 
   public String getUrl() {
     return url;
@@ -17,8 +25,16 @@ public class Save extends Action {
     this.url = url;
   }
 
+  public File getMyFile() {
+    return myFile;
+  }
+
+  public void setMyFile(File myFile) {
+    this.myFile = myFile;
+  }
+
   private boolean IsExistSearchRecord() {
-    return SearchRecordTable.UrlIsExist(url);
+    return SearchRecordTable.UrlIsExist(username, url);
   }
 
   private WebText grabTable() {
@@ -26,6 +42,7 @@ public class Save extends Action {
     WebText wt = new WebText();
     cr.setUrl(url);
     if (cr.varifyInput().equals("upload")) {
+      cr.setFile(myFile);
       type = 1;
     } else {
       type = 0;
@@ -39,6 +56,9 @@ public class Save extends Action {
   private String insertSearchRecord() {
     String tablename = username + "-" + new Integer(SearchRecordTable.getLastId() + 1);
     SearchRecord searchRecord = new SearchRecord();
+    if(url==null){
+      url = new String(tablename);
+    }
     searchRecord.setUsername(username);
     searchRecord.setTablename(tablename);
     searchRecord.setLink(url);
@@ -96,6 +116,7 @@ public class Save extends Action {
   @Override
   public String execute() {
     String result = "success";
+    System.out.println(url);
     if (IsExistSearchRecord()) {
       result = "exist";
       System.out.println(result);
@@ -104,22 +125,26 @@ public class Save extends Action {
       WebText wt = grabTable();
       String tablename;
       int[] colMaxLength = null;
-      for (int i = 0; i < wt.getTable().size() && flag; i++){
-        String[][] table = wt.getTable().get(i);
-        tablename = insertSearchRecord();
-        colMaxLength = new int[table[0].length];
-        for (int m = 0; m < table.length; m++) {
-          for (int n = 0; n < table[0].length; n++) {
-            if (colMaxLength[n] < table[m][n].length()) {
-              colMaxLength[n] = table[m][n].length();
+      if (wt.getTable().size() == 0) {
+        result = "error";
+      } else {
+        for (int i = 0; i < wt.getTable().size() && flag; i++) {
+          String[][] table = wt.getTable().get(i);
+          tablename = insertSearchRecord();
+          colMaxLength = new int[table[0].length];
+          for (int m = 0; m < table.length; m++) {
+            for (int n = 0; n < table[0].length; n++) {
+              if (colMaxLength[n] < table[m][n].length()) {
+                colMaxLength[n] = table[m][n].length();
+              }
             }
           }
-        }
-        if (!createTable(tablename, table[0], colMaxLength)) {
-          flag = false;
-        }
-        if (!insertTable(tablename, table)) {
-          flag = false;
+          if (!createTable(tablename, table[0], colMaxLength)) {
+            flag = false;
+          }
+          if (!insertTable(tablename, table)) {
+            flag = false;
+          }
         }
       }
       if (!flag) {
@@ -130,4 +155,15 @@ public class Save extends Action {
 
     return result;
   }
+
+
+  public static void main(String args[]) {
+    Save s = new Save();
+    s.setUsername("lyx");
+    // http://www.w3school.com.cn/html/html_tables.asp
+    // http://software.hit.edu.cn/dsb.html
+    s.setUrl("http://www.jq22.com/demo/mmGrid-master20150916/examples/index.html");
+    s.execute();
+  }
+
 }

@@ -7,7 +7,7 @@ import entity.assistantEntity.User;
 public class Login extends Action {
   private String password;
   private String username;
-  public String getUsername() {
+  public String getUsername(){
 	return username;
 }
 
@@ -18,7 +18,6 @@ public void setUsername(String username) {
 public String getPassword() {
 	return password;
 }
-
 public void setPassword(String password) {
     this.password = password;
   }
@@ -28,7 +27,7 @@ public void setPassword(String password) {
     System.out.println(username);
     System.out.println(password);
     System.out.println(user.getPassword());
-    if (!user.getPassword().equals(password)) {
+    if (!user.getPassword().equals(password)){
       result = "back";
     }else if(user.getLimited()==1){
       result = "admin";

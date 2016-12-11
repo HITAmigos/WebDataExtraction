@@ -22,16 +22,17 @@ public class UpdateRow extends Action {
   //传递给数据库类的参数在数据库类Update方法处有注释
   @Override
   public String execute(){
+	  System.out.println(str);
     String result = "success";
     str = str.substring(0, str.length()-1);
     String[] newRow = str.split("\\,");
     ArrayList<String> columnName = new ArrayList<String>();
     ArrayList<Object> value = new ArrayList<Object>();
     columnName.add("id");
-    value.add(new Integer(rowNum+1));
+    value.add(new Integer(rowNum));
     Database db = new Database(tablename);
     for(int i = 0 ; i < newRow.length ; i++){
-      if(newRow[i]!=null){
+      if(newRow[i]!=null && newRow[i].equals("")){
         columnName.add(new Integer(i+1).toString());
         value.add(newRow[i]);
       }

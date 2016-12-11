@@ -155,7 +155,7 @@ $.QianLoad.PageLoading({
                                 <span class="cosIco">
                         <i class="am-icon-bell-o"></i>
                            </span>
-                                <a href="form-line.jsp?id=<%=rs.getInt("id")%>"><span><%=rs.getString("message") %></span></a>
+                                <a href="form-line.jsp?id=<%=rs.getString("username")%>"><span><%=rs.getString("message") %></span></a>
                             </div>
                         </li>
                         <%

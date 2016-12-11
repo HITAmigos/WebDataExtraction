@@ -17,6 +17,18 @@
 button{
  width:158px;
 }
+.redth{
+   background-color:green;
+   font-color:#fff;
+   font-size:24px;
+   height:30px;
+   text-align:center;
+   
+}
+table{
+    border:1px black solid;
+}
+
 </style>
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="public/css/style.css" media="screen" type="text/css" />
@@ -30,6 +42,7 @@ button{
 			sleep : 50
 		});
 	</script>
+<input type="text" class="form-control"  style ="margin:20px 10px;" placeholder="请输入搜索内容……">
 <table class="table  table-striped table-hover success table-bordered">
 				<%
 					String sc = request.getParameter("tablename");
@@ -59,7 +72,7 @@ button{
 								coltag[j] = Integer.parseInt(rss.getString(j));
 								if (coltag[j] == 0 || coltag[j]==10) {
 				%>
-				<th>
+				<th style="text-align:center;">
 <ul class="nav nav-pills">
   <li class="dropdown active" id="menu1">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#menu1">
@@ -82,7 +95,7 @@ button{
 					</form>
             </li>
             <li>
-           		<a href="UpdateCol.jsp?tablename=<%=tablename%>&rownum=<%=j-2%>"><button type="submit" class="btn btn-info">编辑此列</button></a> 
+           		<button type="submit" onclick="javascrtpt:window.location.href='UpdateCol.jsp?tablename=<%=tablename%>&rownum=<%=j-2%>'" class="btn btn-info">编辑此列</button> 
             </li>
           </ul>
         </li>
@@ -109,7 +122,7 @@ button{
 								for (int j = 3; j <= num; j++) {
 									if (coltag[j] == 0 || coltag[j]==10) {
 				%>
-				<th>
+				<th class="redth">
 					<%
 						out.print(rss.getString(j));
 					%>
@@ -118,7 +131,7 @@ button{
 					}
 								}
 				%>
-				<th>操作</th>
+				<th class="redth">操作</th>
 			</tr>
 			<%
 				}
@@ -154,7 +167,7 @@ button{
 					}
 								}
 				%>
-				<td>
+				<td style="text-align:center;">
 				<ul class="nav nav-pills">
   <li class="dropdown active" id="menu1">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#menu1">
@@ -176,9 +189,15 @@ button{
             			<button type="submit" class="btn btn-success">收藏此行</button>  
             		</form>
             </li>
-            <li>
-            		
-            			<a href="UpdateRow.jsp?tablename=<%=tablename%>&rownum=<%=colnum%>"><button type="submit" class="btn btn-info">编辑此行</button></a> 
+            <li>		
+            	<button type="submit" onclick="javascrtpt:window.location.href='UpdateRow.jsp?tablename=<%=tablename%>&rownum=<%=colnum%>'" class="btn btn-info">编辑此行</button> 
+            </li>
+             <li>
+            		<form action="pushupAction" >
+						<input type="hidden" value=<%=tablename%> name="tablename">
+						<input type="hidden" value=<%=colnum%> name="rowNum">
+            			<button type="submit" class="btn btn-info">上移一行</button>  
+            		</form>
             </li>
           </ul>
         </li>

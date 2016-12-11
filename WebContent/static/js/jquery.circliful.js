@@ -1,4 +1,4 @@
-/* 代码整理：懒人之家 www.lanrenzhijia.com */
+/* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷之锟斤拷 www.lanrenzhijia.com */
 (function( $ ) {
  
     $.fn.circliful = function(options) {
@@ -190,4 +190,3 @@
     };
  
 }( jQuery ));
-/* 代码整理：懒人之家 www.lanrenzhijia.com */
