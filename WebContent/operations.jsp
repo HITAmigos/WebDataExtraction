@@ -3,11 +3,12 @@
 	contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
+<head> 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>对表格的操作！</title>
 <script src="public/js/jquery-3.1.1.js"></script>
 <link href="public/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="static/css/style.scss" rel="stylesheet">
 <script src="public/js/bootstrap.js"></script>
 <script src="public/js/down.js"></script>
 <style type="text/css">
@@ -18,7 +19,7 @@ button{
  width:158px;
 }
 .redth{
-   background-color:green;
+   background-color:#32c1d4;
    font-color:#fff;
    font-size:24px;
    height:30px;
@@ -28,10 +29,22 @@ button{
 table{
     border:1px black solid;
 }
-
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  padding: 0.25rem;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+.hover {
+  background: yellow;
+}
 </style>
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="public/css/style.css" media="screen" type="text/css" />
+<link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
 	<!-- 顶部加载进度条！ -->
@@ -41,9 +54,22 @@ table{
 		$.QianLoad.PageLoading({
 			sleep : 50
 		});
+		var allCells = $("td, th");
+
+		allCells
+		  .on("mouseover", function() {
+		    var el = $(this),
+		        pos = el.index();
+		    el.parent().find("th, td").addClass("hover");
+		    allCells.filter(":nth-child(" + (pos+1) + ")").addClass("hover");
+		  })
+		  .on("mouseout", function() {
+		    allCells.removeClass("hover");
+		  });
 	</script>
-<input type="text" class="form-control"  style ="margin:20px 10px;" placeholder="请输入搜索内容……">
-<table class="table  table-striped table-hover success table-bordered">
+ <input type="input" class="form-control light-table-filter" id="search" data-table="order-table" placeholder="请输入您要查找的内容" style="width:80%;left:10%;margin:10px auto;">
+   
+<table class="table order-table table-striped table-hover success table-bordered">
 				<%
 					String sc = request.getParameter("tablename");
 					session.setAttribute("tablename", sc);
@@ -213,6 +239,49 @@ table{
 			%>
 			</tbody>
 	</table>
+<script type="text/javascript">
+(function(document) {
+	'use strict';
+
+	var LightTableFilter = (function(Arr) {
+
+		var _input;
+
+		function _onInputEvent(e) {
+			_input = e.target;
+			var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+			Arr.forEach.call(tables, function(table) {
+				Arr.forEach.call(table.tBodies, function(tbody) {
+					Arr.forEach.call(tbody.rows, _filter);
+				});
+			});
+		}
+
+		function _filter(row) {
+			var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
+			row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+		}
+
+		return {
+			init: function() {
+				var inputs = document.getElementsByClassName('light-table-filter');
+				Arr.forEach.call(inputs, function(input) {
+					input.oninput = _onInputEvent;
+				});
+			}
+		};
+	})(Array.prototype);
+
+	document.addEventListener('readystatechange', function() {
+		if (document.readyState === 'complete') {
+			LightTableFilter.init();
+		}
+	});
+
+})(document);
+</script>
+
+
   <script src='http://codepen.io/assets/libs/fullpage/jquery.js'></script>
   <script src='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'></script>
   <script src="public/js/index.js"></script>

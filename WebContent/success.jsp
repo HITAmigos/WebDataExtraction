@@ -8,11 +8,12 @@
 <link rel="stylesheet" type="text/css" href="button/css/vicons-font.css">
 <link rel="stylesheet" type="text/css" href="button/css/base.css">
 <link rel="stylesheet" type="text/css" href="button/css/buttons.css">
-
 <link rel="stylesheet" type="text/css"
 	href="public/css/bootstrap.min.css">
 <script src="public/js/jquery-3.1.1.min.js"></script>
 
+<link type="text/css" href="help/css/css.css" rel="stylesheet" />
+<script type="text/javascript" src="help/js/jquery-1.11.0.js"></script>
 <link rel="shortcut icon" href="images/favicon.ico" />
 
 <script>
@@ -64,6 +65,10 @@ a img {
 	border: none;
 	outline: none;
 }
+li{
+   text-align:center;
+}
+
 .redth{
    background-color:green;
    font-color:#fff;
@@ -97,7 +102,7 @@ h2 {
 .pagedemo {
 	width: 80%;
 	margin: 2px auto;
-	padding: 30px 10px 0px 10px;
+	padding: 3px 10px 0px 10px;
 	text-align: center;
     background-color: #f7f7f7;
 	
@@ -120,6 +125,7 @@ h2 {
 	<![endif]-->
 <link rel="stylesheet" type="text/css"
 	href="successsearch/css/search-form.css">
+	<link rel="stylesheet" href="tab/css/all.css">
 </head>
 <body>
 	<%
@@ -137,9 +143,8 @@ h2 {
 	<header class="cd-main-header animate-search">
 	<div class="cd-logo">
 		<a href="main.jsp"><img src="images/logo.png"
-			style="height: 30px; width: 80px;" " alt="Logo"></a>
+			style="height: 30px; width: 80px;" alt="Logo"></a>
 	</div>
-
 	<nav class="cd-main-nav-wrapper"> <a href="#search"
 		class="cd-search-trigger cd-text-replace">Search</a> </nav> <!-- .cd-main-nav-wrapper -->
 
@@ -164,6 +169,20 @@ h2 {
 	</script>
 	<script src="searchnav/js/main.js"></script>
 	<!-- Resource jQuery -->
+
+    <header id="title">
+        <a href="success.jsp"><h1>Up2U</h1></a>
+        <p class="subTitle">一个网页爬取网站！</p>
+    </header>
+    <ul class="kinerNav">
+        <li class="active">爬取结果</li>
+        <li style="text-align:center;">网页分析</li>
+        <li style="text-align:center;">帮助</li>
+    </ul>
+    <div class="box">
+        <div class="kinerContent">
+            <div class="wrapper">
+                <div class="kinerItem">
 	<div id="paginationdemo" class="demo">
 		<%
 		            SqlConst c = new SqlConst();
@@ -194,8 +213,10 @@ h2 {
 							+ User + "\'";
 					ResultSet rs = stmt.executeQuery(sql);
 					List<String> list = new ArrayList<String>();
+					String date=new String();
 					while (rs.next()) {
 						list.add(rs.getString("tablename"));
+						date=rs.getString("date");
 					}
 		%>
 		<%
@@ -287,7 +308,7 @@ h2 {
 			  }
 			%>
 			<div id="demo5"
-				style="margin: 20px auto; left: 40%; position: absolute;"></div>
+				style="margin: 20px auto; left: 42%; position: absolute;"></div>		
 			<script>
 				function _loading(type) {
 					zeroModal.loading(type);
@@ -303,6 +324,7 @@ h2 {
 					});
 				}
 			</script>
+			
 			<script type="text/javascript" src="table/js/jquery.js"></script>
 			<script type="text/javascript" src="table/js/tablesMergeCell.js"></script>
 			<script type="text/javascript">
@@ -318,10 +340,11 @@ h2 {
 				});
 			</script>
 		</div>
-		<!-- /wrapper -->
 
-
-
+    </div>
+    
+    		<!-- /wrapper -->
+        
 		<script src="table/js/production/materialMenu.min.js"></script>
 		<script>
 			var menu = new Menu;
@@ -351,7 +374,6 @@ h2 {
 							});
 				}
 			}
-
 			function submitFn(obj, evt) {
 				value = $(obj).find('.search-input').val().trim();
 
@@ -368,9 +390,9 @@ h2 {
 
 				evt.preventDefault();
 			}
-		</script>
-</body>
+		</script>	
 <script type="text/javascript" src="fenye/jquery-1.3.2.js"></script>
+<script src="tab/js/kiner-swiper-panel.min.js"></script>
 <script src="fenye/jquery.paginate.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
@@ -395,4 +417,141 @@ h2 {
 				});
 	});
 </script>
+                <div class="kinerItem">
+                <div style="width:70%;margin:5% 15%;background-color:#fff;">
+                   <table  class="table table-striped table-bordered table-hover">
+                   <caption style="text-align:center;">有关该爬取结果的信息</caption>
+                   <tr>
+                       <td>搜所链接</td>
+                       <td><%=sc %></td>
+                   </tr>
+                   <tr>
+                   <td>用户</td>
+                   <td><%=User %></td>
+                   </tr>
+                   <tr>
+                   <td>表格数量</td>
+                   <td><%=list.size()%></td>
+                   </tr>
+                   <tr>
+                   <td>搜索时间</td>
+                   <td><%=date %></td>
+                   </tr>
+                   </table>       
+</div>
+                </div>
+
+                <div class="kinerItem" style="background-color:#fff;">
+  <div class="history">
+        <div class="start-history">
+            <p class="cc_history">使用指南</p>
+            <p class="next_history">Up2U</p>
+            <div class="history_left">
+                <p class="history_L yearalmost">
+                    <span class="history_2006_span blue">1</span>
+                    <b class="history_2006_b blue">
+                        <span class="history_l_month">功<br/>能</span>
+                        <span class="history_l_text smalltext">通过输入URL进行表格抽取</span>
+                    </b>
+                </p>
+                <p class="history_L year2011">
+                    <span class="history_2006_span blue">3</span>
+                    <b class="history_2006_b blue">
+                        <span class="history_l_month">功<br/>能</span>
+                        <span class="history_l_text">用户信息查找</span>
+                    </b>
+                </p>
+                 <p class="history_L year2011">
+                    <span class="history_2006_span blue">5</span>
+                    <b class="history_2006_b blue">
+                        <span class="history_l_month">功<br/>能</span>
+                        <span class="history_l_text">导出Excel</span>
+                    </b>
+                </p>
+                 <p class="history_L year2011">
+                    <span class="history_2006_span blue">7</span>
+                    <b class="history_2006_b blue">
+                        <span class="history_l_month">功<br/>能</span>
+                        <span class="history_l_text">行列操作</span>
+                    </b>
+                </p>
+               
+            </div>
+            <div class="history-img">
+                <img class="history_img" src="help/images/history.png" alt="">
+            </div>
+           <div class="history_right">
+                <p class="history_R yearalmostr">
+                    <span class="history_2005_span">2</span>
+                    <b class="history_2005_b">
+                        <span class="history_r_month">功<br/>能</span>
+                        <span class="history_r_text">本地上传文件表格爬取</span>
+                    </b>
+                </p>
+                <p class="history_R yearalmostr">
+                    <span class="history_2005_span">4</span>
+                    <b class="history_2005_b">
+                        <span class="history_r_month">功<br/>能</span>
+                        <span class="history_r_text">管理员完备后台</span>
+                    </b>
+                </p>
+                <p class="history_R yearalmostr">
+                    <span class="history_2005_span">6</span>
+                    <b class="history_2005_b">
+                        <span class="history_r_month">功<br/>能</span>
+                        <span class="history_r_text">表格行列合并</span>
+                    </b>
+                </p>
+               <p class="history_R yearalmostr">
+                    <span class="history_2005_span">8</span>
+                    <b class="history_2005_b">
+                        <span class="history_r_month">功<br/>能</span>
+                        <span class="history_r_text">发布评论</span>
+                    </b>
+                </p>
+               
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+
+<script type="text/javascript" src="help/js/new_file.js"></script>
+<script type="text/javascript">
+$(window).scroll(function(){
+	var msg = $(".history-img");
+	var item = $(".history_L");
+	var items = $(".history_R");
+	var windowHeight = $(window).height();
+	var Scroll = $(document).scrollTop();
+	if((msg.offset().top - Scroll -windowHeight)<=0){
+		msg.fadeIn(1500);
+	}
+	for(var i=0;i<item.length;i++){
+		if(($(item[i]).offset().top - Scroll - windowHeight)<= -100){
+			$(item[i]).animate({marginRight:'0px'},'50','swing');
+		}
+	}
+	for(var i=0;i<items.length;i++){
+		if(($(items[i]).offset().top - Scroll - windowHeight)<= -100){
+			$(items[i]).animate({marginLeft:'0px'},'50','swing');
+		}
+	}
+});
+</script>
+
+
+
+
+
+
+		</div>
+
+	</div>
+                </div>
+            </div>
+        </div>
+
+</body>
 </html>
