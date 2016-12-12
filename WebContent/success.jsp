@@ -114,8 +114,8 @@ th, td {
   text-align: left;
   border: 1px solid #ccc;
 }
-tbody tr:nth-child(odd) {
-  background: #eee;
+.hover {
+  background: yellow;
 }
 </style>
 <link rel="stylesheet" href="searchnav/css/jq22.css">
@@ -149,6 +149,9 @@ tbody tr:nth-child(odd) {
 		$.QianLoad.PageLoading({
 			sleep : 50
 		});
+		
+
+		
 	</script>
 	<header class="cd-main-header animate-search" style="height:70px;">
 	<div class="cd-logo">
@@ -550,6 +553,16 @@ $(window).scroll(function(){
 		}
 	}
 });
+var allCells = $("td, th");
+allCells.on("mouseover", function() {
+    var el = $(this),
+        pos = el.index();
+    el.parent().find("th, td").addClass("hover");
+    allCells.filter(":nth-child(" + (pos+1) + ")").addClass("hover");
+  })
+  .on("mouseout", function() {
+    allCells.removeClass("hover");
+  });
 </script>
 
 
