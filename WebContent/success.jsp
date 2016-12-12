@@ -90,12 +90,10 @@ li{
 }
 
 h1 {
-	color: #404347;
 	margin: 5px 30px 20px 0px;
 	font-weight: 100;
 }
 h2 {
-	background-color:green;
 	font-weight: 50;
 	font-size:100;
 }
@@ -106,6 +104,18 @@ h2 {
 	text-align: center;
     background-color: #f7f7f7;
 	
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th, td {
+  padding: 0.25rem;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+tbody tr:nth-child(odd) {
+  background: #eee;
 }
 </style>
 <link rel="stylesheet" href="searchnav/css/jq22.css">
@@ -140,7 +150,7 @@ h2 {
 			sleep : 50
 		});
 	</script>
-	<header class="cd-main-header animate-search">
+	<header class="cd-main-header animate-search" style="height:70px;">
 	<div class="cd-logo">
 		<a href="main.jsp"><img src="images/logo.png"
 			style="height: 30px; width: 80px;" alt="Logo"></a>
@@ -152,7 +162,8 @@ h2 {
 	</header>
 	<div id="search" class="cd-main-search">
 		<form action="searchAction">
-			<input type="search" placeholder="输入Url" name="url"> <input
+			<input type="search" placeholder="输入Url" name="url"> 
+			<input
 				type="hidden" name="username" value=<%=User%>>
 		</form>
 		<a href="#0" class="close cd-text-replace">Close Form</a>
@@ -175,9 +186,9 @@ h2 {
         <p class="subTitle">一个网页爬取网站！</p>
     </header>
     <ul class="kinerNav">
-        <li class="active">爬取结果</li>
-        <li style="text-align:center;">网页分析</li>
-        <li style="text-align:center;">帮助</li>
+        <li class="active" style="width: 33.3333%;">爬取结果</li>
+        <li style="width: 33.3333%;">网页分析</li>
+        <li style="width: 33.3333%;">帮助</li>
     </ul>
     <div class="box">
         <div class="kinerContent">
