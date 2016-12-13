@@ -229,7 +229,7 @@ if(String.valueOf(session.getAttribute("username")).equals("null")){
             title: '上传文件',
             iframe: true,
             content: '<form action="fileuploadAction" method="post" enctype="multipart/form-data">'+   
-                '<input type="file" name="myFile"><input type="hidden" name="username" value="'+name+'">'+ 
+                '<input type="file" name="myFile"><input type="hidden" name="username" value="'+name+'"><input type="hidden" name="UploadOrNot" value="upload">'+ 
                 '<button style="margin-left:40%;width:20%;height:3%;margin-top:8%;" class="button button--wapasha button--text-thick button--text-upper button--size-s">上传</botton></form>',
             width: '40%',
             height: '40%',

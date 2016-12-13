@@ -3,10 +3,13 @@ package action.tableOperation;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import com.opensymphony.xwork2.ActionContext;
 
 import action.Action;
 import entity.*;
@@ -56,7 +59,7 @@ public class Save extends Action {
   private String insertSearchRecord() {
     String tablename = username + "-" + new Integer(SearchRecordTable.getLastId() + 1);
     SearchRecord searchRecord = new SearchRecord();
-    if(url==null){
+    if (url == null) {
       url = new String(tablename);
     }
     searchRecord.setUsername(username);
@@ -81,7 +84,11 @@ public class Save extends Action {
     for (int j = 1; j < tableTitle.length; j++) {
       ColumnUnit temp = new ColumnUnit();
       temp.setColumnName(tableTitle[j]);
-      temp.setColumnType("varchar(" + (colMaxLength[j] * 2) + ")");
+      if (colMaxLength[j] * 2 <= 100) {
+        temp.setColumnType("varchar(100)");
+      } else {
+        temp.setColumnType("varchar(" + (colMaxLength[j] * 2) + ")");
+      }
       temp.setDefaultValue("");
       temp.setPrimaryKey(false);
       column.add(temp);
@@ -111,6 +118,16 @@ public class Save extends Action {
       value.clear();
     }
     return true;
+  }
+
+  private boolean accumulateCoins() {
+    int coins = 0;
+    if(url.equals(tablename)){
+      coins = 10;
+    }else{
+      coins = 3;
+    }
+    return UserTable.accumulateCoins(username, coins);
   }
 
   @Override
@@ -149,10 +166,15 @@ public class Save extends Action {
       }
       if (!flag) {
         result = "error";
+      } else {
+        if (!accumulateCoins()) {
+          result = "exist";
+        }
       }
     }
     System.out.println(result);
-
+    Map request = (Map)ActionContext.getContext().get("request");
+    request.put("url", url);
     return result;
   }
 
@@ -162,7 +184,7 @@ public class Save extends Action {
     s.setUsername("lyx");
     // http://www.w3school.com.cn/html/html_tables.asp
     // http://software.hit.edu.cn/dsb.html
-    s.setUrl("http://www.jq22.com/demo/mmGrid-master20150916/examples/index.html");
+    s.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
     s.execute();
   }
 

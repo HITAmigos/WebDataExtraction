@@ -62,8 +62,9 @@ document.getElementById("result").value = num;
 }
 
 </script>
-<div style="width:60%;margin:10% auto;">
+<div style="width:60%;margin:1% auto;">
 <form  action="updatecolAction">
+<h1 style="text-align:center;">正在修改第<%=rownum %>列！</h1>
 <input type="hidden" name="tablename" value=<%=tablename %>>
 <input type="hidden" name="colNum" value=<%=rownum %>>
 <%

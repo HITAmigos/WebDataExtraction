@@ -1,8 +1,20 @@
 package action.assistantOperation;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import entity.Database;
@@ -25,7 +37,7 @@ public class ExportExcel extends ActionSupport {
     this.tablename = tablename;
   }
 
-  public String execute() throws Exception {
+  public String execute() {
     Database db = new Database(tablename);
     List<String> listth = new ArrayList<String>();
     List<String> listtd = new ArrayList<String>();
@@ -69,11 +81,12 @@ public class ExportExcel extends ActionSupport {
     } catch (Exception e) {
       return ERROR;
     }
+
   }
 
-  private static void exportExcel(String fileName, List<String> listth, List<String> listtd,
+  private void exportExcel(String fileName, List<String> listth, List<String> listtd,
       int columnCount) {
-    String excelName = "/Users/kuangmeng/Desktop/" + fileName + ".xls";
+    String excelName = "http://139.199.32.135/Up2UFinal/" + fileName + ".xls";
     int[] strLength = new int[columnCount];
     try {
       File excelFile = new File(excelName);
@@ -107,8 +120,8 @@ public class ExportExcel extends ActionSupport {
           strLength[i % columnCount] = listtd.get(i).getBytes().length;
         }
       }
-      for(int i = 0 ; i < columnCount ; i++){
-        sheet.setColumnView(i,strLength[i]+5);
+      for (int i = 0; i < columnCount; i++) {
+        sheet.setColumnView(i, strLength[i] + 5);
       }
 
       // 在Label对象的构造子中指名单元格位置是第一列第一行(0,0)
@@ -128,8 +141,44 @@ public class ExportExcel extends ActionSupport {
       book.write();
       book.close();
       System.out.println("Excel创建成功");
+
+      DownloadToLocal("http://139.199.32.135/Up2UFinal/","");
+
     } catch (Exception e) {
       System.out.println(e);
     }
+  }
+
+  public void DownloadToLocal(String url, String filePath) {
+    try {
+      URL theURL = new URL(url);
+      URLConnection con = theURL.openConnection();
+      // String urlPath = con.getURL().getFile();
+      String fileFullName = tablename;
+      if (fileFullName != null) {
+        byte[] buffer = new byte[4 * 1024];
+        int read;
+        String path = filePath + "/" + fileFullName;
+        File fileFolder = new File(filePath);
+        if (!fileFolder.exists()) {
+          fileFolder.mkdirs();
+        }
+        InputStream in = con.getInputStream();
+        FileOutputStream os = new FileOutputStream(path);
+        try {
+          while ((read = in.read(buffer)) > 0) {
+            os.write(buffer, 0, read);
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+        } finally {
+          os.close();
+          in.close();
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
   }
 }

@@ -61,4 +61,26 @@ public class UserTable {
     }
     return user;
   }
+
+  public static boolean accumulateCoins(String username, int coins) {
+    boolean result = true;
+    User user = getUser(username);
+    user.setCoins(user.getCoins()+coins);
+    Session session = HibernateUtil.currentSession();
+    Transaction tran = null;
+    try {
+      tran = session.beginTransaction();
+      session.update(user);
+      session.getTransaction().commit();
+    } catch (HibernateException e) {
+      result = false;
+      if (tran != null) {
+        tran.rollback();
+      }
+      e.printStackTrace();
+    } finally {
+      HibernateUtil.closeSession();
+    }
+    return result;
+  }
 }

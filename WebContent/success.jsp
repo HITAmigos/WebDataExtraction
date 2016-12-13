@@ -149,9 +149,6 @@ th, td {
 		$.QianLoad.PageLoading({
 			sleep : 50
 		});
-		
-
-		
 	</script>
 	<header class="cd-main-header animate-search" style="height:70px;">
 	<div class="cd-logo">
@@ -210,19 +207,18 @@ th, td {
 					conn = DriverManager.getConnection(DB_URL, USER, PASS);
 					stmt = conn.createStatement();
 					String sc = request.getParameter("url");
-					session.setAttribute("search", sc);
 					String SearchContain = new String();
-					if (String.valueOf(session.getAttribute("search")).trim().equals("null")) {
-						String sql = "SELECT * FROM " + tableName;
-						ResultSet rs = stmt.executeQuery(sql);
-						while (rs.next()) {
-							if (rs.last()) {
-								SearchContain = rs.getString("link");
-							}
+					if(sc==null){
+						sc = (String)request.getAttribute("url");
+						if(sc != null){
+						session.setAttribute("search", sc);
 						}
-					} else {
-						SearchContain = String.valueOf(session.getAttribute("search")).trim();
+					}else{
+						session.setAttribute("search", sc);
 					}
+					SearchContain = String.valueOf(session.getAttribute("search")).trim();
+					
+					
 					String sql = "SELECT * FROM " + tableName + " WHERE link = " + "\'" + SearchContain + "\' and username = \'"
 							+ User + "\'";
 					ResultSet rs = stmt.executeQuery(sql);
@@ -437,7 +433,7 @@ th, td {
                    <caption style="text-align:center;">有关该爬取结果的信息</caption>
                    <tr>
                        <td>搜所链接</td>
-                       <td><%=sc %></td>
+                       <td><%=SearchContain %></td>
                    </tr>
                    <tr>
                    <td>用户</td>
@@ -529,8 +525,6 @@ th, td {
         </div>
         <div class="clear"></div>
     </div>
-
-
 <script type="text/javascript" src="help/js/new_file.js"></script>
 <script type="text/javascript">
 $(window).scroll(function(){

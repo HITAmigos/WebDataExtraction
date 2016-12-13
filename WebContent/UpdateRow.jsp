@@ -55,8 +55,9 @@ function n(num2){
 document.getElementById("result").value = num;
 }
 </script>
-<div style="width:60%;margin:10% auto;">
+<div style="width:60%;margin:1% auto;">
 <form  action="updaterowAction">
+<h1 style="text-align:center;">正在修改第<%=rowNum-2 %>行！</h1>
 <input type="hidden" name="tablename" value=<%=tablename %>>
 <input type="hidden" name="rowNum" value=<%=rowNum %>>
 <%

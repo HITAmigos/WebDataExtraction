@@ -32,11 +32,16 @@ public class UpdateRow extends Action {
     value.add(new Integer(rowNum));
     Database db = new Database(tablename);
     for(int i = 0 ; i < newRow.length ; i++){
-      if(newRow[i]!=null && newRow[i].equals("")){
+      if(newRow[i]!=null && !newRow[i].equals("")){
         columnName.add(new Integer(i+1).toString());
         value.add(newRow[i]);
       }
     }
+    for(int i = 0 ; i < value.size();i++){
+      System.out.println(columnName.get(i));
+      System.out.println(value.get(i));
+    }
+    
     if(!db.update(columnName, value)){
       result = "error";
     }

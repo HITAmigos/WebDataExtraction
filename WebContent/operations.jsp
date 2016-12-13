@@ -232,8 +232,8 @@ th, td {
 				%>
 				<td style="text-align: center;">
 					<ul class="nav nav-pills">
-						<li class="dropdown active" id="menu1"><a
-							class="dropdown-toggle" data-toggle="dropdown" href="#menu1">
+						<li class="dropdown active" id="menu1">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#menu1">
 								行操作 <b class="caret"></b>
 						</a>
 							<ul class="dropdown-menu">
@@ -260,7 +260,7 @@ th, td {
 									<form action="pushupAction">
 										<input type="hidden" value=<%=tablename%> name="tablename">
 										<input type="hidden" value=<%=colnum%> name="rowNum">
-										<button type="submit" class="btn btn-info">上移一行</button>
+										<button type="submit" class="btn btn-warning">上移一行</button>
 									</form>
 								</li>
 							</ul></li>
@@ -278,16 +278,11 @@ th, td {
 	</table>
 	
 	<button type="submit" class="example1 btn btn-block btn-info">导出成图片</button>
-	
-	
 	<script type="text/javascript">
 		(function(document) {
 			'use strict';
-
 			var LightTableFilter = (function(Arr) {
-
 				var _input;
-
 				function _onInputEvent(e) {
 					_input = e.target;
 					var tables = document.getElementsByClassName(_input
@@ -298,14 +293,12 @@ th, td {
 						});
 					});
 				}
-
 				function _filter(row) {
 					var text = row.textContent.toLowerCase(), val = _input.value
 							.toLowerCase();
 					row.style.display = text.indexOf(val) === -1 ? 'none'
 							: 'table-row';
 				}
-
 				return {
 					init : function() {
 						var inputs = document
@@ -316,21 +309,16 @@ th, td {
 					}
 				};
 			})(Array.prototype);
-
 			document.addEventListener('readystatechange', function() {
 				if (document.readyState === 'complete') {
 					LightTableFilter.init();
 				}
 			});
-
 		})(document);
 	</script>
-
-
 	<script src='http://codepen.io/assets/libs/fullpage/jquery.js'></script>
 	<script
 		src='http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js'></script>
 	<script src="public/js/index.js"></script>
-      
 </body>
 </html>

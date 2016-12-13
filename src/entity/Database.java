@@ -91,7 +91,20 @@ public class Database {
   }
 
   public boolean delete() {
-    return false;
+    boolean result = true;
+    String sql = "drop table `"+tablename+"`";
+    SqlConst sqlHelper = new SqlConst(sql);
+    System.out.println(sql);
+    try {
+      sqlHelper.getPst().execute();
+    } catch (SQLException e) {
+      result = false;
+      System.out.println("Database delete.");
+      e.printStackTrace();
+    } finally {
+      sqlHelper.close();
+    }
+    return result;
   }
 
   public boolean deleteRow(String columnName, Object value) {
