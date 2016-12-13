@@ -184,7 +184,7 @@ public class Save extends Action {
     s.setUsername("lyx");
     // http://www.w3school.com.cn/html/html_tables.asp
     // http://software.hit.edu.cn/dsb.html
-    s.setUrl("http://www.w3school.com.cn/html/html_tables.asp");
+    s.setUrl("http://www.jq22.com/demo/mmGrid-master20150916/examples/index.html");
     s.execute();
   }
 

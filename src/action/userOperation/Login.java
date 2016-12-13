@@ -23,6 +23,7 @@ public void setPassword(String password) {
   }
   public String execute() {
     String result = "success";
+    username = username.toLowerCase();
     User user = UserTable.getUser(username);
     System.out.println(username);
     System.out.println(password);

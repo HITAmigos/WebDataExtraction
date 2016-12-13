@@ -25,13 +25,16 @@ public void setFile(File file) {
 
 private String content = null;
   private static String Encoding = "utf-8";
-
   private static final String HTTP = "http";
   private static final String HTTPS = "https";
   private static final String UPLOAD = "upload";
 
   public void setUrl(String url) {
     this.url = url;
+  }
+
+  public void setFile(File file) {
+    this.file = file;
   }
 
   public String getContent() {
@@ -217,15 +220,16 @@ private String content = null;
    */
   public String varifyInput() {
     String variety = new String();
-  if(url == null){
-	  variety = UPLOAD;
-  }else if (url.length() >= 7) {
+    System.out.println(url);
+    if (url == null) {
+      variety = UPLOAD;
+    } else if (url.length() >= 7) {
       if (url.substring(0, 5).equals(HTTPS)) {
         variety = HTTPS;
       } else if (url.substring(0, 4).equals(HTTP)) {
         variety = HTTP;
-      } 
-  }
+      }
+    }
     return variety;
   }
 
@@ -234,22 +238,19 @@ private String content = null;
    * 
    * @return
    */
-  public String readAsString() {
-    String webContent = null;
+  public void readAsString() {
+    //String webContent = null;
     String variety = varifyInput();
 
     if (variety.equals(HTTP)) {
       getString(variety, url);
-      // sourceInfo[3][1] = "0";
     } else if (variety.equals(HTTPS)) {
       getString(variety, url);
-      // sourceInfo[3][1] = "0";
     } else if (variety.equals(UPLOAD)) {
       getString(file);
-      // sourceInfo[3][1] = "1";
     }
 
-    return webContent;
+    // return webContent;
   }
 
 }
